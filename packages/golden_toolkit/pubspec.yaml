@@ -1,0 +1,22 @@
+name: golden_toolkit
+description: eBay Flutter testing tools
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.1.8
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.8.0
+
+dev_dependencies:
+
+flutter:
+  assets:
+    - images/
