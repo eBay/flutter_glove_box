@@ -192,6 +192,7 @@ Future<void> screenMatchesGolden(
   String goldenFileName, {
   Finder finder,
   CustomPump customPump = _onlyPumpAndSettle,
+  bool skip = false,
 }) async {
   if (!_inGoldenTest) {
     fail(
@@ -208,6 +209,7 @@ Future<void> screenMatchesGolden(
   return expectLater(
     actualFinder,
     matchesGoldenFile(fileName),
+    skip: skip,
   );
 }
 
