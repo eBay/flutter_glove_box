@@ -187,6 +187,8 @@ Future<void> testGoldens(
 /// [finder] optional finder, defaults to [widgetBuilderKey]
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
+///
+/// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
 Future<void> screenMatchesGolden(
   WidgetTester tester,
   String goldenFileName, {
