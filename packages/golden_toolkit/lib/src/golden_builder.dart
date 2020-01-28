@@ -232,6 +232,7 @@ Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
 ///
 /// [devices] list of devices to run the tests
 ///
+/// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
 ///
 Future<void> multiScreenGolden(
   WidgetTester tester,
@@ -243,6 +244,7 @@ Future<void> multiScreenGolden(
     Device.phone,
     Device.tabletLandscape,
   ],
+  bool skip = false,
 }) async {
   for (final device in devices) {
     final size = Size(device.size.width, overrideHeight ?? device.size.height);
@@ -257,6 +259,7 @@ Future<void> multiScreenGolden(
       tester,
       '$goldenFileName.${device.name}',
       customPump: customPump,
+      skip: skip,
     );
   }
 }
