@@ -102,14 +102,12 @@ class GoldenBuilder {
 
   ///  [build] will build a list of [scenarios]  with a given layout
   Widget build() {
-    return RepaintBoundary(
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          color: bgColor ?? const Color(0xFFEEEEEE),
-          child: columns == 1 ? _column() : _grid(),
-        ),
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        color: bgColor ?? const Color(0xFFEEEEEE),
+        child: columns == 1 ? _column() : _grid(),
       ),
     );
   }
