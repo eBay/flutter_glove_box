@@ -172,7 +172,12 @@ Future<void> main() async {
           devices: [
             Device.phone,
             Device.tabletLandscape,
-            Device.tabletPortrait
+            const Device(
+              name: 'custom',
+              size: Size(350, 650),
+              devicePixelRatio: 1.0,
+              textScale: 1.4,
+            )
           ],
           overrideGoldenHeight: 200,
           skip: !Platform.isMacOS);

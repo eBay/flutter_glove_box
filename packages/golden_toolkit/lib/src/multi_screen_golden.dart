@@ -13,7 +13,7 @@ import 'testing_tools.dart';
 Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
     tester.pumpAndSettle();
 
-/// This [multiScreenGolden] will run [tests] for given [devices] list
+/// This [multiScreenGolden] will run [scenarios] for given [devices] list
 ///
 /// Will output a single  golden file for each device in [devices] and will append device name to png file
 ///
