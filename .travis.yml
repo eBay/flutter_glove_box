@@ -1,0 +1,10 @@
+language: dart
+dart:
+  - dev
+  - stable
+
+matrix:
+  include:
+    - env: TARGET=packages/golden_toolkit
+
+sudo: false
