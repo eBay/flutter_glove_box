@@ -71,37 +71,35 @@ class GoldenBuilder {
   ///  [wrapWidgetInFrame] will wrap widget with frame
   final bool wrapWidgetInFrame;
 
-  ///  List of tests [tests]  being run within GoldenBuilder
-  final List<Widget> tests = [];
-  static const Key _key = ValueKey('golden');
+  ///  List of tests [scenarios]  being run within GoldenBuilder
+  final List<Widget> scenarios = [];
 
-  ///  [addTestWithLargeText]  will add a test to GoldenBuilder where u can provide custom font size
-  void addTestWithLargeText(
-    String testName,
-    Widget widgetToValidate, {
-    double maxTextSize = textScaleFactorMaxSupported,
+  ///  [addTextScaleScenario]  will add a test to GoldenBuilder where u can provide custom font size
+  void addTextScaleScenario(
+    String name,
+    Widget widget, {
+    double textScaleFactor = textScaleFactorMaxSupported,
   }) {
     addScenario(
-        '$testName ${maxTextSize}x',
+        '$name ${textScaleFactor}x',
         _TextScaleFactor(
-          textScaleFactor: maxTextSize,
-          child: widgetToValidate,
+          textScaleFactor: textScaleFactor,
+          child: widget,
         ));
   }
 
   ///  [addScenario] will add a test GoldenBuilder
   void addScenario(String name, Widget widget) {
-    tests.add(_Scenario(
+    scenarios.add(_Scenario(
       name: name,
       widget: widget,
       wrap: wrapWidgetInFrame ? _defaultFrame : null,
     ));
   }
 
-  ///  [build] will build a list of [tests]  with a given layout
+  ///  [build] will build a list of [scenarios]  with a given layout
   Widget build() {
     return RepaintBoundary(
-      key: _key,
       child: Align(
         alignment: Alignment.topLeft,
         child: Container(
@@ -120,11 +118,12 @@ class GoldenBuilder {
       mainAxisSpacing: 16,
       shrinkWrap: true,
       crossAxisCount: columns,
-      children: tests,
+      children: scenarios,
     );
   }
 
-  Column _column() => Column(mainAxisSize: MainAxisSize.min, children: tests);
+  Column _column() =>
+      Column(mainAxisSize: MainAxisSize.min, children: scenarios);
 
   Widget _defaultFrame(Widget child) {
     return Container(

@@ -70,8 +70,8 @@ In order to test with different font sizes, do:
 
 ```dart
         ..addScenario('Regular font size', widget)
-        ..addTestWithLargeText('Large font size', widget, maxTextSize: 2.0)
-        ..addTestWithLargeText('Largest font', widget, maxTextSize: 3.2);
+        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+        ..addTextScaleScenario('Largest font', widget, textScaleFactor: 3.2);
 ```
 
 The output of this test will be this golden file:
