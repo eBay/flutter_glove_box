@@ -19,35 +19,35 @@ class GoldenBuilder {
   ///
   /// [widthToHeightRatio] can range from 0.0 to 1.0
   ///
-  /// [wrapWidgetsInFrame] will wrap golden tests in addition frame
+  /// [wrap] (optional) will wrap the scenario's widget in the tree.
   ///
   /// [bgColor] will change the background color of output .png file
   factory GoldenBuilder.grid({
     @required int columns,
     @required double widthToHeightRatio,
-    bool wrapWidgetsInFrame = false,
+    Widget Function(Widget) wrap,
     Color bgColor,
   }) {
     return GoldenBuilder._(
       columns: columns,
       widthToHeightRatio: widthToHeightRatio,
-      wrapWidgetInFrame: wrapWidgetsInFrame,
+      wrap: wrap,
       bgColor: bgColor,
     );
   }
 
   /// Will output a .png file with a column layout in 'tests/goldens' folder.
   ///
-  /// [wrapWidgetsInFrame] will wrap golden tests in addition frame
+  /// [wrap] (optional) will wrap the scenario's widget in the tree.
   ///
   /// [bgColor] will change the background color of output .png file
   ///
   factory GoldenBuilder.column({
-    bool wrapWidgetsInFrame = false,
     Color bgColor,
+    Widget Function(Widget) wrap,
   }) {
     return GoldenBuilder._(
-      wrapWidgetInFrame: wrapWidgetsInFrame,
+      wrap: wrap,
       bgColor: bgColor,
     );
   }
@@ -55,9 +55,13 @@ class GoldenBuilder {
   GoldenBuilder._({
     this.columns = 1,
     this.widthToHeightRatio = 1.0,
-    this.wrapWidgetInFrame = false,
+    this.wrap,
     this.bgColor,
   });
+
+  /// Can be used to wrap all scenario widgets. Useful if you wish to
+  /// provide consistent UI treatment to all of them or need to inject dependencies.
+  final Widget Function(Widget) wrap;
 
   /// number of columns [columns] in a grid
   final int columns;
@@ -67,9 +71,6 @@ class GoldenBuilder {
 
   ///  [widthToHeightRatio]  grid layout
   final double widthToHeightRatio;
-
-  ///  [wrapWidgetInFrame] will wrap widget with frame
-  final bool wrapWidgetInFrame;
 
   ///  List of tests [scenarios]  being run within GoldenBuilder
   final List<Widget> scenarios = [];
@@ -93,7 +94,7 @@ class GoldenBuilder {
     scenarios.add(_Scenario(
       name: name,
       widget: widget,
-      wrap: wrapWidgetInFrame ? _defaultFrame : null,
+      wrap: wrap,
     ));
   }
 
@@ -124,17 +125,6 @@ class GoldenBuilder {
 
   Column _column() =>
       Column(mainAxisSize: MainAxisSize.min, children: scenarios);
-
-  Widget _defaultFrame(Widget child) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
-        border: Border.all(color: const Color(0xFF9E9E9E)),
-      ),
-      child: child,
-    );
-  }
 }
 
 class _Scenario extends StatelessWidget {

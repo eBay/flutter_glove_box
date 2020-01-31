@@ -116,7 +116,6 @@ Future<void> main() async {
         columns: 2,
         bgColor: Colors.white,
         widthToHeightRatio: 1,
-        wrapWidgetsInFrame: false,
       )
         ..addScenario(
             'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
@@ -141,7 +140,7 @@ Future<void> main() async {
         (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
-        wrapWidgetsInFrame: true,
+        wrap: _simpleFrame,
       )
         ..addScenario(
             'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
@@ -182,17 +181,15 @@ Future<void> main() async {
 
   group('GoldenBuilder examples of accessibility testing', () {
     // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens('Card should look rigth when user bumps system font size',
+    testGoldens('Card should look right when user bumps system font size',
         (tester) async {
       const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
-      final gb = GoldenBuilder.column(
-        bgColor: Colors.white,
-        wrapWidgetsInFrame: true,
-      )
+      final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
         ..addScenario('Regular font size', widget)
-        ..addTestWithLargeText('Large font size', widget, maxTextSize: 2.0)
-        ..addTestWithLargeText('Largest font size', widget, maxTextSize: 3.2);
+        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+        ..addTextScaleScenario('Largest font size', widget,
+            textScaleFactor: 3.2);
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -219,7 +216,7 @@ Future<void> main() async {
             'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
         ..addScenario(
             'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTestWithLargeText(
+        ..addTextScaleScenario(
             'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
@@ -270,4 +267,15 @@ Future<void> main() async {
       );
     });
   });
+}
+
+Widget _simpleFrame(Widget child) {
+  return Container(
+    padding: const EdgeInsets.all(4),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFFFFF),
+      border: Border.all(color: const Color(0xFF9E9E9E)),
+    ),
+    child: child,
+  );
 }
