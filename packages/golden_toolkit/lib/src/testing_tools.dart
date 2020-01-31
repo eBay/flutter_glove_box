@@ -6,12 +6,12 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
+
+import 'test_asset_bundle.dart';
 
 const Size _defaultSize = Size(800, 600);
 
@@ -99,25 +99,6 @@ Future<void> _pumpAppWidget(
     DefaultAssetBundle(bundle: TestAssetBundle(), child: app),
   );
   await tester.pump();
-}
-
-/// TestAssetBundle is required in order to avoid issues with large assets
-///
-/// ref: https://medium.com/@sardox/flutter-test-and-randomly-missing-assets-in-goldens-ea959cdd336a
-///
-class TestAssetBundle extends CachingAssetBundle {
-  @override
-  Future<String> loadString(String key, {bool cache = true}) async {
-    //overriding this method to avoid limit of 10KB per asset
-    final ByteData data = await load(key);
-    if (data == null) {
-      throw FlutterError('Unable to load asset, data is null: $key');
-    }
-    return utf8.decode(data.buffer.asUint8List());
-  }
-
-  @override
-  Future<ByteData> load(String key) async => rootBundle.load(key);
 }
 
 bool _inGoldenTest = false;
