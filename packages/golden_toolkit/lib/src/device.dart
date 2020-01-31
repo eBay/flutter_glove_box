@@ -1,7 +1,3 @@
-import 'dart:ui';
-
-import 'package:meta/meta.dart';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -9,6 +5,9 @@ import 'package:meta/meta.dart';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+import 'dart:ui';
+import 'package:meta/meta.dart';
 
 /// This [Device] is a configuration for golden test. Can be provided for [multiScreenGolden]
 class Device {
