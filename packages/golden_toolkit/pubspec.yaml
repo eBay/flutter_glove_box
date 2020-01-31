@@ -1,8 +1,8 @@
 name: golden_toolkit
-description: eBay Flutter testing tools
+description: Common patterns & APIs for improved testing with Goldens
 version: 0.0.1
 author:
-homepage:
+homepage: https://github.com/eBay/flutter_glove_box/tree/master/packages/golden_toolkit
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -13,10 +13,6 @@ dependencies:
   meta: ^1.1.8
   flutter_test:
     sdk: flutter
-  pedantic: ^1.8.0
 
 dev_dependencies:
-
-flutter:
-  assets:
-    - images/
+  pedantic: ^1.8.0

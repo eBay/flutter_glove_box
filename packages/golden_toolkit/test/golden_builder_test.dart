@@ -19,7 +19,7 @@ Future<void> main() async {
   await loadAppFonts(from: 'fonts');
 
   group('Basic golden test for empty container', () {
-    testGoldens('Square container *GOLDEN', (tester) async {
+    testGoldens('Square container', (tester) async {
       /// Note: pumpWidgetBuilder will use [materialAppWrapper] by default.
       /// If you want no wrapper at all, pass **noWrap()**
 
@@ -38,7 +38,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'square_container');
     });
 
-    testGoldens('Material widget with text *GOLDEN', (tester) async {
+    testGoldens('Material widget with text', (tester) async {
       /// Example of a custom wrapper: in order to render fonts and text, we need Material
       /// Note: With [materialAppWrapper] you can also modify theme, platform, locales and etc.
 
@@ -64,7 +64,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'text_container');
     });
 
-    testGoldens('Single weather card *GOLDEN', (tester) async {
+    testGoldens('Single weather card', (tester) async {
       await tester.pumpWidgetBuilder(
         const WeatherCard(temp: 66, weather: Weather.sunny),
         surfaceSize: const Size(200, 200),
@@ -72,7 +72,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'single_weather_card');
     });
 
-    testGoldens('Animation test with CustomPump *GOLDEN', (tester) async {
+    testGoldens('Animation test with CustomPump', (tester) async {
       /// Example of a test that used [CustomPump] in order to test animation of CircularProgressIndicator
       await tester.pumpWidgetBuilder(
         const CircularProgressIndicator(),
@@ -94,8 +94,7 @@ Future<void> main() async {
   });
 
   group('GoldenBuilder examples with different layouts', () {
-    testGoldens('GRID: Different weather types without frame *GOLDEN',
-        (tester) async {
+    testGoldens('GRID: Different weather types without frame', (tester) async {
       final gb = GoldenBuilder.grid(
         columns: 2,
         bgColor: Colors.white,
@@ -118,7 +117,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'weather_types_grid');
     });
 
-    testGoldens('COLUMN: Different weather types with extra frame *GOLDEN',
+    testGoldens('COLUMN: Different weather types with extra frame',
         (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
@@ -140,8 +139,7 @@ Future<void> main() async {
 
   group('GoldenBuilder examples of different screen size testing', () {
     // With those test we want to make sure our widgets look right on different screen sizes / devices
-    testGoldens(
-        'Card should look rigth on different devices / screen sizes *GOLDEN',
+    testGoldens('Card should look rigth on different devices / screen sizes',
         (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
@@ -158,8 +156,7 @@ Future<void> main() async {
 
   group('GoldenBuilder examples of accessibility testing', () {
     // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens(
-        'Card should look rigth when user bumps system font size *GOLDEN',
+    testGoldens('Card should look rigth when user bumps system font size',
         (tester) async {
       const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
@@ -181,8 +178,7 @@ Future<void> main() async {
 
   group('GoldenBuilder - combination of different features ', () {
     // Example of a single test verifies that all widget states look right on different devices with different font sizes
-    testGoldens(
-        'Card should look rigth on different devices / screen sizes *GOLDEN',
+    testGoldens('Card should look rigth on different devices / screen sizes',
         (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
         ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
@@ -208,8 +204,7 @@ Future<void> main() async {
   });
 
   group('pumpMaterialWidget - platform test ', () {
-    testGoldens('BackButtonIcon should look rigth on Android  *GOLDEN',
-        (tester) async {
+    testGoldens('BackButtonIcon should look rigth on Android', (tester) async {
       await tester.pumpWidgetBuilder(
         Row(children: const [BackButtonIcon(), Text('Android')]),
         wrapper: materialAppWrapper(
@@ -221,8 +216,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'back_button_android');
     });
 
-    testGoldens('BackButtonIcon should look rigth on iOS  *GOLDEN',
-        (tester) async {
+    testGoldens('BackButtonIcon should look rigth on iOS', (tester) async {
       await tester.pumpWidgetBuilder(
         Row(children: const [BackButtonIcon(), Text('iOS')]),
         surfaceSize: const Size(80, 40),
