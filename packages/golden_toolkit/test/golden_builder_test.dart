@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -7,6 +5,8 @@ import 'dart:io';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+import 'dart:io';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:golden_toolkit/src/font_loader.dart';
 import 'package:flutter/material.dart';
