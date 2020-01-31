@@ -85,7 +85,7 @@ class GoldenBuilder {
     Widget widgetToValidate, {
     double maxTextSize = textScaleFactorMaxSupported,
   }) {
-    addTest(
+    addScenario(
         '$testName ${maxTextSize}x',
         _TextScaleFactor(
           textScaleFactor: maxTextSize,
@@ -93,27 +93,27 @@ class GoldenBuilder {
         ));
   }
 
-  ///  [addTest] will add a test GoldenBuilder
-  void addTest(String test, Widget widgetToValidate, {bool wrapWithFrame}) {
+  ///  [addScenario] will add a test GoldenBuilder
+  void addScenario(String scenario, Widget widget) {
     tests.add(Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(test, style: const TextStyle(fontSize: 18)),
+          Text(scenario, style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 4),
-          if (wrapWithFrame ?? wrapWidgetInFrame)
+          if (wrapWidgetInFrame)
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFFFF),
                 border: Border.all(color: const Color(0xFF9E9E9E)),
               ),
-              child: widgetToValidate,
+              child: widget,
             )
           else
-            widgetToValidate
+            widget
         ],
       ),
     ));

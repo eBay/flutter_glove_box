@@ -118,11 +118,13 @@ Future<void> main() async {
         widthToHeightRatio: 1,
         wrapWidgetsInFrame: false,
       )
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest(
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
           'Cold',
           const WeatherCard(temp: 25, weather: Weather.cold),
         );
@@ -141,11 +143,14 @@ Future<void> main() async {
         bgColor: Colors.white,
         wrapWidgetsInFrame: true,
       )
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -185,7 +190,7 @@ Future<void> main() async {
         bgColor: Colors.white,
         wrapWidgetsInFrame: true,
       )
-        ..addTest('Regular font size', widget)
+        ..addScenario('Regular font size', widget)
         ..addTestWithLargeText('Large font size', widget, maxTextSize: 2.0)
         ..addTestWithLargeText('Largest font size', widget, maxTextSize: 3.2);
 
@@ -206,11 +211,14 @@ Future<void> main() async {
     testGoldens('Card should look rigth on different devices / screen sizes',
         (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
         ..addTestWithLargeText(
             'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
