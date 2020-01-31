@@ -1,8 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -11,6 +6,11 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 ///
+
+import 'dart:ui';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
+
 void main() {
   group('Device Tests', () {
     test('copy with no parameters', () {
