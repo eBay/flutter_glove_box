@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -7,6 +5,8 @@ import 'dart:io';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+import 'dart:io';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:golden_toolkit/src/font_loader.dart';
 import 'package:flutter/material.dart';
@@ -116,13 +116,14 @@ Future<void> main() async {
         columns: 2,
         bgColor: Colors.white,
         widthToHeightRatio: 1,
-        wrapWidgetsInFrame: false,
       )
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest(
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
           'Cold',
           const WeatherCard(temp: 25, weather: Weather.cold),
         );
@@ -139,13 +140,16 @@ Future<void> main() async {
         (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
-        wrapWidgetsInFrame: true,
+        wrap: _simpleFrame,
       )
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -168,26 +172,29 @@ Future<void> main() async {
           devices: [
             Device.phone,
             Device.tabletLandscape,
-            Device.tabletPortrait
+            const Device(
+              name: 'custom',
+              size: Size(350, 650),
+              devicePixelRatio: 1.0,
+              textScale: 1.4,
+            )
           ],
-          overrideHeight: 200,
+          overrideGoldenHeight: 200,
           skip: !Platform.isMacOS);
     });
   });
 
   group('GoldenBuilder examples of accessibility testing', () {
     // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens('Card should look rigth when user bumps system font size',
+    testGoldens('Card should look right when user bumps system font size',
         (tester) async {
       const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
-      final gb = GoldenBuilder.column(
-        bgColor: Colors.white,
-        wrapWidgetsInFrame: true,
-      )
-        ..addTest('Regular font size', widget)
-        ..addTestWithLargeText('Large font size', widget, maxTextSize: 2.0)
-        ..addTestWithLargeText('Largest font size', widget, maxTextSize: 3.2);
+      final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
+        ..addScenario('Regular font size', widget)
+        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+        ..addTextScaleScenario('Largest font size', widget,
+            textScaleFactor: 3.2);
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -206,12 +213,15 @@ Future<void> main() async {
     testGoldens('Card should look rigth on different devices / screen sizes',
         (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addTest('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addTest(
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
             'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addTest('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addTest('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTestWithLargeText(
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
+        ..addTextScaleScenario(
             'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
@@ -223,7 +233,7 @@ Future<void> main() async {
         tester,
         'all_sized_all_fonts',
         devices: [Device.phone, Device.tabletLandscape],
-        overrideHeight: 1200,
+        overrideGoldenHeight: 1200,
         skip: !Platform.isMacOS,
       );
     });
@@ -262,4 +272,15 @@ Future<void> main() async {
       );
     });
   });
+}
+
+Widget _simpleFrame(Widget child) {
+  return Container(
+    padding: const EdgeInsets.all(4),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFFFFF),
+      border: Border.all(color: const Color(0xFF9E9E9E)),
+    ),
+    child: child,
+  );
 }

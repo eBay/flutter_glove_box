@@ -5,12 +5,10 @@
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
-//coverage:ignore
 import 'package:flutter/widgets.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 
-import '../golden_toolkit.dart';
+import 'testing_tools.dart';
 
 /// as of iOS 13.2.3 the max textScaleFactor a user can set is ~3.1176
 const double textScaleFactorMaxSupported = 3.2;
@@ -23,35 +21,35 @@ class GoldenBuilder {
   ///
   /// [widthToHeightRatio] can range from 0.0 to 1.0
   ///
-  /// [wrapWidgetsInFrame] will wrap golden tests in addition frame
+  /// [wrap] (optional) will wrap the scenario's widget in the tree.
   ///
   /// [bgColor] will change the background color of output .png file
   factory GoldenBuilder.grid({
     @required int columns,
     @required double widthToHeightRatio,
-    bool wrapWidgetsInFrame = false,
+    WidgetWrapper wrap,
     Color bgColor,
   }) {
     return GoldenBuilder._(
       columns: columns,
       widthToHeightRatio: widthToHeightRatio,
-      wrapWidgetInFrame: wrapWidgetsInFrame,
+      wrap: wrap,
       bgColor: bgColor,
     );
   }
 
   /// Will output a .png file with a column layout in 'tests/goldens' folder.
   ///
-  /// [wrapWidgetsInFrame] will wrap golden tests in addition frame
+  /// [wrap] (optional) will wrap the scenario's widget in the tree.
   ///
   /// [bgColor] will change the background color of output .png file
   ///
   factory GoldenBuilder.column({
-    bool wrapWidgetsInFrame = false,
     Color bgColor,
+    WidgetWrapper wrap,
   }) {
     return GoldenBuilder._(
-      wrapWidgetInFrame: wrapWidgetsInFrame,
+      wrap: wrap,
       bgColor: bgColor,
     );
   }
@@ -59,9 +57,13 @@ class GoldenBuilder {
   GoldenBuilder._({
     this.columns = 1,
     this.widthToHeightRatio = 1.0,
-    this.wrapWidgetInFrame = false,
+    this.wrap,
     this.bgColor,
   });
+
+  /// Can be used to wrap all scenario widgets. Useful if you wish to
+  /// provide consistent UI treatment to all of them or need to inject dependencies.
+  final WidgetWrapper wrap;
 
   /// number of columns [columns] in a grid
   final int columns;
@@ -72,64 +74,40 @@ class GoldenBuilder {
   ///  [widthToHeightRatio]  grid layout
   final double widthToHeightRatio;
 
-  ///  [wrapWidgetInFrame] will wrap widget with frame
-  final bool wrapWidgetInFrame;
+  ///  List of tests [scenarios]  being run within GoldenBuilder
+  final List<Widget> scenarios = [];
 
-  ///  List of tests [tests]  being run within GoldenBuilder
-  final List<Widget> tests = [];
-  static const Key _key = ValueKey('golden');
-
-  ///  [addTestWithLargeText]  will add a test to GoldenBuilder where u can provide custom font size
-  void addTestWithLargeText(
-    String testName,
-    Widget widgetToValidate, {
-    double maxTextSize = textScaleFactorMaxSupported,
+  ///  [addTextScaleScenario]  will add a test to GoldenBuilder where u can provide custom font size
+  void addTextScaleScenario(
+    String name,
+    Widget widget, {
+    double textScaleFactor = textScaleFactorMaxSupported,
   }) {
-    addTest(
-        '$testName ${maxTextSize}x',
+    addScenario(
+        '$name ${textScaleFactor}x',
         _TextScaleFactor(
-          textScaleFactor: maxTextSize,
-          child: widgetToValidate,
+          textScaleFactor: textScaleFactor,
+          child: widget,
         ));
   }
 
-  ///  [addTest] will add a test GoldenBuilder
-  void addTest(String test, Widget widgetToValidate, {bool wrapWithFrame}) {
-    tests.add(Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(test, style: const TextStyle(fontSize: 18)),
-          const SizedBox(height: 4),
-          if (wrapWithFrame ?? wrapWidgetInFrame)
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFFFFF),
-                border: Border.all(color: const Color(0xFF9E9E9E)),
-              ),
-              child: widgetToValidate,
-            )
-          else
-            widgetToValidate
-        ],
-      ),
+  ///  [addScenario] will add a test GoldenBuilder
+  void addScenario(String name, Widget widget) {
+    scenarios.add(_Scenario(
+      name: name,
+      widget: widget,
+      wrap: wrap,
     ));
   }
 
-  ///  [build] will build a list of [tests]  with a given layout
+  ///  [build] will build a list of [scenarios]  with a given layout
   Widget build() {
-    return RepaintBoundary(
-      key: _key,
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          color: bgColor ?? const Color(0xFFEEEEEE),
-          child: columns == 1 ? _column() : _grid(),
-        ),
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        color: bgColor ?? const Color(0xFFEEEEEE),
+        child: columns == 1 ? _column() : _grid(),
       ),
     );
   }
@@ -141,171 +119,39 @@ class GoldenBuilder {
       mainAxisSpacing: 16,
       shrinkWrap: true,
       crossAxisCount: columns,
-      children: tests,
+      children: scenarios,
     );
   }
 
-  Column _column() => Column(mainAxisSize: MainAxisSize.min, children: tests);
+  Column _column() =>
+      Column(mainAxisSize: MainAxisSize.min, children: scenarios);
 }
 
-bool _inGoldenTest = false;
+class _Scenario extends StatelessWidget {
+  const _Scenario({
+    Key key,
+    @required this.name,
+    @required this.widget,
+    this.wrap,
+  }) : super(key: key);
 
-/// This [testGoldens] method exists as a way to enforce the proper naming of tests that contain golden diffs so that we can reliably run all goldens
-///
-/// [description] is a test description
-///
-/// [skip] to skip the test
-///
-/// [test] test body
-///
-@isTest
-Future<void> testGoldens(
-  String description,
-  Future<void> Function(WidgetTester) test, {
-  bool skip = false,
-}) async {
-  testWidgets('Golden: $description', (tester) async {
-    _inGoldenTest = true;
-    tester.binding.addTime(const Duration(seconds: 10));
-    try {
-      await test(tester);
-    } finally {
-      _inGoldenTest = false;
-    }
-  }, skip: skip);
-}
-
-/// This [screenMatchesGolden] is wrapper on top of [matchesGoldenFile]
-///
-/// [goldenFileName] is a file name output, must NOT include extension like .png
-///
-/// [finder] optional finder, defaults to [widgetBuilderKey]
-///
-/// [customPump] optional pump function, see [CustomPump] documentation
-///
-/// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
-Future<void> screenMatchesGolden(
-  WidgetTester tester,
-  String goldenFileName, {
-  Finder finder,
-  CustomPump customPump = _onlyPumpAndSettle,
-  bool skip = false,
-}) async {
-  assert(!goldenFileName.endsWith('.png'),
-      'Golden tests should not include file type');
-  if (!_inGoldenTest) {
-    fail(
-        'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
-  }
-  final actualFinder = finder ?? find.byKey(widgetBuilderKey);
-  final fileName = 'goldens/$goldenFileName.png';
-
-  await matchesGoldenFile(fileName).matchAsync(actualFinder);
-  await customPump(tester);
-
-  return expectLater(
-    actualFinder,
-    matchesGoldenFile(fileName),
-    skip: skip,
-  );
-}
-
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
-    tester.pumpAndSettle();
-
-/// This [multiScreenGolden] will run [tests] for given [devices] list
-///
-/// Will output a single  golden file for each device in [devices] and will append device name to png file
-///
-/// [goldenFileName] is a file name output, must NOT include extension like .png
-///
-/// [finder] optional finder, defaults to [WidgetsApp]
-///
-/// [overrideHeight] might be required to override output file height in case if it should be bigger than device height
-///
-/// [customPump] optional pump function, see [CustomPump] documentation
-///
-/// [devices] list of devices to run the tests
-///
-/// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
-///
-Future<void> multiScreenGolden(
-  WidgetTester tester,
-  String goldenFileName, {
-  Finder finder,
-  double overrideHeight,
-  CustomPump customPump = _onlyPumpAndSettle,
-  List<Device> devices = const [
-    Device.phone,
-    Device.tabletLandscape,
-  ],
-  bool skip = false,
-}) async {
-  for (final device in devices) {
-    final size = Size(device.size.width, overrideHeight ?? device.size.height);
-    await tester.binding.setSurfaceSize(size);
-    tester.binding.window.physicalSizeTestValue = device.size;
-    tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
-    tester.binding.window.textScaleFactorTestValue = device.textScale;
-
-    await tester.pump();
-    await tester.pump();
-    await screenMatchesGolden(
-      tester,
-      '$goldenFileName.${device.name}',
-      customPump: customPump,
-      skip: skip,
-    );
-  }
-}
-
-/// This [Device] is a configuration for golden test. Can be provided for [multiScreenGolden]
-
-class Device {
-  /// This [Device] is a configuration for golden test. Can be provided for [multiScreenGolden]
-  const Device({
-    this.size,
-    this.devicePixelRatio = 1.0,
-    this.name,
-    this.textScale = 1.0,
-  });
-
-  /// [phone] one of the smallest phone screens
-  static const Device phone = Device(name: 'phone', size: Size(375, 667));
-
-  /// [tabletLandscape] example of tablet that in landscape mode
-  static const Device tabletLandscape =
-      Device(name: 'tablet_landscape', size: Size(1366, 1024));
-
-  /// [tabletPortrait] example of tablet that in portrait mode
-  static const Device tabletPortrait =
-      Device(name: 'tablet_portrait', size: Size(1024, 1366));
-
-  /// [name] specify device name. Ex: Phone, Tablet, Watch
-
+  final WidgetWrapper wrap;
   final String name;
+  final Widget widget;
 
-  /// [size] specify device screen size. Ex: Size(1366, 1024))
-  final Size size;
-
-  /// [devicePixelRatio] specify device Pixel Ratio
-  final double devicePixelRatio;
-
-  /// [textScale] specify custom text scale
-  final double textScale;
-
-  /// [copyWith] convenience function for [Device] modification
-  Device copyWith({
-    Size size,
-    double devicePixelRatio,
-    String name,
-    double textScale,
-  }) {
-    return Device(
-      size: size ?? this.size,
-      devicePixelRatio: devicePixelRatio ?? this.devicePixelRatio,
-      name: name ?? this.name,
-      textScale: textScale ?? this.textScale,
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(name, style: const TextStyle(fontSize: 18)),
+          const SizedBox(height: 4),
+          if (wrap != null) wrap(widget) else widget
+        ],
+      ),
     );
   }
 }
