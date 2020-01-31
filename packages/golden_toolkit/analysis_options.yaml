@@ -49,7 +49,7 @@ linter:
     # - use_setters_to_change_properties -- too many false positives... pedantic chose to not enforce it as well
     - use_to_and_as_if_applicable
 
-    # These are not specified by pedantic dart -- but we had them in our initial analysis file
+    # These are not specified by pedantic dart
     - always_declare_return_types
     - always_put_control_body_on_new_line
     - always_require_non_null_named_parameters
