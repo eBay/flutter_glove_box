@@ -46,10 +46,14 @@ class GoldenBuilder {
   ///
   /// [bgColor] will change the background color of output .png file
   ///
-  factory GoldenBuilder.column(
-      {bool wrapWidgetsInFrame = false, Color bgColor}) {
+  factory GoldenBuilder.column({
+    bool wrapWidgetsInFrame = false,
+    Color bgColor,
+  }) {
     return GoldenBuilder._(
-        wrapWidgetInFrame: wrapWidgetsInFrame, bgColor: bgColor);
+      wrapWidgetInFrame: wrapWidgetsInFrame,
+      bgColor: bgColor,
+    );
   }
 
   GoldenBuilder._({
@@ -141,9 +145,7 @@ class GoldenBuilder {
     );
   }
 
-  Column _column() {
-    return Column(mainAxisSize: MainAxisSize.min, children: tests);
-  }
+  Column _column() => Column(mainAxisSize: MainAxisSize.min, children: tests);
 }
 
 bool _inGoldenTest = false;
@@ -158,22 +160,15 @@ bool _inGoldenTest = false;
 ///
 @isTest
 Future<void> testGoldens(
-    String description, Future<void> Function(WidgetTester) test,
-    {bool skip = false}) async {
-  testWidgets(description, (tester) async {
-    /// need to enforce this so we can target golden tests from the command line
-    ///  unfortunately we can't append this string here because that breaks the IDE integration for running tests
-    if (!description.endsWith(' *GOLDEN')) {
-      fail(
-          'testGoldens test descriptions need to end with " *GOLDEN" so they can be easily found and run together via the "flutter test --name=GOLDEN" command');
-    }
-
+  String description,
+  Future<void> Function(WidgetTester) test, {
+  bool skip = false,
+}) async {
+  testWidgets('Golden: $description', (tester) async {
     _inGoldenTest = true;
     tester.binding.addTime(const Duration(seconds: 10));
     try {
       await test(tester);
-    } catch (e) {
-      rethrow;
     } finally {
       _inGoldenTest = false;
     }
@@ -196,11 +191,11 @@ Future<void> screenMatchesGolden(
   CustomPump customPump = _onlyPumpAndSettle,
   bool skip = false,
 }) async {
+  assert(!goldenFileName.endsWith('.png'),
+      'Golden tests should not include file type');
   if (!_inGoldenTest) {
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
-  } else if (goldenFileName.endsWith('.png')) {
-    fail('Golden tests should not include file type');
   }
   final actualFinder = finder ?? find.byKey(widgetBuilderKey);
   final fileName = 'goldens/$goldenFileName.png';
@@ -316,15 +311,18 @@ class Device {
 }
 
 class _TextScaleFactor extends StatelessWidget {
-  const _TextScaleFactor(
-      {@required this.textScaleFactor, @required this.child});
+  const _TextScaleFactor({
+    @required this.textScaleFactor,
+    @required this.child,
+  });
   final Widget child;
   final double textScaleFactor;
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
-        child: child);
+      data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+      child: child,
+    );
   }
 }
