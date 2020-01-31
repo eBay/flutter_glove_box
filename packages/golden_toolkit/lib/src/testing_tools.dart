@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meta/meta.dart';
 
 const Size _defaultSize = Size(800, 600);
 
@@ -118,3 +119,68 @@ class TestAssetBundle extends CachingAssetBundle {
   @override
   Future<ByteData> load(String key) async => rootBundle.load(key);
 }
+
+bool _inGoldenTest = false;
+
+/// This [testGoldens] method exists as a way to enforce the proper naming of tests that contain golden diffs so that we can reliably run all goldens
+///
+/// [description] is a test description
+///
+/// [skip] to skip the test
+///
+/// [test] test body
+///
+@isTest
+Future<void> testGoldens(
+  String description,
+  Future<void> Function(WidgetTester) test, {
+  bool skip = false,
+}) async {
+  testWidgets('Golden: $description', (tester) async {
+    _inGoldenTest = true;
+    tester.binding.addTime(const Duration(seconds: 10));
+    try {
+      await test(tester);
+    } finally {
+      _inGoldenTest = false;
+    }
+  }, skip: skip);
+}
+
+/// This [screenMatchesGolden] is wrapper on top of [matchesGoldenFile]
+///
+/// [goldenFileName] is a file name output, must NOT include extension like .png
+///
+/// [finder] optional finder, defaults to [widgetBuilderKey]
+///
+/// [customPump] optional pump function, see [CustomPump] documentation
+///
+/// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
+Future<void> screenMatchesGolden(
+  WidgetTester tester,
+  String goldenFileName, {
+  Finder finder,
+  CustomPump customPump = _onlyPumpAndSettle,
+  bool skip = false,
+}) async {
+  assert(!goldenFileName.endsWith('.png'),
+      'Golden tests should not include file type');
+  if (!_inGoldenTest) {
+    fail(
+        'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
+  }
+  final actualFinder = finder ?? find.byKey(widgetBuilderKey);
+  final fileName = 'goldens/$goldenFileName.png';
+
+  await matchesGoldenFile(fileName).matchAsync(actualFinder);
+  await customPump(tester);
+
+  return expectLater(
+    actualFinder,
+    matchesGoldenFile(fileName),
+    skip: skip,
+  );
+}
+
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
+    tester.pumpAndSettle();
