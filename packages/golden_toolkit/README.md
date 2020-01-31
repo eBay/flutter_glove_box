@@ -54,10 +54,10 @@ If you want to make sure that above WeatherCard looks properly given different i
 
 ```dart
 final builder = GoldenBuilder.grid(columns:2)
-        ..addTest('Sunny', WeatherCard(Weather.sunny))
-        ..addTest('Cloudy', WeatherCard(Weather.cloudy))
-        ..addTest('Raining', WeatherCard(Weather.rain))
-        ..addTest('Cold', WeatherCard(Weather.cold));
+        ..addScenario('Sunny', WeatherCard(Weather.sunny))
+        ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
+        ..addScenario('Raining', WeatherCard(Weather.rain))
+        ..addScenario('Cold', WeatherCard(Weather.cold));
 await tester.pumpWidgetBuilder(builder.build());
 await screenMatchesGolden(tester, 'weather_types');
 ```
@@ -69,7 +69,7 @@ The output of this test will be this golden file:
 In order to test with different font sizes, do:
 
 ```dart
-        ..addTest('Regular font size', widget)
+        ..addScenario('Regular font size', widget)
         ..addTestWithLargeText('Large font size', widget, maxTextSize: 2.0)
         ..addTestWithLargeText('Largest font', widget, maxTextSize: 3.2);
 ```
