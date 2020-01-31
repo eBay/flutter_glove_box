@@ -16,3 +16,8 @@ dependencies:
 
 dev_dependencies:
   pedantic: ^1.8.0
+
+# needed so the images can be loaded in the example tests
+flutter:
+  assets:
+    - images/
