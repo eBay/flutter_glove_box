@@ -8,6 +8,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
+import 'testing_tools.dart';
+
 /// as of iOS 13.2.3 the max textScaleFactor a user can set is ~3.1176
 const double textScaleFactorMaxSupported = 3.2;
 
@@ -25,7 +27,7 @@ class GoldenBuilder {
   factory GoldenBuilder.grid({
     @required int columns,
     @required double widthToHeightRatio,
-    Widget Function(Widget) wrap,
+    WidgetWrapper wrap,
     Color bgColor,
   }) {
     return GoldenBuilder._(
@@ -44,7 +46,7 @@ class GoldenBuilder {
   ///
   factory GoldenBuilder.column({
     Color bgColor,
-    Widget Function(Widget) wrap,
+    WidgetWrapper wrap,
   }) {
     return GoldenBuilder._(
       wrap: wrap,
@@ -61,7 +63,7 @@ class GoldenBuilder {
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
   /// provide consistent UI treatment to all of them or need to inject dependencies.
-  final Widget Function(Widget) wrap;
+  final WidgetWrapper wrap;
 
   /// number of columns [columns] in a grid
   final int columns;
@@ -135,7 +137,7 @@ class _Scenario extends StatelessWidget {
     this.wrap,
   }) : super(key: key);
 
-  final Widget Function(Widget) wrap;
+  final WidgetWrapper wrap;
   final String name;
   final Widget widget;
 
