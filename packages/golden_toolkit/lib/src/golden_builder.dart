@@ -221,7 +221,7 @@ Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
 ///
 /// [finder] optional finder, defaults to [WidgetsApp]
 ///
-/// [overrideHeight] might be required to override output file height in case if it should be bigger than device height
+/// [overrideGoldenHeight] might be required to override output file height in case if it should be bigger than device height
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
@@ -233,7 +233,7 @@ Future<void> multiScreenGolden(
   WidgetTester tester,
   String goldenFileName, {
   Finder finder,
-  double overrideHeight,
+  double overrideGoldenHeight,
   CustomPump customPump = _onlyPumpAndSettle,
   List<Device> devices = const [
     Device.phone,
@@ -242,7 +242,8 @@ Future<void> multiScreenGolden(
   bool skip = false,
 }) async {
   for (final device in devices) {
-    final size = Size(device.size.width, overrideHeight ?? device.size.height);
+    final size =
+        Size(device.size.width, overrideGoldenHeight ?? device.size.height);
     await tester.binding.setSurfaceSize(size);
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;

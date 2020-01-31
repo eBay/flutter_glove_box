@@ -170,7 +170,7 @@ Future<void> main() async {
             Device.tabletLandscape,
             Device.tabletPortrait
           ],
-          overrideHeight: 200,
+          overrideGoldenHeight: 200,
           skip: !Platform.isMacOS);
     });
   });
@@ -223,7 +223,7 @@ Future<void> main() async {
         tester,
         'all_sized_all_fonts',
         devices: [Device.phone, Device.tabletLandscape],
-        overrideHeight: 1200,
+        overrideGoldenHeight: 1200,
         skip: !Platform.isMacOS,
       );
     });
