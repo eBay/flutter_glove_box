@@ -20,5 +20,13 @@ void main() {
       await expectLater(() => screenMatchesGolden(tester, 'anything'),
           throwsA(isInstanceOf<TestFailure>()));
     });
+
+    testGoldens('screenMatchesGolden filename should not include extension',
+        (tester) async {
+      await tester.pumpWidget(Container(height: 100, width: 100));
+
+      await expectLater(() => screenMatchesGolden(tester, 'anything.png'),
+          throwsAssertionError);
+    });
   });
 }
