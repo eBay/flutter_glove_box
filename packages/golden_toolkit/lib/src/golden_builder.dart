@@ -90,28 +90,11 @@ class GoldenBuilder {
   }
 
   ///  [addScenario] will add a test GoldenBuilder
-  void addScenario(String scenario, Widget widget) {
-    tests.add(Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(scenario, style: const TextStyle(fontSize: 18)),
-          const SizedBox(height: 4),
-          if (wrapWidgetInFrame)
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFFFFF),
-                border: Border.all(color: const Color(0xFF9E9E9E)),
-              ),
-              child: widget,
-            )
-          else
-            widget
-        ],
-      ),
+  void addScenario(String name, Widget widget) {
+    tests.add(_Scenario(
+      name: name,
+      widget: widget,
+      wrap: wrapWidgetInFrame ? _defaultFrame : null,
     ));
   }
 
@@ -142,6 +125,46 @@ class GoldenBuilder {
   }
 
   Column _column() => Column(mainAxisSize: MainAxisSize.min, children: tests);
+
+  Widget _defaultFrame(Widget child) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFFFF),
+        border: Border.all(color: const Color(0xFF9E9E9E)),
+      ),
+      child: child,
+    );
+  }
+}
+
+class _Scenario extends StatelessWidget {
+  const _Scenario({
+    Key key,
+    @required this.name,
+    @required this.widget,
+    this.wrap,
+  }) : super(key: key);
+
+  final Widget Function(Widget) wrap;
+  final String name;
+  final Widget widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(name, style: const TextStyle(fontSize: 18)),
+          const SizedBox(height: 4),
+          if (wrap != null) wrap(widget) else widget
+        ],
+      ),
+    );
+  }
 }
 
 class _TextScaleFactor extends StatelessWidget {
