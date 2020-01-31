@@ -40,6 +40,7 @@ Future<void> main() async {
       await screenMatchesGolden(
         tester,
         'square_container',
+        // https://github.com/eBay/flutter_glove_box/issues/5
         skip: !Platform.isMacOS,
       );
     });
