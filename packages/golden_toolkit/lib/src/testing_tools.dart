@@ -111,21 +111,23 @@ bool _inGoldenTest = false;
 ///
 /// [test] test body
 ///
-@isTest
+@isTestGroup
 Future<void> testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
 }) async {
-  testWidgets('Golden: $description', (tester) async {
-    _inGoldenTest = true;
-    tester.binding.addTime(const Duration(seconds: 10));
-    try {
-      await test(tester);
-    } finally {
-      _inGoldenTest = false;
-    }
-  }, skip: skip);
+  group(description, () {
+    testWidgets('Golden', (tester) async {
+      _inGoldenTest = true;
+      tester.binding.addTime(const Duration(seconds: 10));
+      try {
+        await test(tester);
+      } finally {
+        _inGoldenTest = false;
+      }
+    }, skip: skip);
+  });
 }
 
 /// This [screenMatchesGolden] is wrapper on top of [matchesGoldenFile]
