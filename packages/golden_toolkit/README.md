@@ -68,9 +68,15 @@ TBD
 
 ### Pumping Widgets
 
-Contains an extension for [WidgetTester] with single convenience function `pumpWidgetBuilder` to pump your widget during the test.
+Flutter Test's `WidgetTester` already provides the ability to pump a widget for testing purposes.
+
+However, in many cases it is common for the Widget under test to have a number of assumptions & dependencies about the widget tree it is included in. For example, it might require Material theming, or a particular Inherited Widget. Often this setup is common and shared across multiple widget tests.
+
+For convenience, we've created an extension for [WidgetTester] with a function `pumpWidgetBuilder` to allow for easy configuration of the parent widget tree & device configuration to emulate.
 
 `pumpWidgetBuilder` has optional parameters `wrapper`, `surfaceSize`, `textScaleSize`
+
+This is entirely optional, but can help reduce boilerplate code duplication.
 
 Example:
 
