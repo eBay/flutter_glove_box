@@ -56,6 +56,7 @@ Future<void> multiScreenGolden(
       '$goldenFileName.${device.name}',
       customPump: customPump,
       skip: skip,
+      finder: finder,
     );
   }
 }
