@@ -32,7 +32,7 @@ void main() {
     testGoldens(
         'Goldens for multiple sized devices should respect specified finder',
         (tester) async {
-      // This is an example of how a larger widget tree can be pumpded, but goldens can be created capturing just a certain child widget
+      // This is an example of how a larger widget tree can be pumped, but goldens can be created capturing just a certain child widget
       await tester.pumpWidgetBuilder(
         Container(
           height: 200,
