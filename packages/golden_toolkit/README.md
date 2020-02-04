@@ -20,8 +20,6 @@ It is highly recommended to look at sample tests here: [golden_builder_test.dart
 
 The GoldenBuilder class lets you quickly test various states of your widgets given different sizes, input values or accessibility options. A single test allows for all variations of your widget to be captured in a single Golden image that easily documents the behavior and prevents regression.
 
-#### Example
-
 Consider the following WeatherCard widget:
 
 ![screenshot of widget under test](test/goldens/single_weather_card.png)
@@ -63,6 +61,10 @@ The output of this test will be this golden file: `weather_accessibility.png`:
 ![example GoldenBuilder output showing different text scales](test/goldens/weather_accessibility.png)
 
 See tests for usage examples: [golden_builder_test.dart](test/golden_builder_test.dart)
+
+### multiScreenGolden
+
+TBD
 
 ### Pumping Widgets
 
