@@ -2,11 +2,64 @@
 
 [![Build Status](https://travis-ci.org/eBay/flutter_glove_box.svg?branch=master)](https://travis-ci.org/eBay/flutter_glove_box)[![codecov](https://codecov.io/gh/eBay/flutter_glove_box/branch/master/graph/badge.svg)](https://codecov.io/gh/eBay/flutter_glove_box)
 
-This project contains various testing tools that eBay Motors App team is using in their development on daily basis.
+This project contains APIs and utilities that build upon [Flutter's Golden test](https://github.com/flutter/flutter/wiki/Writing-a-golden-file-test-for-package:flutter) functionality to provide powerful UI regression tests.
 
 It is highly recommended to look at sample tests here: [golden_builder_test.dart](test/golden_builder_test.dart)
 
-## Pumping widgets
+## Table of Contents
+
+- Key Features
+  - [GoldenBuilder](#goldenbuilder)
+  - [multiScreenGolden](#multiscreengolden)
+- Getting Started
+  - [Pumping Widgets](#Pumping-Widgets)
+  - [Loading Fonts](#Loading-Fonts)
+  - [testGoldens()](#testGoldens)
+
+### GoldenBuilder
+
+The GoldenBuilder class lets you quickly test various states of your widgets given different sizes, input values or accessibility options. A single test allows for all variations of your widget to be captured in a single Golden image that easily documents the behavior and prevents regression.
+
+#### Example
+
+Consider the following WeatherCard widget:
+
+![screenshot of widget under test](test/goldens/single_weather_card.png)
+
+You might want to validate that the widget looks correct for different weather types:
+
+```dart
+final builder = GoldenBuilder.grid(columns:2)
+        ..addScenario('Sunny', WeatherCard(Weather.sunny))
+        ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
+        ..addScenario('Raining', WeatherCard(Weather.rain))
+        ..addScenario('Cold', WeatherCard(Weather.cold));
+await tester.pumpWidgetBuilder(builder.build());
+await screenMatchesGolden(tester, 'weather_types_grid');
+```
+
+The output of this test will generate a golden that represents all four states in a single test asset.
+
+![example GoldenBuilder output laid out in a grid](test/goldens/weather_types_grid.png)
+
+A different use case may be validating how the widget looks with a variety of text sizes based on the user's device settings.
+
+```dart
+final builder = GoldenBuilder.column()
+        ..addScenario('Regular font size', widget)
+        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+        ..addTextScaleScenario('Largest font', widget, textScaleFactor: 3.2);
+await tester.pumpWidgetBuilder(builder.build());
+await screenMatchesGolden(tester, 'weather_accessibility');
+```
+
+The output of this test will be this golden file:
+
+![example GoldenBuilder output showing different text scales](test/goldens/weather_accessibility.png)
+
+See tests for usage examples: [golden_builder_test.dart](test/golden_builder_test.dart)
+
+### Pumping Widgets
 
 Contains an extension for [WidgetTester] with single convenience function `pumpWidgetBuilder` to pump your widget during the test.
 
@@ -38,49 +91,7 @@ Note: you can create your own wrappers similar to `materialAppWrapper`
 
 See more usage examples here: [golden_builder_test.dart](test/golden_builder_test.dart)
 
-### GoldenBuilder
-
-The GoldenBuilder tool lets you quickly test various states of your widgets given different screen sizes, input values or accessibility options.
-
-#### Supported features
-
-- GoldenBuilder.column() - layouts your goldens in a column
-- GoldenBuilder.grid() - layouts your goldens as a grid
-- multiScreenGolden() - shows how your screen/widget will look on different screen sizes
-
-![](test/goldens/single_weather_card.png)
-
-If you want to make sure that above WeatherCard looks properly given different input values, do:
-
-```dart
-final builder = GoldenBuilder.grid(columns:2)
-        ..addScenario('Sunny', WeatherCard(Weather.sunny))
-        ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
-        ..addScenario('Raining', WeatherCard(Weather.rain))
-        ..addScenario('Cold', WeatherCard(Weather.cold));
-await tester.pumpWidgetBuilder(builder.build());
-await screenMatchesGolden(tester, 'weather_types');
-```
-
-The output of this test will be this golden file:
-
-![](test/goldens/weather_types_grid.png)
-
-In order to test with different font sizes, do:
-
-```dart
-        ..addScenario('Regular font size', widget)
-        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-        ..addTextScaleScenario('Largest font', widget, textScaleFactor: 3.2);
-```
-
-The output of this test will be this golden file:
-
-![](test/goldens/weather_accessibility.png)
-
-See tests for usage examples: [golden_builder_test.dart](test/golden_builder_test.dart)
-
-### Font Loader
+### Loading Fonts
 
 By default, flutter test only uses a single "test" font called Ahem.
 This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
@@ -94,6 +105,8 @@ In order to inject your fonts, just call font loader function on top of your tes
 
 Function will load all the fonts from that directory using FontLoader so they are properly rendered during the test.
 Material icons like `Icons.battery` will be rendered in goldens ONLY if your pre-load MaterialIcons-Regular.ttf font that contains all the icons.
+
+### testGoldens()
 
 ## License Information
 
@@ -130,14 +143,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 This software contains some 3rd party software licensed under open source license terms:
 
 1. Roboto Font File:
-   Available at URL: https://github.com/google/fonts/tree/master/apache/roboto
-   License: Available under Apache license at https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt
+   Available at URL: [https://github.com/google/fonts/tree/master/apache/roboto](https://github.com/google/fonts/tree/master/apache/roboto)
+   License: Available under Apache license at [https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt](https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt)
 
 2. Material Icon File:
-   URL: https://github.com/google/material-design-icons
-   License: Available under Apache license at https://github.com/google/material-design-icons/blob/master/LICENSE
+   URL: [https://github.com/google/material-design-icons](https://github.com/google/material-design-icons)
+   License: Available under Apache license at [https://github.com/google/material-design-icons/blob/master/LICENSE](https://github.com/google/material-design-icons/blob/master/LICENSE)
 
 3. Icons at:
    Author: Adnen Kadri
-   URL: https://www.iconfinder.com/iconsets/weather-281
+   URL: [https://www.iconfinder.com/iconsets/weather-281](https://www.iconfinder.com/iconsets/weather-281)
    License: Free for commercial use
