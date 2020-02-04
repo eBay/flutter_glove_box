@@ -13,7 +13,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('testGoldens validation', () {
-    testGoldens('screenMatchesGolden should require testGoldens',
+    testWidgets('screenMatchesGolden should require testGoldens',
         (tester) async {
       await tester.pumpWidgetBuilder(Container(height: 100, width: 100));
 
