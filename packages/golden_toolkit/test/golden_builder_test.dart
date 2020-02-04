@@ -21,18 +21,31 @@ Future<void> main() async {
   await loadAppFonts(from: 'fonts');
 
   group('Basic golden test for empty container', () {
-    testGoldens('Square container', (tester) async {
+    final squareContainer = Container(
+      width: 100,
+      height: 100,
+      color: const Color.fromARGB(255, 36, 51, 66),
+    );
+
+    testGoldens('Pump widget traditionally', (tester) async {
+      tester.binding.window.devicePixelRatioTestValue = 1.0;
+      await tester.binding.setSurfaceSize(const Size(200, 200));
+
+      await tester.pumpWidget(squareContainer);
+
+      await screenMatchesGolden(
+        tester,
+        'square_container',
+        // https://github.com/eBay/flutter_glove_box/issues/5
+        skip: !Platform.isMacOS,
+      );
+    });
+
+    testGoldens('Pump widgetBuilder no wrap', (tester) async {
       /// Note: pumpWidgetBuilder will use [materialAppWrapper] by default.
       /// If you want no wrapper at all, pass **noWrap()**
-
-      final widget = Container(
-        width: 100,
-        height: 100,
-        color: const Color.fromARGB(255, 36, 51, 66),
-      );
-
       await tester.pumpWidgetBuilder(
-        widget,
+        squareContainer,
         surfaceSize: const Size(200, 200),
         wrapper: noWrap(),
       );
