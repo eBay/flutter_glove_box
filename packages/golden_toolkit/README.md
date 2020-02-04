@@ -29,13 +29,15 @@ Consider the following WeatherCard widget:
 You might want to validate that the widget looks correct for different weather types:
 
 ```dart
-final builder = GoldenBuilder.grid(columns:2)
-        ..addScenario('Sunny', WeatherCard(Weather.sunny))
-        ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
-        ..addScenario('Raining', WeatherCard(Weather.rain))
-        ..addScenario('Cold', WeatherCard(Weather.cold));
-await tester.pumpWidgetBuilder(builder.build());
-await screenMatchesGolden(tester, 'weather_types_grid');
+testGoldens('Weather types should look correct', (tester) {
+  final builder = GoldenBuilder.grid(columns:2)
+          ..addScenario('Sunny', WeatherCard(Weather.sunny))
+          ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
+          ..addScenario('Raining', WeatherCard(Weather.rain))
+          ..addScenario('Cold', WeatherCard(Weather.cold));
+  await tester.pumpWidgetBuilder(builder.build());
+  await screenMatchesGolden(tester, 'weather_types_grid');
+});
 ```
 
 The output of this test will generate a golden that represents all four states in a single test asset.
@@ -45,12 +47,15 @@ The output of this test will generate a golden that represents all four states i
 A different use case may be validating how the widget looks with a variety of text sizes based on the user's device settings.
 
 ```dart
-final builder = GoldenBuilder.column()
-        ..addScenario('Regular font size', widget)
-        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-        ..addTextScaleScenario('Largest font', widget, textScaleFactor: 3.2);
-await tester.pumpWidgetBuilder(builder.build());
-await screenMatchesGolden(tester, 'weather_accessibility');
+testGoldens('Weather Card - Accessibility', (tester) {
+  final widget = WeatherCard(Weather.cloudy);
+  final builder = GoldenBuilder.column()
+          ..addScenario('Default font size', widget)
+          ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+          ..addTextScaleScenario('Largest font', widget, textScaleFactor: 3.2);
+  await tester.pumpWidgetBuilder(builder.build());
+  await screenMatchesGolden(tester, 'weather_accessibility');
+});
 ```
 
 The output of this test will be this golden file:
