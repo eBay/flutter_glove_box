@@ -40,7 +40,7 @@ testGoldens('Weather types should look correct', (tester) {
 });
 ```
 
-The output of this test will generate a golden that represents all four states in a single test asset.
+The output of this test will generate a golden: `weather_types_grid.png` that represents all four states in a single test asset.
 
 ![example GoldenBuilder output laid out in a grid](test/goldens/weather_types_grid.png)
 
@@ -58,7 +58,7 @@ testGoldens('Weather Card - Accessibility', (tester) {
 });
 ```
 
-The output of this test will be this golden file:
+The output of this test will be this golden file: `weather_accessibility.png`:
 
 ![example GoldenBuilder output showing different text scales](test/goldens/weather_accessibility.png)
 
@@ -112,6 +112,29 @@ Function will load all the fonts from that directory using FontLoader so they ar
 Material icons like `Icons.battery` will be rendered in goldens ONLY if your pre-load MaterialIcons-Regular.ttf font that contains all the icons.
 
 ### testGoldens()
+
+It is possible to use golden assertions in any testWidgets() test. As the UI for a widget evolves, it is common to need to regenerate goldens to capture your new reference images. The easiest way to do this is via the command-line:
+
+```sh
+flutter test --update-goldens
+```
+
+By default, this will execute all tests in the package. In a package with a large number of non-golden widget tests, we found this to be sub-optimal. We would much rather run ONLY the golden tests when regenerating. Initially, we arrived at a convention of ensuring that the test descriptions included the word 'Golden'
+
+```sh
+flutter test --update-goldens -name=Golden
+```
+
+However, there wasn't a way to enforce that developers named their tests appropriately, and this was error-prone.
+
+Ultimately, we ended up making this `testGoldens()` function to enforce the convention. It has the same signature as `testWidgets` but it will automatically structure the tests so that the above flutter test command can work.
+
+Additionally, the following test assertions will fail if not executed within testGoldens:
+
+```dart
+multiScreenGolden()
+screenMatchesGolden()
+```
 
 ## License Information
 
