@@ -17,9 +17,6 @@ const Size _defaultSize = Size(800, 600);
 
 typedef WidgetWrapper = Widget Function(Widget);
 
-/// [widgetBuilderKey] is a unique widget key that wraps widget under test and used by GoldenBuilder///
-const widgetBuilderKey = ValueKey('pumpedWidgetKey');
-
 ///CustomPump is a function that lets you do custom pumping before golden evaluation.
 ///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
@@ -43,7 +40,7 @@ extension TestingToolsExtension on WidgetTester {
 
     await _pumpAppWidget(
       this,
-      KeyedSubtree(key: widgetBuilderKey, child: _wrapper(widget)),
+      _wrapper(widget),
       surfaceSize: surfaceSize,
       textScaleSize: textScaleSize,
     );
@@ -134,7 +131,7 @@ Future<void> testGoldens(
 ///
 /// [goldenFileName] is a file name output, must NOT include extension like .png
 ///
-/// [finder] optional finder, defaults to [widgetBuilderKey]
+/// [finder] optional finder
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
@@ -152,7 +149,9 @@ Future<void> screenMatchesGolden(
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
-  final actualFinder = finder ?? find.byKey(widgetBuilderKey);
+  /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
+  RepaintBoundary, it should not matter */
+  final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
 
   await matchesGoldenFile(fileName).matchAsync(actualFinder);
