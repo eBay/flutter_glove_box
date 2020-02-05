@@ -13,7 +13,56 @@ import 'package:flutter/widgets.dart';
 final RoundedRectangleBorder _cardShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
 
+class Forecast {
+  const Forecast({this.day, this.temp, this.weather, this.description});
+
+  final String day;
+  final int temp;
+  final Weather weather;
+  final String description;
+}
+
 class WeatherForecast extends StatelessWidget {
+  static const Forecast today = Forecast(
+    day: 'Friday',
+    weather: Weather.sunny,
+    temp: 90,
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  );
+
+  static const List<Forecast> thisWeek = [
+    Forecast(
+      weather: Weather.sunny,
+      temp: 90,
+      day: 'Saturday',
+      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+    ),
+    Forecast(
+      weather: Weather.cloudy,
+      temp: 75,
+      day: 'Sunday',
+      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+    ),
+    Forecast(
+      weather: Weather.cloudy,
+      temp: 70,
+      day: 'Monday',
+      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+    ),
+    Forecast(
+      weather: Weather.rain,
+      temp: 65,
+      day: 'Tuesday',
+      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+    ),
+    Forecast(
+      weather: Weather.cold,
+      temp: 7,
+      day: 'Wednesday',
+      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,9 +84,9 @@ class WeatherForecast extends StatelessWidget {
                 'Today\'s Forecast',
                 style: Theme.of(context).textTheme.title,
               ),
-              const WeatherCard(weather: Weather.sunny, temp: 90),
+              WeatherCard.forecast(today),
               const SizedBox(height: 8),
-              const Text('Partly cloudy. High 90F. Winds W at 5 to 10 mph.'),
+              Text(today.description),
             ],
           ),
           const Spacer(),
@@ -45,57 +94,10 @@ class WeatherForecast extends StatelessWidget {
             children: [
               Text('This Week\'s Forecast',
                   style: Theme.of(context).textTheme.title),
-              Container(
-                height: 175,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: const WeatherCard(
-                          weather: Weather.sunny,
-                          temp: 90,
-                          day: 'Saturday',
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: const WeatherCard(
-                          weather: Weather.cloudy,
-                          temp: 75,
-                          day: 'Sunday',
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: const WeatherCard(
-                          weather: Weather.cloudy,
-                          temp: 70,
-                          day: 'Monday',
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: const WeatherCard(
-                          weather: Weather.rain,
-                          temp: 65,
-                          day: 'Tuesday',
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: const WeatherCard(
-                          weather: Weather.cold,
-                          temp: 7,
-                          day: 'Wednesday',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              //if large
+              //  WeeklyForecastExpanded(),
+              // else
+              const WeeklyForecastCompact(forecasts: thisWeek),
             ],
           ),
           const SizedBox(height: 24),
@@ -105,9 +107,50 @@ class WeatherForecast extends StatelessWidget {
   }
 }
 
+class WeeklyForecastCompact extends StatelessWidget {
+  const WeeklyForecastCompact({
+    Key key,
+    @required this.forecasts,
+  }) : super(key: key);
+
+  final List<Forecast> forecasts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 175,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: forecasts
+              .map((f) => Container(
+                    width: MediaQuery.of(context).size.width * .3,
+                    child: WeatherCard.forecast(f),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+
 class WeatherCard extends StatelessWidget {
-  const WeatherCard({Key key, this.temp, this.weather, this.day = 'Friday'})
-      : super(key: key);
+  const WeatherCard({
+    Key key,
+    this.temp,
+    this.weather,
+    this.day = 'Friday',
+  }) : super(key: key);
+
+  factory WeatherCard.forecast(Forecast forecast) {
+    return WeatherCard(
+      temp: forecast.temp,
+      weather: forecast.weather,
+      day: forecast.day,
+    );
+  }
+
   final int temp;
   final Weather weather;
   final String day;
