@@ -21,6 +21,11 @@ Future<void> main() async {
   await loadAppFonts(from: 'fonts');
 
   group('Multi Screen Golden examples', () {
+    testGoldens('Example of testing a responsive layout', (tester) async {
+      await tester.pumpWidgetBuilder(WeatherForecast());
+      await multiScreenGolden(tester, 'weather_forecast');
+    });
+
     // With those test we want to make sure our widgets look right on different screen sizes / devices
     testGoldens('Card should look right on different devices / screen sizes',
         (tester) async {

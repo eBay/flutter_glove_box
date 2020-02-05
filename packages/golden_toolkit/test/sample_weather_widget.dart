@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -11,6 +13,87 @@ import 'package:flutter/widgets.dart';
 final RoundedRectangleBorder _cardShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
 
+class WeatherForecast extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          colors: [Colors.lightBlue, Colors.deepPurple],
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Column(
+            children: [
+              const SizedBox(height: 48),
+              Text(
+                'Today\'s Forecast',
+                style: Theme.of(context).textTheme.title,
+              ),
+              const WeatherCard(weather: Weather.sunny, temp: 90),
+              const SizedBox(height: 8),
+              const Text('Partly cloudy. High 90F. Winds W at 5 to 10 mph.'),
+            ],
+          ),
+          const Spacer(),
+          Column(
+            children: [
+              Text('This Week\'s Forecast',
+                  style: Theme.of(context).textTheme.title),
+              Container(
+                height: 175,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child:
+                            const WeatherCard(weather: Weather.sunny, temp: 90),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child: const WeatherCard(
+                            weather: Weather.cloudy, temp: 75),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child: const WeatherCard(
+                            weather: Weather.cloudy, temp: 70),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child:
+                            const WeatherCard(weather: Weather.rain, temp: 65),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child:
+                            const WeatherCard(weather: Weather.cold, temp: 7),
+                      ),
+                      // Container(width: 100, color: Colors.red),
+                      // Container(width: 100, color: Colors.blue),
+                      // Container(width: 100, color: Colors.green),
+                      // Container(width: 100, color: Colors.yellow),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+}
+
 class WeatherCard extends StatelessWidget {
   const WeatherCard({Key key, this.temp, this.weather}) : super(key: key);
   final int temp;
@@ -18,16 +101,14 @@ class WeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: LayoutBuilder(builder: (context, constraints) {
-        ///example of different layout types based on device size / rotation
-        if (constraints.maxWidth > 600) {
-          return _horizontalCard(context);
-        } else {
-          return _verticalCard(context);
-        }
-      }),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      ///example of different layout types based on device size / rotation
+      if (constraints.maxWidth > 400) {
+        return _horizontalCard(context);
+      } else {
+        return _verticalCard(context);
+      }
+    });
   }
 
   //if screen is large, we want this card to be horizontal as Row
