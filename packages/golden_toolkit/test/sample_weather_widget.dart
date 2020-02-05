@@ -54,33 +54,44 @@ class WeatherForecast extends StatelessWidget {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width * .3,
-                        child:
-                            const WeatherCard(weather: Weather.sunny, temp: 90),
+                        child: const WeatherCard(
+                          weather: Weather.sunny,
+                          temp: 90,
+                          day: 'Saturday',
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * .3,
                         child: const WeatherCard(
-                            weather: Weather.cloudy, temp: 75),
+                          weather: Weather.cloudy,
+                          temp: 75,
+                          day: 'Sunday',
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * .3,
                         child: const WeatherCard(
-                            weather: Weather.cloudy, temp: 70),
+                          weather: Weather.cloudy,
+                          temp: 70,
+                          day: 'Monday',
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * .3,
-                        child:
-                            const WeatherCard(weather: Weather.rain, temp: 65),
+                        child: const WeatherCard(
+                          weather: Weather.rain,
+                          temp: 65,
+                          day: 'Tuesday',
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * .3,
-                        child:
-                            const WeatherCard(weather: Weather.cold, temp: 7),
+                        child: const WeatherCard(
+                          weather: Weather.cold,
+                          temp: 7,
+                          day: 'Wednesday',
+                        ),
                       ),
-                      // Container(width: 100, color: Colors.red),
-                      // Container(width: 100, color: Colors.blue),
-                      // Container(width: 100, color: Colors.green),
-                      // Container(width: 100, color: Colors.yellow),
                     ],
                   ),
                 ),
@@ -95,9 +106,11 @@ class WeatherForecast extends StatelessWidget {
 }
 
 class WeatherCard extends StatelessWidget {
-  const WeatherCard({Key key, this.temp, this.weather}) : super(key: key);
+  const WeatherCard({Key key, this.temp, this.weather, this.day = 'Friday'})
+      : super(key: key);
   final int temp;
   final Weather weather;
+  final String day;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +188,7 @@ class WeatherCard extends StatelessWidget {
         textAlign: TextAlign.center,
       );
 
-  Text _day() => Text('Friday', style: TextStyle(color: Colors.white));
+  Text _day() => Text(day, style: TextStyle(color: Colors.white));
 
   Image _image() => Image.asset(
         'images/${_assetForWeather(weather)}',
