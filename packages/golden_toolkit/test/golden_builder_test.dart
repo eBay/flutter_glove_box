@@ -90,7 +90,7 @@ Future<void> main() async {
 
     testGoldens('Single weather card', (tester) async {
       await tester.pumpWidgetBuilder(
-        const WeatherCard(temp: 66, weather: Weather.sunny),
+        const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
         surfaceSize: const Size(200, 200),
       );
       await screenMatchesGolden(
