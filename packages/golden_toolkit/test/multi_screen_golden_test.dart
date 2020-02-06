@@ -22,7 +22,8 @@ Future<void> main() async {
 
   group('Multi Screen Golden examples', () {
     testGoldens('Example of testing a responsive layout', (tester) async {
-      await tester.pumpWidgetBuilder(WeatherForecast());
+      await tester.pumpWidgetBuilder(WeatherForecast(),
+          surfaceSize: Device.phone.size);
       await multiScreenGolden(tester, 'weather_forecast');
     });
 

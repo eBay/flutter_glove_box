@@ -91,18 +91,53 @@ class WeatherForecast extends StatelessWidget {
           ),
           const Spacer(),
           Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text('This Week\'s Forecast',
                   style: Theme.of(context).textTheme.title),
-              //if large
-              //  WeeklyForecastExpanded(),
-              // else
-              const WeeklyForecastCompact(forecasts: thisWeek),
+              if (MediaQuery.of(context).size.width > 400)
+                const WeeklyForecastExpanded(forecasts: thisWeek)
+              else
+                const WeeklyForecastCompact(forecasts: thisWeek),
             ],
           ),
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+}
+
+class WeeklyForecastExpanded extends StatelessWidget {
+  const WeeklyForecastExpanded({
+    Key key,
+    @required this.forecasts,
+  }) : super(key: key);
+
+  final List<Forecast> forecasts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: forecasts
+          .map((f) => Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Spacer(flex: 2),
+                  Flexible(flex: 3, child: WeatherCard.forecast(f)),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    flex: 5,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(f.description)),
+                  ),
+                ],
+              ))
+          .toList(),
     );
   }
 }
@@ -176,7 +211,8 @@ class WeatherCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(width: 8),
             _day(),
