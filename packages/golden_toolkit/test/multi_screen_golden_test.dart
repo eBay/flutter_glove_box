@@ -26,27 +26,5 @@ Future<void> main() async {
           surfaceSize: Device.phone.size);
       await multiScreenGolden(tester, 'weather_forecast');
     });
-
-    // With those test we want to make sure our widgets look right on different screen sizes / devices
-    testGoldens('Card should look right on different devices / screen sizes',
-        (tester) async {
-      await tester.pumpWidgetBuilder(
-        const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
-      );
-
-      await multiScreenGolden(tester, 'weather_card_sizing',
-          devices: [
-            Device.phone,
-            Device.tabletLandscape,
-            const Device(
-              name: 'custom',
-              size: Size(350, 650),
-              devicePixelRatio: 1.0,
-              textScale: 1.4,
-            )
-          ],
-          overrideGoldenHeight: 200,
-          skip: !Platform.isMacOS);
-    });
   });
 }
