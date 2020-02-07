@@ -64,7 +64,42 @@ See tests for usage examples: [golden_builder_test.dart](test/golden_builder_tes
 
 ### multiScreenGolden
 
-TBD
+The multiScreenGolden assertion is used to capture multiple goldens of a single widget using different simulated device sizes & characteristics.
+
+The typical use case is to validate that a UI is responsive for both phone & tablet.
+
+```dart
+testGoldens('Example of testing a responsive layout', (tester) async {
+  await tester.pumpWidgetBuilder(WeatherForecast());
+  await multiScreenGolden(tester, 'weather_forecast');
+});
+```
+
+This will generate the following two goldens:
+`weather_forecast.phone.png`
+![example widget captured with phone dimensions](test/goldens/weather_forecast.phone.png)
+`weather_forecast.tablet_landscape.png`
+![example widget captured with tablet dimensions](test/goldens/weather_forecast.tablet_landscape.png)
+
+You can also specify the exact device configurations you are interested in:
+
+```dart
+await multiScreenGolden(
+        tester,
+        'weather_forecast',
+        devices: [
+          const Device(
+            name: 'strange_device',
+            size: Size(100, 600),
+          ),
+          const Device(
+            name: 'accessibility',
+            size: Size(375, 667),
+            textScale: 2.5,
+          )
+        ],
+      );
+```
 
 ### Pumping Widgets
 

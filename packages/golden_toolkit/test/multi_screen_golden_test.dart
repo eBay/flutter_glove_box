@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -21,7 +23,21 @@ Future<void> main() async {
     testGoldens('Example of testing a responsive layout', (tester) async {
       await tester.pumpWidgetBuilder(WeatherForecast(),
           surfaceSize: Device.phone.size);
-      await multiScreenGolden(tester, 'weather_forecast');
+      await multiScreenGolden(
+        tester,
+        'weather_forecast',
+        devices: [
+          const Device(
+            name: 'strange_device',
+            size: Size(100, 600),
+          ),
+          const Device(
+            name: 'accessibility',
+            size: Size(375, 667),
+            textScale: 2.5,
+          )
+        ],
+      );
     });
   });
 }
