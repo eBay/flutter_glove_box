@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -7,64 +5,19 @@ import 'dart:ui';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-final RoundedRectangleBorder _cardShape =
-    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
-
-class Forecast {
-  const Forecast({this.day, this.temp, this.weather, this.description});
-
-  final String day;
-  final int temp;
-  final Weather weather;
-  final String description;
-}
+/// Don't look at this code as an example of good Flutter code. This code is a mess.
+/// Thankfully, we have pixel perfect golden tests to protect us if we ever
+/// refactor and clean it up!
 
 class WeatherForecast extends StatelessWidget {
-  static const Forecast today = Forecast(
-    day: 'Friday',
-    weather: Weather.sunny,
-    temp: 90,
-    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-  );
-
-  static const List<Forecast> thisWeek = [
-    Forecast(
-      weather: Weather.sunny,
-      temp: 90,
-      day: 'Saturday',
-      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-    ),
-    Forecast(
-      weather: Weather.cloudy,
-      temp: 75,
-      day: 'Sunday',
-      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-    ),
-    Forecast(
-      weather: Weather.cloudy,
-      temp: 70,
-      day: 'Monday',
-      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-    ),
-    Forecast(
-      weather: Weather.rain,
-      temp: 65,
-      day: 'Tuesday',
-      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-    ),
-    Forecast(
-      weather: Weather.cold,
-      temp: 7,
-      day: 'Wednesday',
-      description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -77,14 +30,29 @@ class WeatherForecast extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
+          const Spacer(),
           Column(
             children: [
               const SizedBox(height: 48),
               Text(
                 'Today\'s Forecast',
-                style: Theme.of(context).textTheme.title,
+                style: theme.textTheme.title,
               ),
-              WeatherCard.forecast(today),
+              Container(
+                constraints: const BoxConstraints(minWidth: 100, maxWidth: 300),
+                child: Theme(
+                  data: theme.copyWith(
+                    cardTheme: theme.cardTheme.copyWith(
+                      color: Colors.black26,
+                      shape: const CircleBorder(),
+                    ),
+                    textTheme: theme.textTheme.copyWith(
+                      body1: theme.textTheme.body1.copyWith(fontSize: 24),
+                    ),
+                  ),
+                  child: WeatherCard.forecast(today),
+                ),
+              ),
               const SizedBox(height: 8),
               Text(today.description),
             ],
@@ -204,15 +172,15 @@ class WeatherCard extends StatelessWidget {
 
   //if screen is large, we want this card to be horizontal as Row
   Widget _horizontalCard(BuildContext context) {
+    final cardTheme = CardTheme.of(context);
     return Card(
-      shape: _cardShape,
-      color: const Color.fromARGB(255, 36, 51, 66),
-      elevation: 1,
+      shape: cardTheme.shape ?? _cardShape,
+      color: cardTheme.color ?? const Color.fromARGB(255, 36, 51, 66),
+      elevation: cardTheme.elevation ?? 1,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          // mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(width: 8),
             _day(),
@@ -231,12 +199,13 @@ class WeatherCard extends StatelessWidget {
 
   //if screen is small, we want this card to be vertical as Column
   Widget _verticalCard(BuildContext context) {
+    final cardTheme = CardTheme.of(context);
     return Container(
       width: 180,
       child: Card(
-        shape: _cardShape,
-        color: const Color.fromARGB(255, 36, 51, 66),
-        elevation: 1,
+        shape: cardTheme.shape ?? _cardShape,
+        color: cardTheme.color ?? const Color.fromARGB(255, 36, 51, 66),
+        elevation: cardTheme.elevation ?? 1,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -317,3 +286,55 @@ enum Weather {
   cold,
   cloudy,
 }
+
+final RoundedRectangleBorder _cardShape =
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
+
+class Forecast {
+  const Forecast({this.day, this.temp, this.weather, this.description});
+
+  final String day;
+  final int temp;
+  final Weather weather;
+  final String description;
+}
+
+const Forecast today = Forecast(
+  day: 'Friday',
+  weather: Weather.sunny,
+  temp: 90,
+  description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+);
+
+const List<Forecast> thisWeek = [
+  Forecast(
+    weather: Weather.sunny,
+    temp: 90,
+    day: 'Saturday',
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  ),
+  Forecast(
+    weather: Weather.cloudy,
+    temp: 75,
+    day: 'Sunday',
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  ),
+  Forecast(
+    weather: Weather.cloudy,
+    temp: 70,
+    day: 'Monday',
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  ),
+  Forecast(
+    weather: Weather.rain,
+    temp: 65,
+    day: 'Tuesday',
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  ),
+  Forecast(
+    weather: Weather.cold,
+    temp: 7,
+    day: 'Wednesday',
+    description: 'Partly cloudy. High 90F. Winds W at 5 to 10 mph.',
+  ),
+];
