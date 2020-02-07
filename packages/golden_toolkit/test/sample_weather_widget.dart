@@ -63,7 +63,8 @@ class WeatherForecast extends StatelessWidget {
             children: [
               Text('This Week\'s Forecast',
                   style: Theme.of(context).textTheme.title),
-              if (MediaQuery.of(context).size.width > 400)
+              if (MediaQuery.of(context).size.width > 400 &&
+                  MediaQuery.of(context).size.height > 600)
                 const WeeklyForecastExpanded(forecasts: thisWeek)
               else
                 const WeeklyForecastCompact(forecasts: thisWeek),
