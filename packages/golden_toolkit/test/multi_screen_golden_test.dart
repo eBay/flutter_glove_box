@@ -6,6 +6,7 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
+import 'dart:io';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:golden_toolkit/src/font_loader.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,7 +21,11 @@ Future<void> main() async {
   group('Multi Screen Golden examples', () {
     testGoldens('Example of testing a responsive layout', (tester) async {
       await tester.pumpWidgetBuilder(WeatherForecast());
-      await multiScreenGolden(tester, 'weather_forecast');
+      await multiScreenGolden(
+        tester,
+        'weather_forecast',
+        skip: !Platform.isMacOS,
+      );
     });
   });
 }
