@@ -76,8 +76,10 @@ testGoldens('Example of testing a responsive layout', (tester) async {
 ```
 
 This will generate the following two goldens:
+
 `weather_forecast.phone.png`
 ![example widget captured with phone dimensions](test/goldens/weather_forecast.phone.png)
+
 `weather_forecast.tablet_landscape.png`
 ![example widget captured with tablet dimensions](test/goldens/weather_forecast.tablet_landscape.png)
 
