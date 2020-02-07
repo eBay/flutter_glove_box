@@ -6,11 +6,8 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'dart:io';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:golden_toolkit/src/font_loader.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'sample_weather_widget.dart';
