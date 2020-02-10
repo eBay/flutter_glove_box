@@ -41,7 +41,7 @@ Future<void> main() async {
       );
     });
 
-    testGoldens('Pump widgetBuilder no wrap', (tester) async {
+    testGoldens('Pump widgetBuilder with noWrap', (tester) async {
       /// Note: pumpWidgetBuilder will use [materialAppWrapper] by default.
       /// If you want no wrapper at all, pass **noWrap()**
       await tester.pumpWidgetBuilder(
@@ -90,7 +90,7 @@ Future<void> main() async {
 
     testGoldens('Single weather card', (tester) async {
       await tester.pumpWidgetBuilder(
-        const WeatherCard(temp: 66, weather: Weather.sunny),
+        const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
         surfaceSize: const Size(200, 200),
       );
       await screenMatchesGolden(
@@ -169,30 +169,6 @@ Future<void> main() async {
         surfaceSize: const Size(120, 900),
       );
       await screenMatchesGolden(tester, 'weather_types_column',
-          skip: !Platform.isMacOS);
-    });
-  });
-
-  group('GoldenBuilder examples of different screen size testing', () {
-    // With those test we want to make sure our widgets look right on different screen sizes / devices
-    testGoldens('Card should look rigth on different devices / screen sizes',
-        (tester) async {
-      await tester.pumpWidgetBuilder(
-        const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
-      );
-
-      await multiScreenGolden(tester, 'weather_card_sizing',
-          devices: [
-            Device.phone,
-            Device.tabletLandscape,
-            const Device(
-              name: 'custom',
-              size: Size(350, 650),
-              devicePixelRatio: 1.0,
-              textScale: 1.4,
-            )
-          ],
-          overrideGoldenHeight: 200,
           skip: !Platform.isMacOS);
     });
   });
