@@ -158,6 +158,21 @@ In order to inject your fonts, just call font loader function on top of your tes
 Function will load all the fonts from that directory using FontLoader so they are properly rendered during the test.
 Material icons like `Icons.battery` will be rendered in goldens ONLY if your pre-load MaterialIcons-Regular.ttf font that contains all the icons.
 
+The easiest, and recommended way to use this, is to create a `flutter_test_config.dart` file in the root of your package's test directory with the following content:
+
+```dart
+import 'dart:async';
+
+import 'package:golden_toolkit/golden_toolkit.dart';
+
+Future<void> main(FutureOr<void> testMain()) async {
+  await loadAppFonts();
+  return testMain();
+}
+```
+
+For more information on `flutter_test_config.dart`, see the [Flutter Docs](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html)
+
 ### testGoldens()
 
 It is possible to use golden assertions in any testWidgets() test. As the UI for a widget evolves, it is common to need to regenerate goldens to capture your new reference images. The easiest way to do this is via the command-line:
