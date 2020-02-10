@@ -24,10 +24,19 @@ Future<void> loadAppFonts({Iterable<String> sourceDirectories}) async {
   );
 
   for (final Map<String, dynamic> font in fontManifest) {
-    final fontLoader = FontLoader(font['family']);
+    final String fontFamily = font['family'];
+    final fontLoader = FontLoader(_processedFontFamily(fontFamily));
     for (final Map<String, dynamic> fontType in font['fonts']) {
       fontLoader.addFont(rootBundle.load(fontType['asset']));
     }
     await fontLoader.load();
   }
+}
+
+String _processedFontFamily(String family) {
+  if (family.startsWith('packages/') &&
+      (family.contains('Roboto') || family.contains('.SF'))) {
+    return family.split('/').last;
+  }
+  return family;
 }
