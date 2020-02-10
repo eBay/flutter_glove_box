@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 Future<void> main() async {
-  await loadAppFonts();
   group('Font loading', () {
     testGoldens('Roboto fonts should work', (tester) async {
       final golden = GoldenBuilder.column()
