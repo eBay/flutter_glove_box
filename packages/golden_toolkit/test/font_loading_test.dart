@@ -23,8 +23,5 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'material_fonts',
           skip: !Platform.isMacOS);
     });
-
-    testGoldens(
-        'Loading fonts from directories should work', (tester) async {});
   });
 }
