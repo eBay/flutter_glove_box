@@ -24,3 +24,10 @@ dev_dependencies:
 flutter:
   assets:
     - images/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: packages/golden_toolkit/fonts/Roboto-Regular.ttf
+    - family: MaterialIcons
+      fonts:
+        - asset: packages/golden_toolkit/fonts/MaterialIcons-Regular.ttf
