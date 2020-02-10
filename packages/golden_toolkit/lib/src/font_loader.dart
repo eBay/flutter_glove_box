@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -7,6 +5,8 @@ import 'dart:convert';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
