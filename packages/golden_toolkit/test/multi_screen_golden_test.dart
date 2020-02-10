@@ -16,7 +16,7 @@ import 'sample_weather_widget.dart';
 Future<void> main() async {
   /// Note: In order to see fonts and icons on goldens,
   /// you need to preload all the fonts with this function in all test files
-  await loadAppFonts(from: 'fonts');
+  await loadAppFonts();
 
   group('Multi Screen Golden examples', () {
     testGoldens('Example of testing a responsive layout', (tester) async {

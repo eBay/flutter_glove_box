@@ -8,7 +8,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 ///By default, flutter test only uses a single "test" font called Ahem.
 ///
@@ -16,23 +15,27 @@ import 'package:meta/meta.dart';
 ///
 ///To make the goldens more useful, we have a utility to dynamically inject additional fonts into the flutter test engine so that we can get more human viewable output.
 /// Path to your folder with fonts [from] in required
-Future<void> loadAppFonts({@required String from}) async {
+Future<void> loadAppFonts({Iterable<String> sourceDirectories}) async {
   if (_hasLoaded) {
     print('skipping fonts');
     return;
   }
 
-  final fontsDir = Directory.fromUri(Uri(path: _getPath(from)));
   final Map<String, List<ByteData>> fontFamilies = {};
-  await for (final entity in fontsDir.list()) {
-    if (entity.path.endsWith('.ttf')) {
-      final fontName =
-          Uri.parse(entity.path).pathSegments.last.split('.ttf').first;
-      final family = fontName.split('-').first;
-      final Uint8List bytes = await File.fromUri(entity.uri).readAsBytes();
-      final byteData = ByteData.view(bytes.buffer);
-      fontFamilies[family] =
-          [byteData].followedBy(fontFamilies[family] ?? []).toList();
+  for (final from in ['../golden_toolkit/fonts']
+    ..followedBy(sourceDirectories ?? <String>[])) {
+    final fontsDir = Directory.fromUri(Uri(path: _getPath(from)));
+
+    await for (final entity in fontsDir.list()) {
+      if (entity.path.endsWith('.ttf')) {
+        final fontName =
+            Uri.parse(entity.path).pathSegments.last.split('.ttf').first;
+        final family = fontName.split('-').first;
+        final Uint8List bytes = await File.fromUri(entity.uri).readAsBytes();
+        final byteData = ByteData.view(bytes.buffer);
+        fontFamilies[family] =
+            [byteData].followedBy(fontFamilies[family] ?? []).toList();
+      }
     }
   }
   for (final family in fontFamilies.keys) {
@@ -48,6 +51,8 @@ Future<void> loadAppFonts({@required String from}) async {
 
 bool _hasLoaded = false;
 
+/// Relative pathing behaves differently when running all tests for a package vs. running a particular test file
+/// Without this, either the commandline or the IDE will fail when running tests.
 String _getPath(String directory) {
   if (Directory.current.path.endsWith('test')) {
     return '../$directory';
