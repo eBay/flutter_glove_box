@@ -14,9 +14,9 @@ import 'package:flutter_test/flutter_test.dart';
 ///
 ///This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
 ///
-///To make the goldens more useful, we have a utility to dynamically inject additional fonts into the flutter test engine so that we can get more human viewable output.
-/// Path to your folder with fonts [from] in required
-Future<void> loadAppFonts({Iterable<String> sourceDirectories}) async {
+///To make the goldens more useful, we will automatically load any fonts included in your pubspec.yaml as well as from
+///packages you depend on.
+Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   final fontManifest = await rootBundle.loadStructuredData<List<dynamic>>(
     'FontManifest.json',
