@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0
+## 0.1.0-dev
 
 Initial release. Includes utility methods for easily pumping complex widgets, loading real fonts, and for writing more advanced Golden-based tests.
 
