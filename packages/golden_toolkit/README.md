@@ -149,14 +149,37 @@ By default, flutter test only uses a single "test" font called Ahem.
 This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
 
 To make the goldens more useful, we have a utility to dynamically inject additional fonts into the flutter test engine so that we can get more human viewable output.
-In order to inject your fonts, just call font loader function on top of your test file:
+In order to inject your fonts, we have a helper method:
 
 ```dart
-  await loadAppFonts(from: 'yourFontDirectoryPath');
+  await loadAppFonts();
 ```
 
-Function will load all the fonts from that directory using FontLoader so they are properly rendered during the test.
-Material icons like `Icons.battery` will be rendered in goldens ONLY if your pre-load MaterialIcons-Regular.ttf font that contains all the icons.
+This function will automatically load the `Roboto` font, and any fonts included from packages you depend on so that they are properly rendered during the test.
+
+Material icons like `Icons.battery` will be rendered in goldens ONLY if your pubspec.yaml includes:
+
+```yaml
+flutter:
+  uses-material-design: true
+```
+
+Note, if you need Cupertino fonts, you will need to find a copy of .SF UI Display Text, and .SF UI Text to include in your package's yaml. These are not included in this package by default for licensing reasons.
+
+The easiest, and recommended way to use this, is to create a `flutter_test_config.dart` file in the root of your package's test directory with the following content:
+
+```dart
+import 'dart:async';
+
+import 'package:golden_toolkit/golden_toolkit.dart';
+
+Future<void> main(FutureOr<void> testMain()) async {
+  await loadAppFonts();
+  return testMain();
+}
+```
+
+For more information on `flutter_test_config.dart`, see the [Flutter Docs](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html)
 
 ### testGoldens()
 
@@ -221,11 +244,11 @@ This software contains some 3rd party software licensed under open source licens
    Available at URL: [https://github.com/google/fonts/tree/master/apache/roboto](https://github.com/google/fonts/tree/master/apache/roboto)
    License: Available under Apache license at [https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt](https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt)
 
-2. Material Icon File:
-   URL: [https://github.com/google/material-design-icons](https://github.com/google/material-design-icons)
-   License: Available under Apache license at [https://github.com/google/material-design-icons/blob/master/LICENSE](https://github.com/google/material-design-icons/blob/master/LICENSE)
-
-3. Icons at:
+2. Icons at:
    Author: Adnen Kadri
    URL: [https://www.iconfinder.com/iconsets/weather-281](https://www.iconfinder.com/iconsets/weather-281)
    License: Free for commercial use
+
+3. OpenSans Font File:
+   Available at URL: [https://github.com/googlefonts/opensans](https://github.com/googlefonts/opensans)
+   License: Available under Apache license at [https://github.com/googlefonts/opensans/blob/master/LICENSE.txt](https://github.com/googlefonts/opensans/blob/master/LICENSE.txt)
