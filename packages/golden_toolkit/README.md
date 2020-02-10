@@ -236,15 +236,11 @@ This software contains some 3rd party software licensed under open source licens
    Available at URL: [https://github.com/google/fonts/tree/master/apache/roboto](https://github.com/google/fonts/tree/master/apache/roboto)
    License: Available under Apache license at [https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt](https://github.com/google/fonts/blob/master/apache/roboto/LICENSE.txt)
 
-2. Material Icon File:
-   URL: [https://github.com/google/material-design-icons](https://github.com/google/material-design-icons)
-   License: Available under Apache license at [https://github.com/google/material-design-icons/blob/master/LICENSE](https://github.com/google/material-design-icons/blob/master/LICENSE)
-
-3. Icons at:
+2. Icons at:
    Author: Adnen Kadri
    URL: [https://www.iconfinder.com/iconsets/weather-281](https://www.iconfinder.com/iconsets/weather-281)
    License: Free for commercial use
 
-4. OpenSans Font File:
+3. OpenSans Font File:
    Available at URL: [https://github.com/googlefonts/opensans](https://github.com/googlefonts/opensans)
    License: Available under Apache license at [https://github.com/googlefonts/opensans/blob/master/LICENSE.txt](https://github.com/googlefonts/opensans/blob/master/LICENSE.txt)

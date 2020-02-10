@@ -22,12 +22,10 @@ dev_dependencies:
 
 # needed so the images can be loaded in the example tests
 flutter:
+  uses-material-design: true
   assets:
     - images/
   fonts:
     - family: Roboto
       fonts:
         - asset: packages/golden_toolkit/fonts/Roboto-Regular.ttf
-    - family: MaterialIcons
-      fonts:
-        - asset: packages/golden_toolkit/fonts/MaterialIcons-Regular.ttf
