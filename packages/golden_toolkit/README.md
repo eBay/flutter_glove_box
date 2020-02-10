@@ -244,3 +244,7 @@ This software contains some 3rd party software licensed under open source licens
    Author: Adnen Kadri
    URL: [https://www.iconfinder.com/iconsets/weather-281](https://www.iconfinder.com/iconsets/weather-281)
    License: Free for commercial use
+
+4. OpenSans Font File:
+   Available at URL: [https://github.com/googlefonts/opensans](https://github.com/googlefonts/opensans)
+   License: Available under Apache license at [https://github.com/googlefonts/opensans/blob/master/LICENSE.txt](https://github.com/googlefonts/opensans/blob/master/LICENSE.txt)

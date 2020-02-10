@@ -1,0 +1,1 @@
+library sample_dependency;

@@ -1,0 +1,16 @@
+name: sample_dependency
+description: A sample dependency that includes fonts to validate golden_toolkit's loadAppFonts() helper
+version: 0.0.1
+author:
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+flutter:
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: packages/sample_dependency/fonts/OpenSans-Regular.ttf

@@ -10,8 +10,11 @@ Future<void> main() async {
             const Text('This is material text in "Roboto"'))
         ..addScenario(
             'Material Icons should work', const Icon(Icons.phone_in_talk))
-        ..addScenario('Fonts from packages should work',
-            const Text('This is a custom font'))
+        ..addScenario(
+            'Fonts from packages should work',
+            const Text('This is a custom font',
+                style: TextStyle(
+                    fontFamily: 'OpenSans', package: 'sample_dependency')))
         ..addScenario('Unknown fonts render in Ahem',
             const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
       await tester.pumpWidgetBuilder(golden.build());
