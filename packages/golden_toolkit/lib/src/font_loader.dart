@@ -24,8 +24,7 @@ Future<void> loadAppFonts({Iterable<String> sourceDirectories}) async {
   );
 
   for (final Map<String, dynamic> font in fontManifest) {
-    final String fontFamily = font['family'];
-    final fontLoader = FontLoader(_processedFontFamily(fontFamily));
+    final fontLoader = FontLoader(_processedFontFamily(font['family']));
     for (final Map<String, dynamic> fontType in font['fonts']) {
       fontLoader.addFont(rootBundle.load(fontType['asset']));
     }
@@ -33,10 +32,27 @@ Future<void> loadAppFonts({Iterable<String> sourceDirectories}) async {
   }
 }
 
-String _processedFontFamily(String family) {
-  if (family.startsWith('packages/') &&
-      (family.contains('Roboto') || family.contains('.SF'))) {
-    return family.split('/').last;
+String _processedFontFamily(String fontFamily) {
+  /// There is no way to easily load the Roboto or Cupertino fonts.
+  /// To make them available in tests, a package needs to include their own copies of them.
+  ///
+  /// GoldenToolkit supplies Roboto because it is free to use.
+  ///
+  /// However, when a downstream package includes a font, the font family will be prefixed with
+  /// /packages/<package name>/<fontFamily> in order to disambiguate when multiple packages include
+  /// fonts with the same name.
+  ///
+  /// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
+  /// a Material or Cupertino font family, let's treat it as the main font family
+  if (fontFamily.startsWith('packages/') &&
+      _overridableFonts.any(fontFamily.contains)) {
+    return fontFamily.split('/').last;
   }
-  return family;
+  return fontFamily;
 }
+
+const List<String> _overridableFonts = [
+  'Roboto',
+  '.SF UI Display',
+  '.SF UI Text',
+];
