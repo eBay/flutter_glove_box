@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0-dev
+
+Improved the mechanism for loading font assets. Consumers no longer need to supply a directory to read the .ttf files from.
+
+They can now simply call: `await loadAppFonts()` and the package will automatically load any font assets from their pubspec.yaml or
+from any packages they depend on.
+
 ## 0.1.0-dev
 
 Initial release. Includes utility methods for easily pumping complex widgets, loading real fonts, and for writing more advanced Golden-based tests.

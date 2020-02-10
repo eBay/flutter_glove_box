@@ -1,6 +1,6 @@
 name: golden_toolkit
 description: Common patterns for screenshot-based widget testing using Goldens.
-version: 0.1.0-dev
+version: 0.2.0-dev
 homepage: https://github.com/eBay/flutter_glove_box/
 repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/golden_toolkit
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
