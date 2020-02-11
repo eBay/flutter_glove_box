@@ -8,7 +8,7 @@
 library golden_toolkit;
 
 export 'src/device.dart';
-export 'src/font_loader.dart';
+export 'src/font_loader.dart' show loadAppFonts;
 export 'src/golden_builder.dart';
 export 'src/multi_screen_golden.dart';
 export 'src/testing_tools.dart';

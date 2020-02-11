@@ -12,9 +12,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:golden_toolkit/src/font_loader.dart';
 
 Future<void> main() async {
-  group('Font loading', () {
+  group('Font loading integration test', () {
     testGoldens('Roboto fonts should work', (tester) async {
       final golden = GoldenBuilder.column()
         ..addScenario('Material Fonts should work',
@@ -33,4 +34,69 @@ Future<void> main() async {
           skip: !Platform.isMacOS);
     });
   });
+
+  group('Font Family Derivation', () {
+    test('de-namespace Material/Cupertino font overrides', () {
+      expect(
+        derivedFontFamily(
+            _font('packages/foo/Roboto', ['packages/foo/fonts/roboto.ttf'])),
+        equals('Roboto'),
+      );
+      expect(
+        derivedFontFamily(_font(
+            'packages/foo/.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF UI Display'),
+      );
+      expect(
+        derivedFontFamily(
+            _font('packages/foo/.SF UI Text', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF UI Text'),
+      );
+    });
+
+    test('leave packaged font families unaltered', () {
+      expect(
+        derivedFontFamily(
+            _font('packages/foo/bar', ['packages/foo/fonts/bar.ttf'])),
+        equals('packages/foo/bar'),
+      );
+    });
+
+    test('leave unpackaged fonts unaltered', () {
+      expect(
+        derivedFontFamily(_font('bar', ['bar.ttf'])),
+        equals('bar'),
+      );
+    });
+
+    /// Imagine you have Package A that depends on Package B.
+    /// Package B includes a font family "bar"
+    /// In code, package B will need to refer to the font as /packages/B/bar
+    ///
+    /// in Package A unittest's FontManifest.json , the font family will read as "/packages/A/bar"
+    ///
+    /// However, in Package B unittest's FontManifest.json, the font family is recorded as simply "bar"
+    ///
+    /// This will cause the font to fail to be found in Package B's tests.
+    ///
+    /// Thankfully, the assets are appropriately namespaced, so we can copy that namespace identifier
+    /// and modify the fontFamily name before loading into the FontLoader for simulating in our tests
+    test('adjust font family to be namespaced if assets are packaged', () {
+      expect(
+        derivedFontFamily(_font('bar', ['packages/foo/fonts/bar.ttf'])),
+        equals('packages/foo/bar'),
+      );
+    });
+  });
+}
+
+Map<String, dynamic> _font(String family, Iterable<String> fontAssets) {
+  return <String, dynamic>{
+    'family': family,
+    'fonts': fontAssets.map((asset) => <String, dynamic>{
+          'asset': asset,
+          'foo': 'bar',
+        }),
+    'blah': 'bar',
+  };
 }
