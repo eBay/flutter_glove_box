@@ -47,6 +47,11 @@ Future<void> loadAppFonts() async {
 @visibleForTesting
 String derivedFontFamily(Map<String, dynamic> fontDefinition) {
   final String fontFamily = fontDefinition['family'];
+
+  if (_overridableFonts.contains(fontFamily)) {
+    return fontFamily;
+  }
+
   if (fontFamily.startsWith('packages/')) {
     if (_overridableFonts.any(fontFamily.contains)) {
       return fontFamily.split('/').last;

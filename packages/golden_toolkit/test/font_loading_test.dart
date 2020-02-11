@@ -38,14 +38,27 @@ Future<void> main() async {
   group('Font Family Derivation', () {
     test('de-namespace Material/Cupertino font overrides', () {
       expect(
+        derivedFontFamily(_font('Roboto', ['packages/foo/fonts/roboto.ttf'])),
+        equals('Roboto'),
+      );
+      expect(
         derivedFontFamily(
             _font('packages/foo/Roboto', ['packages/foo/fonts/roboto.ttf'])),
         equals('Roboto'),
       );
       expect(
+        derivedFontFamily(
+            _font('.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF UI Display'),
+      );
+      expect(
         derivedFontFamily(_font(
             'packages/foo/.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF UI Display'),
+      );
+      expect(
+        derivedFontFamily(_font('.SF UI Text', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF UI Text'),
       );
       expect(
         derivedFontFamily(
