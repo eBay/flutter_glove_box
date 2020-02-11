@@ -7,6 +7,7 @@
 /// ***************************************************
 
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,13 +19,13 @@ import 'package:flutter_test/flutter_test.dart';
 ///packages you depend on.
 Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final fontManifest = await rootBundle.loadStructuredData<List<dynamic>>(
+  final fontManifest = await rootBundle.loadStructuredData<Iterable<dynamic>>(
     'FontManifest.json',
     (string) async => json.decode(string),
   );
 
   for (final Map<String, dynamic> font in fontManifest) {
-    final fontLoader = FontLoader(_processedFontFamily(font['family']));
+    final fontLoader = FontLoader(derivedFontFamily(font));
     for (final Map<String, dynamic> fontType in font['fonts']) {
       fontLoader.addFont(rootBundle.load(fontType['asset']));
     }
@@ -32,21 +33,37 @@ Future<void> loadAppFonts() async {
   }
 }
 
-String _processedFontFamily(String fontFamily) {
-  /// There is no way to easily load the Roboto or Cupertino fonts.
-  /// To make them available in tests, a package needs to include their own copies of them.
-  ///
-  /// GoldenToolkit supplies Roboto because it is free to use.
-  ///
-  /// However, when a downstream package includes a font, the font family will be prefixed with
-  /// /packages/<package name>/<fontFamily> in order to disambiguate when multiple packages include
-  /// fonts with the same name.
-  ///
-  /// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
-  /// a Material or Cupertino font family, let's treat it as the main font family
-  if (fontFamily.startsWith('packages/') &&
-      _overridableFonts.any(fontFamily.contains)) {
-    return fontFamily.split('/').last;
+/// There is no way to easily load the Roboto or Cupertino fonts.
+/// To make them available in tests, a package needs to include their own copies of them.
+///
+/// GoldenToolkit supplies Roboto because it is free to use.
+///
+/// However, when a downstream package includes a font, the font family will be prefixed with
+/// /packages/<package name>/<fontFamily> in order to disambiguate when multiple packages include
+/// fonts with the same name.
+///
+/// Ultimately, the font loader will load whatever we tell it, so if we see a font that looks like
+/// a Material or Cupertino font family, let's treat it as the main font family
+@visibleForTesting
+String derivedFontFamily(Map<String, dynamic> fontDefinition) {
+  final String fontFamily = fontDefinition['family'];
+
+  if (_overridableFonts.contains(fontFamily)) {
+    return fontFamily;
+  }
+
+  if (fontFamily.startsWith('packages/')) {
+    if (_overridableFonts.any(fontFamily.contains)) {
+      return fontFamily.split('/').last;
+    }
+  } else {
+    for (final Map<String, dynamic> fontType in fontDefinition['fonts']) {
+      final String asset = fontType['asset'];
+      if (asset?.startsWith('packages') ?? false) {
+        final packageName = asset.split('/')[1];
+        return 'packages/$packageName/$fontFamily';
+      }
+    }
   }
   return fontFamily;
 }

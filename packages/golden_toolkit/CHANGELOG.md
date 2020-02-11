@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1-dev
+
+Resolved an issue when using `loadAppFonts()` to unit test a non-application package which includes one or more custom fonts.
+
 ## 0.2.0-dev
 
 Improved the mechanism for loading font assets. Consumers no longer need to supply a directory to read the .ttf files from.
