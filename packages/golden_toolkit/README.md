@@ -162,9 +162,10 @@ This give you a context menu where you can easily regenerate a golden for a part
 ### Loading Fonts
 
 By default, flutter test only uses a single "test" font called Ahem.
-This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
+This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable if you are trying to verify that your app looks correct.
 
 To make the goldens more useful, we have a utility to dynamically inject additional fonts into the flutter test engine so that we can get more human viewable output.
+
 In order to inject your fonts, we have a helper method:
 
 ```dart
@@ -180,9 +181,9 @@ flutter:
   uses-material-design: true
 ```
 
-Note, if you need Cupertino fonts, you will need to find a copy of .SF UI Display Text, and .SF UI Text to include in your package's yaml. These are not included in this package by default for licensing reasons.
+Note, if you need Cupertino fonts, you will need to find a copy of `.SF UI Display Text.ttf`, and `.SF UI Text.ttf` to include in your package's yaml. These are not included in this package by default for licensing reasons.
 
-The easiest, and recommended way to use this, is to create a `flutter_test_config.dart` file in the root of your package's test directory with the following content:
+The easiest and recommended way to invoke this, is to create a `flutter_test_config.dart` file in the root of your package's test directory with the following content:
 
 ```dart
 import 'dart:async';
