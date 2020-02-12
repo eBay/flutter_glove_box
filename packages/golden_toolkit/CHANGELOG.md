@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+Dropping pre-release tag. Improved documentation.
+
 ## 0.2.1-dev
 
 Resolved an issue when using `loadAppFonts()` to unit test a non-application package which includes one or more custom fonts.
