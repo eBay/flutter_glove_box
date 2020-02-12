@@ -8,13 +8,16 @@ It is highly recommended to look at sample tests here: [golden_builder_test.dart
 
 ## Table of Contents
 
-- Key Features
+- [Key Features](#Key-Features)
   - [GoldenBuilder](#goldenbuilder)
   - [multiScreenGolden](#multiscreengolden)
-- Getting Started
-  - [Pumping Widgets](#Pumping-Widgets)
+- [Getting Started](#Getting-Started)
+  - [Setup](#Setup)
   - [Loading Fonts](#Loading-Fonts)
   - [testGoldens()](#testGoldens)
+  - [Pumping Widgets](#Pumping-Widgets)
+
+## Key Features
 
 ### GoldenBuilder
 
@@ -105,43 +108,56 @@ await multiScreenGolden(
       );
 ```
 
-### Pumping Widgets
+## Getting Started
 
-Flutter Test's `WidgetTester` already provides the ability to pump a widget for testing purposes.
+_A Note on Golden Testing:_
 
-However, in many cases it is common for the Widget under test to have a number of assumptions & dependencies about the widget tree it is included in. For example, it might require Material theming, or a particular Inherited Widget. Often this setup is common and shared across multiple widget tests.
+Goldens aren't intended to be a replacement of typical behavioral widget testing that you should perform. What they provide is an automated way to provide regression testing for all of the visual details that can't be validated without manual verification.
 
-For convenience, we've created an extension for [WidgetTester] with a function `pumpWidgetBuilder` to allow for easy configuration of the parent widget tree & device configuration to emulate.
+The Golden assertions take longer to execute than traditional widget tests, so it is recommended to be intentional about when they are used. Additionally, they can have many reasons to change. Often, the primary reason a golden test will fail is becaue of an intentional change. Thankfully, Flutter makes it easy to regenerate new reference images.
 
-`pumpWidgetBuilder` has optional parameters `wrapper`, `surfaceSize`, `textScaleSize`
+The rule of thumb that the eBay Motors team has used is to minimize our "full-screen" goldens and reserve them for high-level visual integration tests. Often, we only have one `multiScreenGolden()` test per screen.
 
-This is entirely optional, but can help reduce boilerplate code duplication.
+For testing variations, edge cases, permutations, etc, we tend to use the `GoldenBuilder` focused on smaller widgets that have fewer reasons to change.
 
-Example:
+### Setup
 
-```dart
- await tester.pumpWidgetBuilder(yourWidget, surfaceSize: const Size(200, 200));
+If you are new to Flutter's Golden testing, there are a few things you might want to do
+
+#### Add the failures folder to .gitignore
+
+When golden tests fail, artifacts are generated in a `failures` folder adjacent to your test. These are not intended to be tracked in source control.
+
+```.gitignore
+# don't check in golden failure output
+**/failures/*.png
 ```
 
-`wrapper` parameter is defaulted to `materialAppWrapper`, but you can use your own custom wrappers.
+#### Configure VS Code
 
-**Important**: `materialAppWrapper` allows your to inject specific platform, localizations, locales, theme and etc.
+If you use VSCode, we highly recommend adding this configuration to your `.vscode/launch.json` file in the root of your workspace.
 
-Example of injecting light Theme:
-
-```dart
-      await tester.pumpWidgetBuilder(
-        yourWidget,
-        wrapper: materialAppWrapper(
-          theme: ThemeData.light(),
-          platform: TargetPlatform.android,
-        ),
-      );
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Golden",
+      "request": "launch",
+      "type": "dart",
+      "template": "run-test",
+      "args": ["--update-goldens"]
+    }
+  ]
+}
 ```
 
-Note: you can create your own wrappers similar to `materialAppWrapper`
+This give you a context menu where you can easily regenerate a golden for a particular test directly from the IDE:
 
-See more usage examples here: [golden_builder_test.dart](test/golden_builder_test.dart)
+![Screenshot of 'Golden' shortcut in VSCode](resources/vscode.png)
 
 ### Loading Fonts
 
@@ -205,6 +221,44 @@ Additionally, the following test assertions will fail if not executed within tes
 multiScreenGolden()
 screenMatchesGolden()
 ```
+
+### Pumping Widgets
+
+Flutter Test's `WidgetTester` already provides the ability to pump a widget for testing purposes.
+
+However, in many cases it is common for the Widget under test to have a number of assumptions & dependencies about the widget tree it is included in. For example, it might require Material theming, or a particular Inherited Widget. Often this setup is common and shared across multiple widget tests.
+
+For convenience, we've created an extension for [WidgetTester] with a function `pumpWidgetBuilder` to allow for easy configuration of the parent widget tree & device configuration to emulate.
+
+`pumpWidgetBuilder` has optional parameters `wrapper`, `surfaceSize`, `textScaleSize`
+
+This is entirely optional, but can help reduce boilerplate code duplication.
+
+Example:
+
+```dart
+ await tester.pumpWidgetBuilder(yourWidget, surfaceSize: const Size(200, 200));
+```
+
+`wrapper` parameter is defaulted to `materialAppWrapper`, but you can use your own custom wrappers.
+
+**Important**: `materialAppWrapper` allows your to inject specific platform, localizations, locales, theme and etc.
+
+Example of injecting light Theme:
+
+```dart
+      await tester.pumpWidgetBuilder(
+        yourWidget,
+        wrapper: materialAppWrapper(
+          theme: ThemeData.light(),
+          platform: TargetPlatform.android,
+        ),
+      );
+```
+
+Note: you can create your own wrappers similar to `materialAppWrapper`
+
+See more usage examples here: [golden_builder_test.dart](test/golden_builder_test.dart)
 
 ## License Information
 
