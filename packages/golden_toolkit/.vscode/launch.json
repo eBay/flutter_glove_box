@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Golden",
+      "request": "launch",
+      "type": "dart",
+      "template": "run-test",
+      "args": ["--update-goldens"]
+    }
+  ]
+}
