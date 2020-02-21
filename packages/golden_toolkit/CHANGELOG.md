@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+Added `deviceSetupBetweenSizeChanges` to multiscreenGolden to allow customization.  Needed if Images will take several pumps before a widget wtih an image is put into the tree.
+
 ## 0.2.1
 
 Dropping pre-release tag. Improved documentation.
