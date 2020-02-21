@@ -30,8 +30,8 @@ Future<void> _twoPumps(WidgetTester tester) async {
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
-/// [pumpBetweenSizeChanges] pump function, pumps after the window changes size and images are rendered.
-/// Takes two pumps to modify the device size.  
+/// [deviceSetupBetweenSizeChanges] allows custom setup after the window changes size and before the images are rendered.
+/// Takes two pumps to modify the device size.
 ///
 /// [devices] list of devices to run the tests
 ///
@@ -43,7 +43,7 @@ Future<void> multiScreenGolden(
   Finder finder,
   double overrideGoldenHeight,
   CustomPump customPump = _onlyPumpAndSettle,
-  CustomPump pumpBetweenSizeChanges = _twoPumps,
+  CustomPump deviceSetupBetweenSizeChanges = _twoPumps,
   List<Device> devices = const [
     Device.phone,
     Device.tabletLandscape,
@@ -58,7 +58,7 @@ Future<void> multiScreenGolden(
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
 
-    await pumpBetweenSizeChanges(tester);
+    await deviceSetupBetweenSizeChanges(tester);
     await screenMatchesGolden(
       tester,
       '$goldenFileName.${device.name}',
