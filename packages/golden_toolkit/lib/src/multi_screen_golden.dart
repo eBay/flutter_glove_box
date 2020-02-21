@@ -10,8 +10,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
-    tester.pumpAndSettle();
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
+
+Future<void> _twoPumps(WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump();
+}
 
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list
 ///
@@ -25,6 +29,8 @@ Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
+/// [customPumpAfterSizeChange] pump function, pumps after the window changes size and before screen matches golden.
+///
 /// [devices] list of devices to run the tests
 ///
 /// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
@@ -35,6 +41,7 @@ Future<void> multiScreenGolden(
   Finder finder,
   double overrideGoldenHeight,
   CustomPump customPump = _onlyPumpAndSettle,
+  CustomPump customPumpAfterSizeChange = _twoPumps,
   List<Device> devices = const [
     Device.phone,
     Device.tabletLandscape,
@@ -42,15 +49,13 @@ Future<void> multiScreenGolden(
   bool skip = false,
 }) async {
   for (final device in devices) {
-    final size =
-        Size(device.size.width, overrideGoldenHeight ?? device.size.height);
+    final size = Size(device.size.width, overrideGoldenHeight ?? device.size.height);
     await tester.binding.setSurfaceSize(size);
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
 
-    await tester.pump();
-    await tester.pump();
+    await customPumpAfterSizeChange(tester);
     await screenMatchesGolden(
       tester,
       '$goldenFileName.${device.name}',
