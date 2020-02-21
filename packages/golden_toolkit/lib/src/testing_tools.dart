@@ -166,6 +166,8 @@ Future<void> screenMatchesGolden(
 }
 
 // Matches Golden file is the easiest way for the images to be requested.
-Future<void> _primeImages(String fileName, Finder finder) => matchesGoldenFile(fileName).matchAsync(finder);
+Future<void> _primeImages(String fileName, Finder finder) =>
+    matchesGoldenFile(fileName).matchAsync(finder);
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
+    tester.pumpAndSettle();
