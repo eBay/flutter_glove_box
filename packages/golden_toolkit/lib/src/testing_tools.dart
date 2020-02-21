@@ -143,8 +143,10 @@ Future<void> screenMatchesGolden(
   CustomPump customPump = _onlyPumpAndSettle,
   bool skip = false,
 }) async {
-  assert(!goldenFileName.endsWith('.png'),
-      'Golden tests should not include file type');
+  assert(
+    !goldenFileName.endsWith('.png'),
+    'Golden tests should not include file type',
+  );
   if (!_inGoldenTest) {
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
@@ -153,8 +155,7 @@ Future<void> screenMatchesGolden(
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
-
-  await matchesGoldenFile(fileName).matchAsync(actualFinder);
+  await _primeImages(fileName, actualFinder);
   await customPump(tester);
 
   return expectLater(
@@ -164,5 +165,7 @@ Future<void> screenMatchesGolden(
   );
 }
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
-    tester.pumpAndSettle();
+// Matches Golden file is the easiest way for the images to be requested.
+Future<void> _primeImages(String fileName, Finder finder) => matchesGoldenFile(fileName).matchAsync(finder);
+
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
