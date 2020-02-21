@@ -10,7 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
+    tester.pumpAndSettle();
 
 Future<void> _twoPumps(WidgetTester tester) async {
   await tester.pump();
@@ -49,7 +50,8 @@ Future<void> multiScreenGolden(
   bool skip = false,
 }) async {
   for (final device in devices) {
-    final size = Size(device.size.width, overrideGoldenHeight ?? device.size.height);
+    final size =
+        Size(device.size.width, overrideGoldenHeight ?? device.size.height);
     await tester.binding.setSurfaceSize(size);
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
