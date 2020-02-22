@@ -2,7 +2,7 @@
 
 ## 0.2.2
 
-Added `deviceSetupBetweenSizeChanges` to multiscreenGolden to allow customization.  Needed if Images will take several pumps before a widget wtih an image is put into the tree.
+Added `deviceSetupBetweenSizeChanges` to multiscreenGolden to allow pumping customization when device configuration (ex: screen size) changes
 
 ## 0.2.1
 
