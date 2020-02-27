@@ -6,12 +6,20 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
 Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
     tester.pumpAndSettle();
+
+Future<void> _twoPumps(Device device, WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump();
+}
+
+typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list
 ///
@@ -25,6 +33,10 @@ Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
+/// [deviceSetup] allows custom setup after the window changes size.
+/// Takes two pumps to modify the device size. It could take more if the widget tree uses widgets that schedule builds for the next run loop
+/// e.g. StreamBuilder, FutureBuilder
+///
 /// [devices] list of devices to run the tests
 ///
 /// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
@@ -35,6 +47,7 @@ Future<void> multiScreenGolden(
   Finder finder,
   double overrideGoldenHeight,
   CustomPump customPump = _onlyPumpAndSettle,
+  DeviceSetup deviceSetup = _twoPumps,
   List<Device> devices = const [
     Device.phone,
     Device.tabletLandscape,
@@ -48,9 +61,7 @@ Future<void> multiScreenGolden(
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
-
-    await tester.pump();
-    await tester.pump();
+    await deviceSetup(device, tester);
     await screenMatchesGolden(
       tester,
       '$goldenFileName.${device.name}',
