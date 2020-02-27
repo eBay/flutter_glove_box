@@ -109,11 +109,11 @@ bool _inGoldenTest = false;
 /// [test] test body
 ///
 @isTestGroup
-Future<void> testGoldens(
+void testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
-}) async {
+}) {
   group(description, () {
     testWidgets('Golden', (tester) async {
       _inGoldenTest = true;
