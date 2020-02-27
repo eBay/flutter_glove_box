@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+Removed Future return type from `testGoldens`.
+
 ## 0.2.2
 
 Added `deviceSetup` to multiscreenGolden to allow pumping customization when device configuration (ex: screen size) changes
