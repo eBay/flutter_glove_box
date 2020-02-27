@@ -26,7 +26,7 @@ Future<void> main() async {
         skip: !Platform.isMacOS,
       );
     });
-    group('Responseive layout when image changes depending on layout', () {
+    group('Responsive layout when image changes depending on layout', () {
       testGoldens('default configuration', (tester) async {
         await tester.pumpWidgetBuilder(
             _forecastWithDifferentImagesForLargeAndSmallScreen());
