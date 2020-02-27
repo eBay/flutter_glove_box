@@ -15,6 +15,12 @@ import 'package:flutter/widgets.dart';
 /// refactor and clean it up!
 
 class WeatherForecast extends StatelessWidget {
+  const WeatherForecast({Key key, List<Forecast> list = thisWeek})
+      : _list = list,
+        super(key: key);
+
+  final List<Forecast> _list;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -65,9 +71,9 @@ class WeatherForecast extends StatelessWidget {
                   style: Theme.of(context).textTheme.title),
               if (MediaQuery.of(context).size.width > 400 &&
                   MediaQuery.of(context).size.height > 600)
-                const WeeklyForecastExpanded(forecasts: thisWeek)
+                WeeklyForecastExpanded(forecasts: _list)
               else
-                const WeeklyForecastCompact(forecasts: thisWeek),
+                WeeklyForecastCompact(forecasts: _list),
             ],
           ),
           const SizedBox(height: 24),
