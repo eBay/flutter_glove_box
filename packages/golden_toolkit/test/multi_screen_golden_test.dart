@@ -27,16 +27,16 @@ Future<void> main() async {
       );
     });
     group('Responsive layout when image changes depending on layout', () {
-      testGoldens('default configuration', (tester) async {
+      testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
         await tester.pumpWidgetBuilder(
             _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
-          'weather_image_async_load_default',
+          'example_of_images_not_properly_loading',
           skip: !Platform.isMacOS,
         );
       });
-      testGoldens('custom pump between test sizes', (tester) async {
+      testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
         await tester.pumpWidgetBuilder(
             _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
@@ -55,6 +55,8 @@ Future<void> main() async {
 
 Widget _forecastWithDifferentImagesForLargeAndSmallScreen() {
   // There are probably other ways to trigger images not showing but this is probably the easiest.
+  // This fakes a common case where the root of the tree has totally different screens based on some size configuration
+  // Then it requests some data over a network call, then the leaf widgets of the tree make some other sizing configuration
   return InvalidateWidgetTreeWhenSizeChanges(
     child: FutureWidgetTester(
       duration: someDuration,
