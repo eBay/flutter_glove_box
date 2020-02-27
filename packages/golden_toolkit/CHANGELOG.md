@@ -2,7 +2,7 @@
 
 ## 0.2.2
 
-Added `deviceSetupBetweenSizeChanges` to multiscreenGolden to allow pumping customization when device configuration (ex: screen size) changes
+Added `deviceSetup` to multiscreenGolden to allow pumping customization when device configuration (ex: screen size) changes
 
 ## 0.2.1
 

@@ -14,10 +14,12 @@ import 'testing_tools.dart';
 Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
     tester.pumpAndSettle();
 
-Future<void> _twoPumps(WidgetTester tester) async {
+Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();
   await tester.pump();
 }
+
+typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list
 ///
@@ -31,8 +33,9 @@ Future<void> _twoPumps(WidgetTester tester) async {
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
-/// [deviceSetupBetweenSizeChanges] allows custom setup after the window changes size and before the images are rendered.
-/// Takes two pumps to modify the device size.
+/// [deviceSetup] allows custom setup after the window changes size.
+/// Takes two pumps to modify the device size. It could take more if the widget tree uses widgets that schedule builds for the next run loop
+/// e.g. StreamBuilder, FutureBuilder
 ///
 /// [devices] list of devices to run the tests
 ///
@@ -44,7 +47,7 @@ Future<void> multiScreenGolden(
   Finder finder,
   double overrideGoldenHeight,
   CustomPump customPump = _onlyPumpAndSettle,
-  CustomPump deviceSetupBetweenSizeChanges = _twoPumps,
+  DeviceSetup deviceSetup = _twoPumps,
   List<Device> devices = const [
     Device.phone,
     Device.tabletLandscape,
@@ -58,7 +61,7 @@ Future<void> multiScreenGolden(
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
-    await deviceSetupBetweenSizeChanges(tester);
+    await deviceSetup(device, tester);
     await screenMatchesGolden(
       tester,
       '$goldenFileName.${device.name}',

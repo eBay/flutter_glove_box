@@ -27,7 +27,9 @@ Future<void> main() async {
       );
     });
     group('Responsive layout when image changes depending on layout', () {
-      testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
+      testGoldens(
+          'Some images missing in multiScreenGoldens that require additional setup',
+          (tester) async {
         await tester.pumpWidgetBuilder(
             _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
@@ -36,13 +38,15 @@ Future<void> main() async {
           skip: !Platform.isMacOS,
         );
       });
-      testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
+      testGoldens(
+          'Should render images in multiScreenGoldens that require additional setup',
+          (tester) async {
         await tester.pumpWidgetBuilder(
             _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
           'weather_image_async_load_correct_duration',
-          deviceSetupBetweenSizeChanges: (tester) async {
+          deviceSetup: (tester) async {
             await tester.pump(someDuration);
             await tester.pump(someDuration);
           },
