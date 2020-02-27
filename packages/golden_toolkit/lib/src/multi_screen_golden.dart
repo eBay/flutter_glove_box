@@ -6,6 +6,7 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'device.dart';
 import 'testing_tools.dart';
@@ -57,7 +58,6 @@ Future<void> multiScreenGolden(
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
-
     await deviceSetupBetweenSizeChanges(tester);
     await screenMatchesGolden(
       tester,
