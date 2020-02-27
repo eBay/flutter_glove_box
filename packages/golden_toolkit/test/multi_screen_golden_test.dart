@@ -46,7 +46,7 @@ Future<void> main() async {
         await multiScreenGolden(
           tester,
           'weather_image_async_load_correct_duration',
-          deviceSetup: (tester) async {
+          deviceSetup: (device, tester) async {
             await tester.pump(someDuration);
             await tester.pump(someDuration);
           },
