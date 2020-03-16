@@ -2,7 +2,7 @@
 
 ## 0.2.3
 
-Removed Future return type from `testGoldens`.
+Breaking: Removed Future return type from `testGoldens`.
 
 ## 0.2.2
 
