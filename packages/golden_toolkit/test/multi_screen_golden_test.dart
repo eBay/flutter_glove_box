@@ -53,6 +53,25 @@ Future<void> main() async {
           skip: !Platform.isMacOS,
         );
       });
+
+      testGoldens('Safe Area test', (tester) async {
+        await tester.pumpWidgetBuilder(
+          Container(
+              color: Colors.white,
+              child: SafeArea(child: Container(color: Colors.blue))),
+        );
+        await multiScreenGolden(tester, 'safe_area', devices: [
+          const Device(
+            name: 'no_safe_area',
+            size: Size(200, 200),
+          ),
+          const Device(
+            name: 'safe_area',
+            size: Size(200, 200),
+            safeArea: EdgeInsets.fromLTRB(5, 10, 15, 20),
+          )
+        ]);
+      });
     });
   });
 }
