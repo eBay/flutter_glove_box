@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+Add support for configuring safe area (to simulate a device notch) and platform brightness (light/dark mode) on a multiScreenGolden device.
+
 ## 0.2.3
 
 Breaking: Removed Future return type from `testGoldens`.
