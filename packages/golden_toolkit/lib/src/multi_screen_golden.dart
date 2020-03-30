@@ -61,6 +61,13 @@ Future<void> multiScreenGolden(
     tester.binding.window.physicalSizeTestValue = device.size;
     tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     tester.binding.window.textScaleFactorTestValue = device.textScale;
+    tester.binding.window.paddingTestValue = _FakeWindowPadding(
+      bottom: device.safeArea.bottom,
+      left: device.safeArea.left,
+      right: device.safeArea.right,
+      top: device.safeArea.top,
+    );
+    tester.binding.window.platformBrightnessTestValue = device.brightness;
     await deviceSetup(device, tester);
     await screenMatchesGolden(
       tester,
@@ -70,4 +77,25 @@ Future<void> multiScreenGolden(
       finder: finder,
     );
   }
+}
+
+class _FakeWindowPadding implements WindowPadding {
+  const _FakeWindowPadding({
+    this.bottom = 0,
+    this.left = 0,
+    this.right = 0,
+    this.top = 0,
+  });
+
+  @override
+  final double bottom;
+
+  @override
+  final double left;
+
+  @override
+  final double right;
+
+  @override
+  final double top;
 }
