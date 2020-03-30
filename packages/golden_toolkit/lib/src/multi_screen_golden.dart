@@ -67,6 +67,7 @@ Future<void> multiScreenGolden(
       right: device.safeArea.right,
       top: device.safeArea.top,
     );
+    tester.binding.window.platformBrightnessTestValue = device.brightness;
     await deviceSetup(device, tester);
     await screenMatchesGolden(
       tester,

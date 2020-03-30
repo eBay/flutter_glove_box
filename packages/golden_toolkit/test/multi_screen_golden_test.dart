@@ -72,6 +72,32 @@ Future<void> main() async {
           )
         ]);
       });
+
+      testGoldens('Platform Brightness Test', (tester) async {
+        await tester.pumpWidgetBuilder(
+          Builder(
+            builder: (context) => Container(
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Colors.grey
+                      : Colors.white,
+              child: Text(MediaQuery.of(context).platformBrightness.toString()),
+            ),
+          ),
+        );
+        await multiScreenGolden(tester, 'brightness', devices: [
+          const Device(
+            name: 'light',
+            size: Size(200, 200),
+            brightness: Brightness.light,
+          ),
+          const Device(
+            name: 'dark',
+            size: Size(200, 200),
+            brightness: Brightness.dark,
+          )
+        ]);
+      });
     });
   });
 }
