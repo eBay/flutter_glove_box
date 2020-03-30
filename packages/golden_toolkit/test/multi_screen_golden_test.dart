@@ -60,17 +60,22 @@ Future<void> main() async {
               color: Colors.white,
               child: SafeArea(child: Container(color: Colors.blue))),
         );
-        await multiScreenGolden(tester, 'safe_area', devices: [
-          const Device(
-            name: 'no_safe_area',
-            size: Size(200, 200),
-          ),
-          const Device(
-            name: 'safe_area',
-            size: Size(200, 200),
-            safeArea: EdgeInsets.fromLTRB(5, 10, 15, 20),
-          )
-        ]);
+        await multiScreenGolden(
+          tester,
+          'safe_area',
+          devices: [
+            const Device(
+              name: 'no_safe_area',
+              size: Size(200, 200),
+            ),
+            const Device(
+              name: 'safe_area',
+              size: Size(200, 200),
+              safeArea: EdgeInsets.fromLTRB(5, 10, 15, 20),
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
       });
 
       testGoldens('Platform Brightness Test', (tester) async {
@@ -85,18 +90,23 @@ Future<void> main() async {
             ),
           ),
         );
-        await multiScreenGolden(tester, 'brightness', devices: [
-          const Device(
-            name: 'light',
-            size: Size(200, 200),
-            brightness: Brightness.light,
-          ),
-          const Device(
-            name: 'dark',
-            size: Size(200, 200),
-            brightness: Brightness.dark,
-          )
-        ]);
+        await multiScreenGolden(
+          tester,
+          'brightness',
+          devices: [
+            const Device(
+              name: 'light',
+              size: Size(200, 200),
+              brightness: Brightness.light,
+            ),
+            const Device(
+              name: 'dark',
+              size: Size(200, 200),
+              brightness: Brightness.dark,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
       });
     });
   });
