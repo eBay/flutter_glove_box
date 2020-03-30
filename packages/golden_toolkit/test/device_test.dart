@@ -8,6 +8,7 @@
 ///
 
 import 'dart:ui';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
@@ -20,6 +21,8 @@ void main() {
       expect(copied.name, equals(Device.phone.name));
       expect(copied.size, equals(Device.phone.size));
       expect(copied.textScale, equals(Device.phone.textScale));
+      expect(copied.brightness, equals(Device.phone.brightness));
+      expect(copied.safeArea, equals(Device.phone.safeArea));
     });
 
     test('copy with parameters', () {
@@ -28,11 +31,15 @@ void main() {
         devicePixelRatio: 2.0,
         name: 'foo',
         size: const Size(100, 100),
+        brightness: Brightness.dark,
+        safeArea: const EdgeInsets.symmetric(vertical: 16),
       );
       expect(copied.devicePixelRatio, equals(2.0));
       expect(copied.name, equals('foo'));
       expect(copied.size, equals(const Size(100, 100)));
       expect(copied.textScale, equals(3.0));
+      expect(copied.brightness, equals(Brightness.dark));
+      expect(copied.safeArea, equals(const EdgeInsets.symmetric(vertical: 16)));
     });
   });
 }
