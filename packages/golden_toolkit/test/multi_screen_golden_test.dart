@@ -118,16 +118,21 @@ Future<void> main() async {
         final initialViewInsets = tester.binding.window.padding;
 
         await tester.pumpWidgetBuilder(Container());
-        await multiScreenGolden(tester, 'empty', devices: [
-          const Device(
-            name: 'anything',
-            size: Size(50, 75),
-            brightness: Brightness.light,
-            safeArea: EdgeInsets.all(4),
-            devicePixelRatio: 2.0,
-            textScale: 1.5,
-          )
-        ]);
+        await multiScreenGolden(
+          tester,
+          'empty',
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(50, 75),
+              brightness: Brightness.light,
+              safeArea: EdgeInsets.all(4),
+              devicePixelRatio: 2.0,
+              textScale: 1.5,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
 
         expect(tester.binding.createViewConfiguration().size, equals(size));
         expect(tester.binding.window.physicalSize, equals(initialSize));
