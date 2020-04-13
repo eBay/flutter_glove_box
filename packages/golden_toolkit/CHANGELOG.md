@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+Resolve an issue where configuration performed on WidgetTester during multiScreenGolden could bleed over to other tests in the same file. Add additional convenience helpers for the Device class.
+
 ## 0.3.0
 
 Add support for configuring safe area (to simulate a device notch) and platform brightness (light/dark mode) on a multiScreenGolden device.

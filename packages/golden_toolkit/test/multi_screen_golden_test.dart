@@ -108,6 +108,42 @@ Future<void> main() async {
           skip: !Platform.isMacOS,
         );
       });
+
+      testGoldens('Should restore window binding settings', (tester) async {
+        final size = tester.binding.createViewConfiguration().size;
+        final initialSize = tester.binding.window.physicalSize;
+        final initialBrightness = tester.binding.window.platformBrightness;
+        final initialDevicePixelRatio = tester.binding.window.devicePixelRatio;
+        final initialTextScaleFactor = tester.binding.window.textScaleFactor;
+        final initialViewInsets = tester.binding.window.padding;
+
+        await tester.pumpWidgetBuilder(Container());
+        await multiScreenGolden(
+          tester,
+          'empty',
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(50, 75),
+              brightness: Brightness.light,
+              safeArea: EdgeInsets.all(4),
+              devicePixelRatio: 2.0,
+              textScale: 1.5,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
+
+        expect(tester.binding.createViewConfiguration().size, equals(size));
+        expect(tester.binding.window.physicalSize, equals(initialSize));
+        expect(tester.binding.window.platformBrightness,
+            equals(initialBrightness));
+        expect(tester.binding.window.devicePixelRatio,
+            equals(initialDevicePixelRatio));
+        expect(tester.binding.window.textScaleFactor,
+            equals(initialTextScaleFactor));
+        expect(tester.binding.window.padding, equals(initialViewInsets));
+      });
     });
   });
 }

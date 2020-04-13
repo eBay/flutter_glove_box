@@ -25,6 +25,14 @@ class Device {
   /// [phone] one of the smallest phone screens
   static const Device phone = Device(name: 'phone', size: Size(375, 667));
 
+  /// [iphone11] matches specs of iphone11, but with lower DPI for performance
+  static const Device iphone11 = Device(
+    name: 'iphone11',
+    size: Size(414, 896),
+    devicePixelRatio: 1.0,
+    safeArea: EdgeInsets.only(top: 44, bottom: 34),
+  );
+
   /// [tabletLandscape] example of tablet that in landscape mode
   static const Device tabletLandscape =
       Device(name: 'tablet_landscape', size: Size(1366, 1024));
@@ -68,6 +76,18 @@ class Device {
       textScale: textScale ?? this.textScale,
       brightness: brightness ?? this.brightness,
       safeArea: safeArea ?? this.safeArea,
+    );
+  }
+
+  /// [dark] convenience method to copy the current device and apply dark theme
+  Device dark() {
+    return Device(
+      size: size,
+      devicePixelRatio: devicePixelRatio,
+      textScale: textScale,
+      brightness: Brightness.dark,
+      safeArea: safeArea,
+      name: '$name\_dark',
     );
   }
 }
