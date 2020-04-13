@@ -69,7 +69,6 @@ Future<void> multiScreenGolden(
         );
       },
     );
-    await tester.pump();
   }
 }
 
