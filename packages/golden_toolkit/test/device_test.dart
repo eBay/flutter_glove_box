@@ -41,5 +41,15 @@ void main() {
       expect(copied.brightness, equals(Brightness.dark));
       expect(copied.safeArea, equals(const EdgeInsets.symmetric(vertical: 16)));
     });
+
+    test('dark() helper', () {
+      final dark = Device.iphone11.dark();
+      expect(dark.devicePixelRatio, equals(Device.iphone11.devicePixelRatio));
+      expect(dark.name, equals('iphone11_dark'));
+      expect(dark.size, equals(Device.iphone11.size));
+      expect(dark.textScale, equals(Device.iphone11.textScale));
+      expect(dark.brightness, equals(Brightness.dark));
+      expect(dark.safeArea, equals(Device.iphone11.safeArea));
+    });
   });
 }
