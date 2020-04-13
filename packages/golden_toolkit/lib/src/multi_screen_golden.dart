@@ -55,27 +55,51 @@ Future<void> multiScreenGolden(
   bool skip = false,
 }) async {
   for (final device in devices) {
-    final size =
-        Size(device.size.width, overrideGoldenHeight ?? device.size.height);
-    await tester.binding.setSurfaceSize(size);
-    tester.binding.window.physicalSizeTestValue = device.size;
-    tester.binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
-    tester.binding.window.textScaleFactorTestValue = device.textScale;
-    tester.binding.window.paddingTestValue = _FakeWindowPadding(
+    await tester._applyDeviceOverrides(
+      device,
+      overriddenHeight: overrideGoldenHeight,
+      operation: () async {
+        await deviceSetup(device, tester);
+        await screenMatchesGolden(
+          tester,
+          '$goldenFileName.${device.name}',
+          customPump: customPump,
+          skip: skip,
+          finder: finder,
+        );
+      },
+    );
+    await tester.pump();
+  }
+}
+
+extension on WidgetTester {
+  Future<void> _applyDeviceOverrides(
+    Device device, {
+    double overriddenHeight,
+    Future<void> Function() operation,
+  }) async {
+    await binding.setSurfaceSize(
+        Size(device.size.width, overriddenHeight ?? device.size.height));
+    binding.window.physicalSizeTestValue = device.size;
+    binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
+    binding.window.textScaleFactorTestValue = device.textScale;
+    binding.window.paddingTestValue = _FakeWindowPadding(
       bottom: device.safeArea.bottom,
       left: device.safeArea.left,
       right: device.safeArea.right,
       top: device.safeArea.top,
     );
-    tester.binding.window.platformBrightnessTestValue = device.brightness;
-    await deviceSetup(device, tester);
-    await screenMatchesGolden(
-      tester,
-      '$goldenFileName.${device.name}',
-      customPump: customPump,
-      skip: skip,
-      finder: finder,
-    );
+    binding.window.platformBrightnessTestValue = device.brightness;
+
+    await operation();
+
+    binding.window.clearDevicePixelRatioTestValue();
+    binding.window.clearPlatformBrightnessTestValue();
+    binding.window.clearPaddingTestValue();
+    binding.window.clearTextScaleFactorTestValue();
+    binding.window.clearPhysicalSizeTestValue();
+    await binding.setSurfaceSize(null);
   }
 }
 
