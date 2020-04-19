@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1+1
+
+Corrected the update command in `README.md`.
+
 ## 0.3.1
 
 Resolve an issue where configuration performed on WidgetTester during multiScreenGolden could bleed over to other tests in the same file. Add additional convenience helpers for the Device class.
