@@ -209,7 +209,7 @@ flutter test --update-goldens
 By default, this will execute all tests in the package. In a package with a large number of non-golden widget tests, we found this to be sub-optimal. We would much rather run ONLY the golden tests when regenerating. Initially, we arrived at a convention of ensuring that the test descriptions included the word 'Golden'
 
 ```sh
-flutter test --update-goldens -name=Golden
+flutter test --update-goldens --name=Golden
 ```
 
 However, there wasn't a way to enforce that developers named their tests appropriately, and this was error-prone.
