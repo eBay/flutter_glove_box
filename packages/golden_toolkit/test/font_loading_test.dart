@@ -27,7 +27,22 @@ Future<void> main() async {
             const Text('This is a custom font',
                 style: TextStyle(
                     fontFamily: 'OpenSans', package: 'sample_dependency')))
-        ..addScenario('Unknown fonts render in Ahem',
+        ..addScenario(
+            'Different Font weights are not well supported (w900)',
+            const Text('This should be weight 900',
+                style: TextStyle(
+                    fontFamily: 'Roboto', fontWeight: FontWeight.w900)))
+        ..addScenario(
+            'Different Font weights are not well supported (w100)',
+            const Text('This should be weight 100)',
+                style: TextStyle(
+                    fontFamily: 'Roboto', fontWeight: FontWeight.w100)))
+        ..addScenario(
+            'Italics are supported',
+            const Text('This should be italic',
+                style: TextStyle(
+                    fontFamily: 'Roboto', fontStyle: FontStyle.italic)))
+        ..addScenario('Unknown fonts render in Ahem (Foo.ttf)',
             const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
       await tester.pumpWidgetBuilder(golden.build());
       await screenMatchesGolden(tester, 'material_fonts',
