@@ -198,6 +198,16 @@ Future<void> main(FutureOr<void> testMain()) async {
 
 For more information on `flutter_test_config.dart`, see the [Flutter Docs](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html)
 
+#### Caveats
+
+Unfortunately, Flutter's font loading support for testing is fairly limited.
+
+At the moment, it is only possible to load a single .ttf file for a font family. This means it may not be possible to get the proper visuals to appear. For example, different font weights may not work:
+
+![Screenshot of 'Golden' showing font support and limitations](test/goldens/material_fonts.png)
+
+Additionally, in some instances, it is not possible to replace the "Ahem" font. There are specific places in the Flutter codebase, such as rendering the "debug banner" where no explicit font family is specified. In these instances, the engine will use Ahem in a test context, with no way to override the behavior.
+
 ### testGoldens()
 
 It is possible to use golden assertions in any testWidgets() test. As the UI for a widget evolves, it is common to need to regenerate goldens to capture your new reference images. The easiest way to do this is via the command-line:
