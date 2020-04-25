@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+Additional support for Cupertino fonts in Goldens.
+
 ## 0.3.1+1
 
 Corrected the update command in `README.md`.

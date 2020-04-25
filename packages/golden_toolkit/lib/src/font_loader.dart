@@ -72,4 +72,6 @@ const List<String> _overridableFonts = [
   'Roboto',
   '.SF UI Display',
   '.SF UI Text',
+  '.SF Pro Text',
+  '.SF Pro Display',
 ];
