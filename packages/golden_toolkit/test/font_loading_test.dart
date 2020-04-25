@@ -80,6 +80,16 @@ Future<void> main() async {
             _font('packages/foo/.SF UI Text', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF UI Text'),
       );
+      expect(
+        derivedFontFamily(
+            _font('packages/foo/.SF Pro Text', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF Pro Text'),
+      );
+      expect(
+        derivedFontFamily(_font(
+            'packages/foo/.SF Pro Display', ['packages/foo/fonts/sf.ttf'])),
+        equals('.SF Pro Display'),
+      );
     });
 
     test('leave packaged font families unaltered', () {
