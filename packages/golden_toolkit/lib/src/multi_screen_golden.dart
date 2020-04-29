@@ -11,9 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
-    tester.pumpAndSettle();
-
 Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();
   await tester.pump();
@@ -46,20 +43,23 @@ Future<void> multiScreenGolden(
   String goldenFileName, {
   Finder finder,
   double overrideGoldenHeight,
-  CustomPump customPump = _onlyPumpAndSettle,
-  DeviceSetup deviceSetup = _twoPumps,
+  CustomPump customPump,
+  DeviceSetup deviceSetup,
   List<Device> devices = const [
     Device.phone,
     Device.tabletLandscape,
   ],
   bool skip = false,
 }) async {
+  assert(devices != null);
+  assert(devices.isNotEmpty);
+  final deviceSetupPump = deviceSetup ?? _twoPumps;
   for (final device in devices) {
     await tester._applyDeviceOverrides(
       device,
       overriddenHeight: overrideGoldenHeight,
       operation: () async {
-        await deviceSetup(device, tester);
+        await deviceSetupPump(device, tester);
         await screenMatchesGolden(
           tester,
           '$goldenFileName.${device.name}',

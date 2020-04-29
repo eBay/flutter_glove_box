@@ -140,7 +140,7 @@ Future<void> screenMatchesGolden(
   WidgetTester tester,
   String goldenFileName, {
   Finder finder,
-  CustomPump customPump = _onlyPumpAndSettle,
+  CustomPump customPump,
   bool skip = false,
 }) async {
   assert(
@@ -151,12 +151,13 @@ Future<void> screenMatchesGolden(
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
+  final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
   await _primeImages(fileName, actualFinder);
-  await customPump(tester);
+  await pumpAfterPrime(tester);
 
   return expectLater(
     actualFinder,
