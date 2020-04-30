@@ -1,0 +1,25 @@
+name: apptentive_flutter
+description: A new flutter plugin project.
+version: 0.0.1
+author:
+
+environment:
+  flutter: 1.12.13+hotfix.5
+  sdk: 2.7.0
+
+dependencies:
+  debug:
+    path: ../debug
+  flutter:
+    sdk: flutter
+  motors_styleguide:
+    path: ../motors_styleguide
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: com.example.apptentive_flutter
+    pluginClass: ApptentiveFlutterPlugin

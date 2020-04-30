@@ -1,0 +1,60 @@
+group 'com.example.apptentive_flutter'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    def propFile = file('../../android_gradle.properties')
+    def Properties props = new Properties()
+    def kotlin_version
+    def gradle_version
+
+    if (propFile.canRead()){
+        props.load(new FileInputStream(propFile))
+        if (props!=null && props.containsKey('kotlin_version')) {
+            kotlin_version = props['kotlin_version']
+            ext.kotlin_version = props['kotlin_version']
+            gradle_version = props['gradle_version']
+        }
+    }
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 29
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    dependencies {
+      implementation 'com.apptentive:apptentive-android:5.4.0'  
+    }
+}
+
+dependencies {
+    api 'com.apptentive:apptentive-android:5.4.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}

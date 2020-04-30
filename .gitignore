@@ -9,3 +9,7 @@ build/
 ios/.generated/
 ios/Flutter/Generated.xcconfig
 ios/Runner/GeneratedPluginRegistrant.*
+
+packages/apptentive_flutter/example/ios/Flutter/flutter_export_environment.sh
+
+packages/apptentive_flutter/example/.flutter-plugins-dependencies

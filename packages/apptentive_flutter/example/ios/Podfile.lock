@@ -1,0 +1,29 @@
+PODS:
+  - apptentive-ios (5.2.6)
+  - apptentive_flutter (0.0.1):
+    - apptentive-ios
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - apptentive_flutter (from `.symlinks/plugins/apptentive_flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios`)
+
+SPEC REPOS:
+  trunk:
+    - apptentive-ios
+
+EXTERNAL SOURCES:
+  apptentive_flutter:
+    :path: ".symlinks/plugins/apptentive_flutter/ios"
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+
+SPEC CHECKSUMS:
+  apptentive-ios: 70093701d0d5aa9c56cd2a8cf03df28f7a45be40
+  apptentive_flutter: 0657763ddd4946b8103c6d8ea4d099b2b1dbb1f6
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: 90d585f23ddadd34422e6b56558087e1fc3502b4
+
+COCOAPODS: 1.9.1
