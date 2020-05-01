@@ -4,13 +4,6 @@ Demonstrates how to use the apptentive_flutter plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Set the apptentive key and apptentive signature with your test enviroment in [ios](ios/Runner/AppDelegate.m) and [android](android/app/src/main/kotlin/com/example/apptentive_flutter_example/YourApplication.kt).
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Update the example [main.dart](lib/main.dart) engage event to match an event that is setup in test enviroments apptentive dashboard.
