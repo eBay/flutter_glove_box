@@ -15,10 +15,9 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that platform version is retrieved.
     expect(
       find.byWidgetPredicate(
-        (Widget widget) => widget is Text && widget.data.startsWith('display apptentive'),
+        (Widget widget) => widget is Text && widget.data.startsWith('Trigger apptentive test event'),
       ),
       findsOneWidget,
     );

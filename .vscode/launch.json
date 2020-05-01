@@ -5,8 +5,8 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Dart",
-			"program": "bin/main.dart",
+			"name": "Apptentive",
+			"program": "packages/apptentive_flutter/example/lib/main.dart",
 			"request": "launch",
 			"type": "dart"
 		}
