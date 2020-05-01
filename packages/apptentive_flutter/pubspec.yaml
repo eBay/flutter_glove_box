@@ -1,19 +1,17 @@
 name: apptentive_flutter
-description: A new flutter plugin project.
+description: Plugin for using Apptentive with Flutter
 version: 0.0.1
-author:
+homepage: https://github.com/eBay/flutter_glove_box/
+repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/apptentive_flutter
+issue_tracker: https://github.com/eBay/flutter_glove_box/issues
 
 environment:
   flutter: 1.12.13+hotfix.5
   sdk: 2.7.0
 
 dependencies:
-  debug:
-    path: ../debug
   flutter:
     sdk: flutter
-  motors_styleguide:
-    path: ../motors_styleguide
 
 dev_dependencies:
   flutter_test:
