@@ -1,3 +1,4 @@
+//coverage:ignore
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/services.dart';
 class ApptentiveFlutter {
   static const MethodChannel _channel = MethodChannel('apptentive_flutter');
 
-  ///Basic event that calls an engage event
+  ///Basic engage that calls an [event]
   static Future<void> engage(String event) async {
     await _channel.invokeMethod<void>('engageEvent', event);
   }

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
             children: [
               ListTile(
                 title: const Text('Trigger apptentive test event'),
-                onTap: () => ApptentiveFlutter().event('test_app'),
+                onTap: () => ApptentiveFlutter.engage('test_app'),
               ),
             ],
           ),
