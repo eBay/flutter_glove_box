@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InvalidateWidgetTreeWhenSizeChanges extends StatelessWidget {
-  const InvalidateWidgetTreeWhenSizeChanges({Key key, this.child})
-      : super(key: key);
+  const InvalidateWidgetTreeWhenSizeChanges({Key key, this.child}) : super(key: key);
   final Widget child;
 
   @override
@@ -17,9 +16,7 @@ class InvalidateWidgetTreeWhenSizeChanges extends StatelessWidget {
 }
 
 class FutureWidgetTester extends StatefulWidget {
-  const FutureWidgetTester(
-      {Key key, this.child, this.duration = const Duration(milliseconds: 100)})
-      : super(key: key);
+  const FutureWidgetTester({Key key, this.child, this.duration = const Duration(milliseconds: 100)}) : super(key: key);
   final Widget child;
   final Duration duration;
   @override

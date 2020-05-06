@@ -6,8 +6,10 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'device.dart';
 import 'testing_tools.dart';
 
@@ -78,8 +80,7 @@ extension on WidgetTester {
     double overriddenHeight,
     Future<void> Function() operation,
   }) async {
-    await binding.setSurfaceSize(
-        Size(device.size.width, overriddenHeight ?? device.size.height));
+    await binding.setSurfaceSize(Size(device.size.width, overriddenHeight ?? device.size.height));
     binding.window.physicalSizeTestValue = device.size;
     binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     binding.window.textScaleFactorTestValue = device.textScale;
