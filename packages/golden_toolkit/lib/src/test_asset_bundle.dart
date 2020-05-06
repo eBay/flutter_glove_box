@@ -20,7 +20,7 @@ class TestAssetBundle extends CachingAssetBundle {
   @override
   Future<String> loadString(String key, {bool cache = true}) async {
     //overriding this method to avoid limit of 10KB per asset
-    final ByteData data = await load(key);
+    final data = await load(key);
     if (data == null) {
       throw FlutterError('Unable to load asset, data is null: $key');
     }
