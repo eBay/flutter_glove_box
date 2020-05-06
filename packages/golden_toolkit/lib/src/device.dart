@@ -35,10 +35,12 @@ class Device {
   );
 
   /// [tabletLandscape] example of tablet that in landscape mode
-  static const Device tabletLandscape = Device(name: 'tablet_landscape', size: Size(1366, 1024));
+  static const Device tabletLandscape =
+      Device(name: 'tablet_landscape', size: Size(1366, 1024));
 
   /// [tabletPortrait] example of tablet that in portrait mode
-  static const Device tabletPortrait = Device(name: 'tablet_portrait', size: Size(1024, 1366));
+  static const Device tabletPortrait =
+      Device(name: 'tablet_portrait', size: Size(1024, 1366));
 
   /// [name] specify device name. Ex: Phone, Tablet, Watch
 

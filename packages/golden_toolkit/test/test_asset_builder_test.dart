@@ -8,7 +8,8 @@ void main() {
     /* chasing code coverage... we're at 99% coverage, and this slightly forked code is the last 1% */
     test('Should throw if asset not found', () {
       final bundle = FakeTestAssetBundle();
-      expectLater(() => bundle.loadString('nothing'), throwsA(isInstanceOf<FlutterError>()));
+      expectLater(() => bundle.loadString('nothing'),
+          throwsA(isInstanceOf<FlutterError>()));
     });
   });
 }

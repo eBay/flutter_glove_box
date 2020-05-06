@@ -13,19 +13,25 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('testGoldens validation', () {
-    testWidgets('screenMatchesGolden should require testGoldens', (tester) async {
+    testWidgets('screenMatchesGolden should require testGoldens',
+        (tester) async {
       await tester.pumpWidgetBuilder(Container(height: 100, width: 100));
 
-      await expectLater(() => screenMatchesGolden(tester, 'anything'), throwsA(isInstanceOf<TestFailure>()));
+      await expectLater(() => screenMatchesGolden(tester, 'anything'),
+          throwsA(isInstanceOf<TestFailure>()));
     });
 
-    testGoldens('screenMatchesGolden filename should not include extension', (tester) async {
+    testGoldens('screenMatchesGolden filename should not include extension',
+        (tester) async {
       await tester.pumpWidget(Container(height: 100, width: 100));
 
-      await expectLater(() => screenMatchesGolden(tester, 'anything.png'), throwsAssertionError);
+      await expectLater(() => screenMatchesGolden(tester, 'anything.png'),
+          throwsAssertionError);
     });
 
-    testGoldens('Goldens for multiple sized devices should respect specified finder', (tester) async {
+    testGoldens(
+        'Goldens for multiple sized devices should respect specified finder',
+        (tester) async {
       // This is an example of how a larger widget tree can be pumped, but goldens can be created capturing just a certain child widget
       await tester.pumpWidgetBuilder(
         Container(
