@@ -3,5 +3,5 @@
 # subdirectory underneath packages/.
 name: flutter_glove_box
 dev_dependencies:
-  pedantic: ^1.8.0
+  pedantic: ^1.9.0
 publish_to: none
