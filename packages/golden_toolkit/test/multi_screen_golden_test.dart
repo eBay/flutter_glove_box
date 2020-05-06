@@ -7,9 +7,10 @@
 /// ***************************************************
 
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'helper_widgets.dart';
 import 'sample_weather_widget.dart';
@@ -27,22 +28,16 @@ Future<void> main() async {
       );
     });
     group('Responsive layout when image changes depending on layout', () {
-      testGoldens(
-          'Some images missing in multiScreenGoldens that require additional setup',
-          (tester) async {
-        await tester.pumpWidgetBuilder(
-            _forecastWithDifferentImagesForLargeAndSmallScreen());
+      testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
+        await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
           'example_of_images_not_properly_loading',
           skip: !Platform.isMacOS,
         );
       });
-      testGoldens(
-          'Should render images in multiScreenGoldens that require additional setup',
-          (tester) async {
-        await tester.pumpWidgetBuilder(
-            _forecastWithDifferentImagesForLargeAndSmallScreen());
+      testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
+        await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
           'weather_image_async_load_correct_duration',
@@ -56,9 +51,7 @@ Future<void> main() async {
 
       testGoldens('Safe Area test', (tester) async {
         await tester.pumpWidgetBuilder(
-          Container(
-              color: Colors.white,
-              child: SafeArea(child: Container(color: Colors.blue))),
+          Container(color: Colors.white, child: SafeArea(child: Container(color: Colors.blue))),
         );
         await multiScreenGolden(
           tester,
@@ -82,10 +75,7 @@ Future<void> main() async {
         await tester.pumpWidgetBuilder(
           Builder(
             builder: (context) => Container(
-              color:
-                  MediaQuery.of(context).platformBrightness == Brightness.dark
-                      ? Colors.grey
-                      : Colors.white,
+              color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.grey : Colors.white,
               child: Text(MediaQuery.of(context).platformBrightness.toString()),
             ),
           ),
@@ -136,12 +126,9 @@ Future<void> main() async {
 
         expect(tester.binding.createViewConfiguration().size, equals(size));
         expect(tester.binding.window.physicalSize, equals(initialSize));
-        expect(tester.binding.window.platformBrightness,
-            equals(initialBrightness));
-        expect(tester.binding.window.devicePixelRatio,
-            equals(initialDevicePixelRatio));
-        expect(tester.binding.window.textScaleFactor,
-            equals(initialTextScaleFactor));
+        expect(tester.binding.window.platformBrightness, equals(initialBrightness));
+        expect(tester.binding.window.devicePixelRatio, equals(initialDevicePixelRatio));
+        expect(tester.binding.window.textScaleFactor, equals(initialTextScaleFactor));
         expect(tester.binding.window.padding, equals(initialViewInsets));
       });
     });
