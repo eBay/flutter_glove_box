@@ -131,6 +131,10 @@ void testGoldens(
 ///
 /// [goldenFileName] is a file name output, must NOT include extension like .png
 ///
+/// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
+/// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
+/// shrink down the output height to match the render boxes height.
+///
 /// [finder] optional finder
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
