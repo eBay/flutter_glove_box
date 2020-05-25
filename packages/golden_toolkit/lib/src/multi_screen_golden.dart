@@ -44,6 +44,7 @@ Future<void> multiScreenGolden(
   WidgetTester tester,
   String goldenFileName, {
   Finder finder,
+  bool autoHeight,
   double overrideGoldenHeight,
   CustomPump customPump,
   DeviceSetup deviceSetup,
@@ -66,6 +67,7 @@ Future<void> multiScreenGolden(
           tester,
           '$goldenFileName.${device.name}',
           customPump: customPump,
+          autoHeight: autoHeight,
           skip: skip,
           finder: finder,
         );

@@ -139,6 +139,7 @@ void testGoldens(
 Future<void> screenMatchesGolden(
   WidgetTester tester,
   String goldenFileName, {
+  bool autoHeight,
   Finder finder,
   CustomPump customPump,
   bool skip = false,
@@ -159,11 +160,47 @@ Future<void> screenMatchesGolden(
   await _primeImages(fileName, actualFinder);
   await pumpAfterPrime(tester);
 
-  return expectLater(
+  final originalWindowSize = tester.binding.window.physicalSize;
+
+  if (autoHeight == true) {
+    // Find the first scrollable element which can be scrolled vertical.
+    // ListView, SingleChildScrollView, CustomScrollView? are implemented using a Scrollable widget.
+    final scrollable = find.byType(Scrollable).evaluate().map<ScrollableState>((Element element) {
+      if (element is StatefulElement && element.state is ScrollableState) {
+        return element.state;
+      }
+      return null;
+    }).firstWhere((ScrollableState state) {
+      final position = state.position;
+      return position.axisDirection == AxisDirection.down;
+    }, orElse: () => null);
+
+    final renderObject = tester.renderObject(actualFinder);
+
+    var finalHeight = originalWindowSize.height;
+    if (scrollable != null) {
+      finalHeight = originalWindowSize.height + scrollable.position.extentAfter;
+    } else if (renderObject is RenderBox) {
+      finalHeight = renderObject.size.height;
+    }
+
+    final adjustedSize = Size(originalWindowSize.width, finalHeight);
+    await tester.binding.setSurfaceSize(adjustedSize);
+    tester.binding.window.physicalSizeTestValue = adjustedSize;
+
+    await tester.pump();
+  }
+
+  await expectLater(
     actualFinder,
     matchesGoldenFile(fileName),
     skip: skip,
   );
+
+  if (autoHeight == true) { // Here we reset the window size to its original value to be clean
+    await tester.binding.setSurfaceSize(originalWindowSize);
+    tester.binding.window.physicalSizeTestValue = originalWindowSize;
+  }
 }
 
 // Matches Golden file is the easiest way for the images to be requested.
