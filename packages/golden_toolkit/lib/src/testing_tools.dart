@@ -22,6 +22,13 @@ typedef WidgetWrapper = Widget Function(Widget);
 ///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
 
+/// A file name factory is used to determine an actual file name/path from a given name.
+///
+/// See:
+/// * [screenMatchesGolden], which uses a [FileNameFactory] to determine the actual file path which is passed
+///   to [matchesGoldenFile].
+typedef FileNameFactory = String Function(String name);
+
 /// Extensions for a [WidgetTester]
 extension TestingToolsExtension on WidgetTester {
   /// Extension for a [WidgetTester] that pumps the widget and provides an optional [WidgetWrapper]
@@ -128,29 +135,41 @@ void testGoldens(
   });
 }
 
-/// This [screenMatchesGolden] is wrapper on top of [matchesGoldenFile]
+/// This is the default file name factory which is used by [screenMatchesGolden] to determine the
+/// actual file name for a golden test. The given [name] is the name passed into [screenMatchesGolden].
+String defaultFileNameFactory(String name) {
+  return 'goldens/$name.png';
+}
+
+/// A function that wraps [matchesGoldenFile] with some extra functionality. The function finds the first widget
+/// in the tree if [finder] is not specified. Furthermore a [fileNameFactory] can be used in combination with a [name]
+/// to specify a custom path and name for the golden file. In addition to that the function makes sure all images are
+/// available before
 ///
-/// [goldenFileName] is a file name output, must NOT include extension like .png
+/// [name] is the name of the golden test and must NOT include extension like .png. Use [fileNameFactory] to construct
+/// an actual file path from that name. By default goldens/$name.png is used for that
+///
+/// [finder] is an optional finder, which can be used to target a specific widget to use for the test. If not specified
+/// the first widget in the tree is used
 ///
 /// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
 /// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
 /// shrink down the output height to match the render boxes height.
-///
-/// [finder] optional finder
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
 /// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
 Future<void> screenMatchesGolden(
   WidgetTester tester,
-  String goldenFileName, {
+  String name, {
   bool autoHeight,
+  FileNameFactory fileNameFactory = defaultFileNameFactory,
   Finder finder,
   CustomPump customPump,
   bool skip,
 }) async {
   assert(
-    !goldenFileName.endsWith('.png'),
+    !name.endsWith('.png'),
     'Golden tests should not include file type',
   );
   if (!_inGoldenTest) {
@@ -164,7 +183,8 @@ Future<void> screenMatchesGolden(
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
-  final fileName = 'goldens/$goldenFileName.png';
+  final fileName = fileNameFactory(name);
+  await _primeImages(fileName, actualFinder);
 
   // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
   if (!shouldSkipGoldenGeneration) {
