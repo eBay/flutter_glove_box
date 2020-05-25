@@ -201,7 +201,8 @@ Future<void> screenMatchesGolden(
     skip: skip,
   );
 
-  if (autoHeight == true) { // Here we reset the window size to its original value to be clean
+  if (autoHeight == true) {
+    // Here we reset the window size to its original value to be clean
     await tester.binding.setSurfaceSize(originalWindowSize);
     tester.binding.window.physicalSizeTestValue = originalWindowSize;
   }
