@@ -178,7 +178,7 @@ Future<void> screenMatchesGolden(
     final renderObject = tester.renderObject(actualFinder);
 
     var finalHeight = originalWindowSize.height;
-    if (scrollable != null) {
+    if (scrollable != null && scrollable.position.extentAfter.isFinite) {
       finalHeight = originalWindowSize.height + scrollable.position.extentAfter;
     } else if (renderObject is RenderBox) {
       finalHeight = renderObject.size.height;
