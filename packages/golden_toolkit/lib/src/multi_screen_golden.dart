@@ -21,7 +21,7 @@ Future<void> _twoPumps(Device device, WidgetTester tester) async {
 typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
 /// A device file name factory is used to create a file name/path from a name and a device.
-/// 
+///
 /// See:
 /// * [multiScreenGolden], which uses such a factory to determine the file name passed to [matchesGoldenFile].
 typedef DeviceFileNameFactory = String Function(String name, Device device);
