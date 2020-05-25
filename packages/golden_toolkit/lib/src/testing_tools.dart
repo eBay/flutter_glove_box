@@ -166,10 +166,7 @@ Future<void> screenMatchesGolden(
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
 
-  // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
-  if (!shouldSkipGoldenGeneration) {
-    await _primeImages(fileName, actualFinder);
-  }
+  await waitForAllImages(tester);
   await pumpAfterPrime(tester);
 
   final originalWindowSize = tester.binding.window.physicalSize;
@@ -216,7 +213,17 @@ Future<void> screenMatchesGolden(
   }
 }
 
-// Matches Golden file is the easiest way for the images to be requested.
-Future<void> _primeImages(String fileName, Finder finder) => matchesGoldenFile(fileName).matchAsync(finder);
+/// Waits for all [Image] widgets found using [find].
+Future<void> waitForAllImages(WidgetTester tester) async {
+  final imageElements = find.byType(Image).evaluate();
+  await tester.runAsync(() async {
+    for (final imageElement in imageElements) {
+      final widget = imageElement.widget;
+      if (widget is Image) {
+        await precacheImage(widget.image, imageElement);
+      }
+    }
+  });
+}
 
 Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
