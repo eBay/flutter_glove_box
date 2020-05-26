@@ -43,4 +43,4 @@ class GoldenToolkitConfiguration {
   final SkipGoldenAssertion skipGoldenAssertion;
 }
 
-bool _doNotSkip() => true;
+bool _doNotSkip() => false;
