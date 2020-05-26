@@ -166,6 +166,8 @@ Future<void> screenMatchesGolden(
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
+
+  // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
   if (!shouldSkipGoldenGeneration) {
     await _primeImages(fileName, actualFinder);
   }
