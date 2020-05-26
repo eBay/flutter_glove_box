@@ -7,8 +7,6 @@
 /// ***************************************************
 ///
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -18,32 +16,22 @@ Future<void> main() async {
   group('Font loading integration test', () {
     testGoldens('Roboto fonts should work', (tester) async {
       final golden = GoldenBuilder.column()
-        ..addScenario('Material Fonts should work',
-            const Text('This is material text in "Roboto"'))
-        ..addScenario(
-            'Material Icons should work', const Icon(Icons.phone_in_talk))
-        ..addScenario(
-            'Fonts from packages should work',
-            const Text('This is a custom font',
-                style: TextStyle(
-                    fontFamily: 'OpenSans', package: 'sample_dependency')))
+        ..addScenario('Material Fonts should work', const Text('This is material text in "Roboto"'))
+        ..addScenario('Material Icons should work', const Icon(Icons.phone_in_talk))
+        ..addScenario('Fonts from packages should work',
+            const Text('This is a custom font', style: TextStyle(fontFamily: 'OpenSans', package: 'sample_dependency')))
         ..addScenario(
             'Different Font weights are not well supported (w900)',
             const Text('This should be weight 900',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontWeight: FontWeight.w900)))
+                style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w900)))
         ..addScenario(
             'Different Font weights are not well supported (w100)',
             const Text('This should be weight 100)',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontWeight: FontWeight.w100)))
+                style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w100)))
+        ..addScenario('Italics are supported',
+            const Text('This should be italic', style: TextStyle(fontFamily: 'Roboto', fontStyle: FontStyle.italic)))
         ..addScenario(
-            'Italics are supported',
-            const Text('This should be italic',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontStyle: FontStyle.italic)))
-        ..addScenario('Unknown fonts render in Ahem (Foo.ttf)',
-            const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
+            'Unknown fonts render in Ahem (Foo.ttf)', const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
       await tester.pumpWidgetBuilder(golden.build());
       await screenMatchesGolden(tester, 'material_fonts');
     });
@@ -56,18 +44,15 @@ Future<void> main() async {
         equals('Roboto'),
       );
       expect(
-        derivedFontFamily(
-            _font('packages/foo/Roboto', ['packages/foo/fonts/roboto.ttf'])),
+        derivedFontFamily(_font('packages/foo/Roboto', ['packages/foo/fonts/roboto.ttf'])),
         equals('Roboto'),
       );
       expect(
-        derivedFontFamily(
-            _font('.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
+        derivedFontFamily(_font('.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF UI Display'),
       );
       expect(
-        derivedFontFamily(_font(
-            'packages/foo/.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
+        derivedFontFamily(_font('packages/foo/.SF UI Display', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF UI Display'),
       );
       expect(
@@ -75,26 +60,22 @@ Future<void> main() async {
         equals('.SF UI Text'),
       );
       expect(
-        derivedFontFamily(
-            _font('packages/foo/.SF UI Text', ['packages/foo/fonts/sf.ttf'])),
+        derivedFontFamily(_font('packages/foo/.SF UI Text', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF UI Text'),
       );
       expect(
-        derivedFontFamily(
-            _font('packages/foo/.SF Pro Text', ['packages/foo/fonts/sf.ttf'])),
+        derivedFontFamily(_font('packages/foo/.SF Pro Text', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF Pro Text'),
       );
       expect(
-        derivedFontFamily(_font(
-            'packages/foo/.SF Pro Display', ['packages/foo/fonts/sf.ttf'])),
+        derivedFontFamily(_font('packages/foo/.SF Pro Display', ['packages/foo/fonts/sf.ttf'])),
         equals('.SF Pro Display'),
       );
     });
 
     test('leave packaged font families unaltered', () {
       expect(
-        derivedFontFamily(
-            _font('packages/foo/bar', ['packages/foo/fonts/bar.ttf'])),
+        derivedFontFamily(_font('packages/foo/bar', ['packages/foo/fonts/bar.ttf'])),
         equals('packages/foo/bar'),
       );
     });

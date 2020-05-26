@@ -6,8 +6,6 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -106,12 +104,9 @@ Future<void> main() async {
         bgColor: Colors.white,
         widthToHeightRatio: 1,
       )
-        ..addScenario(
-            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario(
-            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario(
-            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
         ..addScenario(
           'Cold',
           const WeatherCard(temp: 25, weather: Weather.cold),
@@ -124,20 +119,15 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'weather_types_grid');
     });
 
-    testGoldens('COLUMN: Different weather types with extra frame',
-        (tester) async {
+    testGoldens('COLUMN: Different weather types with extra frame', (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
         wrap: _simpleFrame,
       )
-        ..addScenario(
-            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario(
-            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario(
-            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario(
-            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -149,15 +139,13 @@ Future<void> main() async {
 
   group('GoldenBuilder examples of accessibility testing', () {
     // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens('Card should look right when user bumps system font size',
-        (tester) async {
+    testGoldens('Card should look right when user bumps system font size', (tester) async {
       const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
       final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
         ..addScenario('Regular font size', widget)
         ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-        ..addTextScaleScenario('Largest font size', widget,
-            textScaleFactor: 3.2);
+        ..addTextScaleScenario('Largest font size', widget, textScaleFactor: 3.2);
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -169,19 +157,13 @@ Future<void> main() async {
 
   group('GoldenBuilder - combination of different features ', () {
     // Example of a single test verifies that all widget states look right on different devices with different font sizes
-    testGoldens('Card should look rigth on different devices / screen sizes',
-        (tester) async {
+    testGoldens('Card should look rigth on different devices / screen sizes', (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addScenario(
-            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario(
-            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario(
-            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario(
-            'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTextScaleScenario(
-            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
+        ..addTextScaleScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
