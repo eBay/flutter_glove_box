@@ -26,6 +26,10 @@ typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 ///
 /// [goldenFileName] is a file name output, must NOT include extension like .png
 ///
+/// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
+/// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
+/// shrink down the output height to match the render boxes height.
+///
 /// [finder] optional finder, defaults to [WidgetsApp]
 ///
 /// [overrideGoldenHeight] might be required to override output file height in case if it should be bigger than device height
@@ -44,6 +48,7 @@ Future<void> multiScreenGolden(
   WidgetTester tester,
   String goldenFileName, {
   Finder finder,
+  bool autoHeight,
   double overrideGoldenHeight,
   CustomPump customPump,
   DeviceSetup deviceSetup,
@@ -66,6 +71,7 @@ Future<void> multiScreenGolden(
           tester,
           '$goldenFileName.${device.name}',
           customPump: customPump,
+          autoHeight: autoHeight,
           skip: skip,
           finder: finder,
         );

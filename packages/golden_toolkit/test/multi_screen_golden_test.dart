@@ -131,6 +131,78 @@ Future<void> main() async {
         expect(tester.binding.window.textScaleFactor, equals(initialTextScaleFactor));
         expect(tester.binding.window.padding, equals(initialViewInsets));
       });
+
+      testGoldens('Should expand scrollable if autoHeight is true', (tester) async {
+        await tester.pumpWidgetBuilder(ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              color: Colors.black.withRed(255 - index * 5),
+              height: 50,
+            );
+          },
+          itemCount: 40,
+        ));
+
+        await multiScreenGolden(
+          tester,
+          'auto_height_list_view',
+          autoHeight: true,
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(100, 200),
+              brightness: Brightness.light,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
+      });
+
+      testGoldens('Should expand scrollable only if not infinite', (tester) async {
+        await tester.pumpWidgetBuilder(ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              color: Colors.black.withRed(255 - index * 5),
+              height: 50,
+            );
+          },
+        ));
+
+        await multiScreenGolden(
+          tester,
+          'auto_height_infinite_list_view',
+          autoHeight: true,
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(100, 200),
+              brightness: Brightness.light,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
+      });
+
+      testGoldens('Should shrink to finders height if autoHeight is true', (tester) async {
+        await tester.pumpWidget(Center( // We center here so the Container is not forced to go full height
+          child: Container(color: Colors.red, height: 50),
+        ));
+
+        await multiScreenGolden(
+          tester,
+          'auto_height_shrink',
+          autoHeight: true,
+          finder: find.byType(ColoredBox),
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(100, 200),
+              brightness: Brightness.light,
+            )
+          ],
+          skip: !Platform.isMacOS,
+        );
+      });
     });
   });
 }
