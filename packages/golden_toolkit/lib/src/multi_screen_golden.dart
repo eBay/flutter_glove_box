@@ -58,8 +58,7 @@ Future<void> multiScreenGolden(
   ],
   bool skip,
 }) async {
-  assert(devices != null);
-  assert(devices.isNotEmpty);
+  assert(devices?.isNotEmpty ?? false);
   final deviceSetupPump = deviceSetup ?? _twoPumps;
   for (final device in devices) {
     await tester._applyDeviceOverrides(
