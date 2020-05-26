@@ -15,8 +15,7 @@ import 'package:meta/meta.dart';
 class GoldenToolkit {
   GoldenToolkit._();
 
-  static GoldenToolkitConfiguration _configuration =
-      const GoldenToolkitConfiguration();
+  static GoldenToolkitConfiguration _configuration = const GoldenToolkitConfiguration();
 
   /// the current global configuration for the GoldenToolkit
   static GoldenToolkitConfiguration get configuration => _configuration;

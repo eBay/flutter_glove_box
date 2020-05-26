@@ -86,8 +86,7 @@ extension on WidgetTester {
     double overriddenHeight,
     Future<void> Function() operation,
   }) async {
-    await binding.setSurfaceSize(
-        Size(device.size.width, overriddenHeight ?? device.size.height));
+    await binding.setSurfaceSize(Size(device.size.width, overriddenHeight ?? device.size.height));
     binding.window.physicalSizeTestValue = device.size;
     binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     binding.window.textScaleFactorTestValue = device.textScale;

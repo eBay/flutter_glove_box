@@ -158,8 +158,7 @@ Future<void> screenMatchesGolden(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
 
-  final shouldSkipGoldenGeneration =
-      skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
+  final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
 
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
@@ -178,10 +177,7 @@ Future<void> screenMatchesGolden(
   if (autoHeight == true) {
     // Find the first scrollable element which can be scrolled vertical.
     // ListView, SingleChildScrollView, CustomScrollView? are implemented using a Scrollable widget.
-    final scrollable = find
-        .byType(Scrollable)
-        .evaluate()
-        .map<ScrollableState>((Element element) {
+    final scrollable = find.byType(Scrollable).evaluate().map<ScrollableState>((Element element) {
       if (element is StatefulElement && element.state is ScrollableState) {
         return element.state;
       }
@@ -221,8 +217,6 @@ Future<void> screenMatchesGolden(
 }
 
 // Matches Golden file is the easiest way for the images to be requested.
-Future<void> _primeImages(String fileName, Finder finder) =>
-    matchesGoldenFile(fileName).matchAsync(finder);
+Future<void> _primeImages(String fileName, Finder finder) => matchesGoldenFile(fileName).matchAsync(finder);
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
-    tester.pumpAndSettle();
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
