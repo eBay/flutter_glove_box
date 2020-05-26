@@ -56,7 +56,7 @@ Future<void> multiScreenGolden(
     Device.phone,
     Device.tabletLandscape,
   ],
-  bool skip = false,
+  bool skip,
 }) async {
   assert(devices != null);
   assert(devices.isNotEmpty);
@@ -86,7 +86,8 @@ extension on WidgetTester {
     double overriddenHeight,
     Future<void> Function() operation,
   }) async {
-    await binding.setSurfaceSize(Size(device.size.width, overriddenHeight ?? device.size.height));
+    await binding.setSurfaceSize(
+        Size(device.size.width, overriddenHeight ?? device.size.height));
     binding.window.physicalSizeTestValue = device.size;
     binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
     binding.window.textScaleFactorTestValue = device.textScale;
