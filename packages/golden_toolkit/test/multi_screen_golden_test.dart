@@ -21,23 +21,24 @@ Future<void> main() async {
   group('Multi Screen Golden examples', () {
     testGoldens('Example of testing a responsive layout', (tester) async {
       await tester.pumpWidgetBuilder(const WeatherForecast());
-      await multiScreenGolden(
-        tester,
-        'weather_forecast',
-        skip: !Platform.isMacOS,
-      );
+      await multiScreenGolden(tester, 'weather_forecast');
     });
     group('Responsive layout when image changes depending on layout', () {
-      testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
-        await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
+      testGoldens(
+          'Some images missing in multiScreenGoldens that require additional setup',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+            _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
           'example_of_images_not_properly_loading',
-          skip: !Platform.isMacOS,
         );
       });
-      testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
-        await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
+      testGoldens(
+          'Should render images in multiScreenGoldens that require additional setup',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+            _forecastWithDifferentImagesForLargeAndSmallScreen());
         await multiScreenGolden(
           tester,
           'weather_image_async_load_correct_duration',
@@ -45,13 +46,14 @@ Future<void> main() async {
             await tester.pump(someDuration);
             await tester.pump(someDuration);
           },
-          skip: !Platform.isMacOS,
         );
       });
 
       testGoldens('Safe Area test', (tester) async {
         await tester.pumpWidgetBuilder(
-          Container(color: Colors.white, child: SafeArea(child: Container(color: Colors.blue))),
+          Container(
+              color: Colors.white,
+              child: SafeArea(child: Container(color: Colors.blue))),
         );
         await multiScreenGolden(
           tester,
@@ -67,7 +69,6 @@ Future<void> main() async {
               safeArea: EdgeInsets.fromLTRB(5, 10, 15, 20),
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -75,7 +76,10 @@ Future<void> main() async {
         await tester.pumpWidgetBuilder(
           Builder(
             builder: (context) => Container(
-              color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.grey : Colors.white,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Colors.grey
+                      : Colors.white,
               child: Text(MediaQuery.of(context).platformBrightness.toString()),
             ),
           ),
@@ -95,7 +99,6 @@ Future<void> main() async {
               brightness: Brightness.dark,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -121,18 +124,21 @@ Future<void> main() async {
               textScale: 1.5,
             )
           ],
-          skip: !Platform.isMacOS,
         );
 
         expect(tester.binding.createViewConfiguration().size, equals(size));
         expect(tester.binding.window.physicalSize, equals(initialSize));
-        expect(tester.binding.window.platformBrightness, equals(initialBrightness));
-        expect(tester.binding.window.devicePixelRatio, equals(initialDevicePixelRatio));
-        expect(tester.binding.window.textScaleFactor, equals(initialTextScaleFactor));
+        expect(tester.binding.window.platformBrightness,
+            equals(initialBrightness));
+        expect(tester.binding.window.devicePixelRatio,
+            equals(initialDevicePixelRatio));
+        expect(tester.binding.window.textScaleFactor,
+            equals(initialTextScaleFactor));
         expect(tester.binding.window.padding, equals(initialViewInsets));
       });
 
-      testGoldens('Should expand scrollable if autoHeight is true', (tester) async {
+      testGoldens('Should expand scrollable if autoHeight is true',
+          (tester) async {
         await tester.pumpWidgetBuilder(ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -154,11 +160,11 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
-      testGoldens('Should expand scrollable only if not infinite', (tester) async {
+      testGoldens('Should expand scrollable only if not infinite',
+          (tester) async {
         await tester.pumpWidgetBuilder(ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -179,12 +185,13 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
-      testGoldens('Should shrink to finders height if autoHeight is true', (tester) async {
-        await tester.pumpWidget(Center( // We center here so the Container is not forced to go full height
+      testGoldens('Should shrink to finders height if autoHeight is true',
+          (tester) async {
+        await tester.pumpWidget(Center(
+          // We center here so the Container is not forced to go full height
           child: Container(color: Colors.red, height: 50),
         ));
 
@@ -200,7 +207,6 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
     });

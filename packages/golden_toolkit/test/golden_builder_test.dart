@@ -29,12 +29,7 @@ Future<void> main() async {
 
       await tester.pumpWidget(squareContainer);
 
-      await screenMatchesGolden(
-        tester,
-        'square_container',
-        // https://github.com/eBay/flutter_glove_box/issues/5
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'square_container');
     });
 
     testGoldens('Pump widgetBuilder with noWrap', (tester) async {
@@ -46,12 +41,7 @@ Future<void> main() async {
         wrapper: noWrap(),
       );
 
-      await screenMatchesGolden(
-        tester,
-        'square_container',
-        // https://github.com/eBay/flutter_glove_box/issues/5
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'square_container');
     });
 
     testGoldens('Material widget with text', (tester) async {
@@ -77,11 +67,7 @@ Future<void> main() async {
         surfaceSize: const Size(200, 200),
       );
 
-      await screenMatchesGolden(
-        tester,
-        'text_container',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'text_container');
     });
 
     testGoldens('Single weather card', (tester) async {
@@ -89,11 +75,7 @@ Future<void> main() async {
         const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
         surfaceSize: const Size(200, 200),
       );
-      await screenMatchesGolden(
-        tester,
-        'single_weather_card',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'single_weather_card');
     });
 
     testGoldens('Animation test with CustomPump', (tester) async {
@@ -107,14 +89,12 @@ Future<void> main() async {
         tester,
         'progress_animation_start',
         customPump: (tester) => tester.pump(const Duration(milliseconds: 100)),
-        skip: !Platform.isMacOS,
       );
 
       await screenMatchesGolden(
         tester,
         'progress_animation_middle',
         customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
-        skip: !Platform.isMacOS,
       );
     });
   });
@@ -126,9 +106,12 @@ Future<void> main() async {
         bgColor: Colors.white,
         widthToHeightRatio: 1,
       )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
         ..addScenario(
           'Cold',
           const WeatherCard(temp: 25, weather: Weather.cold),
@@ -138,58 +121,67 @@ Future<void> main() async {
         gb.build(),
         surfaceSize: const Size(500, 500),
       );
-      await screenMatchesGolden(tester, 'weather_types_grid', skip: !Platform.isMacOS);
+      await screenMatchesGolden(tester, 'weather_types_grid');
     });
 
-    testGoldens('COLUMN: Different weather types with extra frame', (tester) async {
+    testGoldens('COLUMN: Different weather types with extra frame',
+        (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
         wrap: _simpleFrame,
       )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
         surfaceSize: const Size(120, 900),
       );
-      await screenMatchesGolden(tester, 'weather_types_column', skip: !Platform.isMacOS);
+      await screenMatchesGolden(tester, 'weather_types_column');
     });
   });
 
   group('GoldenBuilder examples of accessibility testing', () {
     // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens('Card should look right when user bumps system font size', (tester) async {
+    testGoldens('Card should look right when user bumps system font size',
+        (tester) async {
       const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
       final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
         ..addScenario('Regular font size', widget)
         ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-        ..addTextScaleScenario('Largest font size', widget, textScaleFactor: 3.2);
+        ..addTextScaleScenario('Largest font size', widget,
+            textScaleFactor: 3.2);
 
       await tester.pumpWidgetBuilder(
         gb.build(),
         surfaceSize: const Size(200, 1000),
       );
-      await screenMatchesGolden(
-        tester,
-        'weather_accessibility',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'weather_accessibility');
     });
   });
 
   group('GoldenBuilder - combination of different features ', () {
     // Example of a single test verifies that all widget states look right on different devices with different font sizes
-    testGoldens('Card should look rigth on different devices / screen sizes', (tester) async {
+    testGoldens('Card should look rigth on different devices / screen sizes',
+        (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTextScaleScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
+        ..addTextScaleScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -201,7 +193,6 @@ Future<void> main() async {
         'all_sized_all_fonts',
         devices: [Device.phone, Device.tabletLandscape],
         overrideGoldenHeight: 1200,
-        skip: !Platform.isMacOS,
       );
     });
   });
@@ -216,11 +207,7 @@ Future<void> main() async {
         ),
         surfaceSize: const Size(80, 40),
       );
-      await screenMatchesGolden(
-        tester,
-        'back_button_android',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'back_button_android');
     });
 
     testGoldens('BackButtonIcon should look rigth on iOS', (tester) async {
@@ -232,11 +219,7 @@ Future<void> main() async {
           theme: ThemeData.light(),
         ),
       );
-      await screenMatchesGolden(
-        tester,
-        'back_button_ios',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'back_button_ios');
     });
   });
 }
