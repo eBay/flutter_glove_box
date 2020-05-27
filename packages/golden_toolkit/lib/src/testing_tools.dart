@@ -22,13 +22,6 @@ typedef WidgetWrapper = Widget Function(Widget);
 ///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
 
-/// A file name factory is used to determine an actual file name/path from a given name.
-///
-/// See:
-/// * [screenMatchesGolden], which uses a [FileNameFactory] to determine the actual file path which is passed
-///   to [matchesGoldenFile].
-typedef FileNameFactory = String Function(String name);
-
 /// Extensions for a [WidgetTester]
 extension TestingToolsExtension on WidgetTester {
   /// Extension for a [WidgetTester] that pumps the widget and provides an optional [WidgetWrapper]
@@ -135,19 +128,15 @@ void testGoldens(
   });
 }
 
-/// This is the default file name factory which is used by [screenMatchesGolden] to determine the
-/// actual file name for a golden test. The given [name] is the name passed into [screenMatchesGolden].
-String defaultFileNameFactory(String name) {
-  return 'goldens/$name.png';
-}
-
 /// A function that wraps [matchesGoldenFile] with some extra functionality. The function finds the first widget
 /// in the tree if [finder] is not specified. Furthermore a [fileNameFactory] can be used in combination with a [name]
 /// to specify a custom path and name for the golden file. In addition to that the function makes sure all images are
 /// available before
 ///
 /// [name] is the name of the golden test and must NOT include extension like .png. Use [fileNameFactory] to construct
-/// an actual file path from that name. By default goldens/$name.png is used for that
+/// an actual file path from that name. If not [fileNameFactory] is specified the [GoldenToolkitConfiguration]'s one is
+/// used, which defaults to `goldens/$name.png`.
+///
 ///
 /// [finder] is an optional finder, which can be used to target a specific widget to use for the test. If not specified
 /// the first widget in the tree is used
@@ -163,7 +152,7 @@ Future<void> screenMatchesGolden(
   WidgetTester tester,
   String name, {
   bool autoHeight,
-  FileNameFactory fileNameFactory = defaultFileNameFactory,
+  FileNameFactory fileNameFactory,
   Finder finder,
   CustomPump customPump,
   bool skip,
@@ -178,12 +167,13 @@ Future<void> screenMatchesGolden(
   }
 
   final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
+  final effectiveFileNameFactory = fileNameFactory ?? GoldenToolkit.configuration.fileNameFactory;
 
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
-  final fileName = fileNameFactory(name);
+  final fileName = effectiveFileNameFactory(name);
   await _primeImages(fileName, actualFinder);
 
   // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.

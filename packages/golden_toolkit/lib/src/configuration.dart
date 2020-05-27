@@ -1,3 +1,4 @@
+import 'package:flutter_test/flutter_test.dart';
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -8,6 +9,14 @@
 ///
 
 import 'package:meta/meta.dart';
+
+/// A factory to determine an actual file name/path from a given name.
+///
+/// See alo:
+/// * [screenMatchesGolden], which uses a [FileNameFactory] to determine the actual file path which is passed
+///   to [matchesGoldenFile].
+/// * [GoldenToolkitConfiguration] to configure a global file name factory.
+typedef FileNameFactory = String Function(String name);
 
 /// Manages global state & behavior for the Golden Toolkit
 /// This is a singleton so that it can be easily configured in one place
@@ -37,10 +46,23 @@ class GoldenToolkitConfiguration {
   /// A typical example may be to skip when the assertion is invoked on certain platforms. For example: () => !Platform.isMacOS
   const GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
+    this.fileNameFactory = defaultFileNameFactory,
   });
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
+
+  /// A function to determine the file name/path [screenMatchesGolden] uses to call [matchesGoldenFile].
+  ///
+  /// See:
+  /// * [FileNameFactory] documentation for example implementations.
+  final FileNameFactory fileNameFactory;
 }
 
 bool _doNotSkip() => false;
+
+/// This is the default file name factory which is used by [screenMatchesGolden] to determine the
+/// actual file name for a golden test. The given [name] is the name passed into [screenMatchesGolden].
+String defaultFileNameFactory(String name) {
+  return 'goldens/$name.png';
+}
