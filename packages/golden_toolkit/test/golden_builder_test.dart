@@ -6,8 +6,6 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,12 +27,7 @@ Future<void> main() async {
 
       await tester.pumpWidget(squareContainer);
 
-      await screenMatchesGolden(
-        tester,
-        'square_container',
-        // https://github.com/eBay/flutter_glove_box/issues/5
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'square_container');
     });
 
     testGoldens('Pump widgetBuilder with noWrap', (tester) async {
@@ -46,12 +39,7 @@ Future<void> main() async {
         wrapper: noWrap(),
       );
 
-      await screenMatchesGolden(
-        tester,
-        'square_container',
-        // https://github.com/eBay/flutter_glove_box/issues/5
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'square_container');
     });
 
     testGoldens('Material widget with text', (tester) async {
@@ -77,11 +65,7 @@ Future<void> main() async {
         surfaceSize: const Size(200, 200),
       );
 
-      await screenMatchesGolden(
-        tester,
-        'text_container',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'text_container');
     });
 
     testGoldens('Single weather card', (tester) async {
@@ -89,11 +73,7 @@ Future<void> main() async {
         const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
         surfaceSize: const Size(200, 200),
       );
-      await screenMatchesGolden(
-        tester,
-        'single_weather_card',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'single_weather_card');
     });
 
     testGoldens('Animation test with CustomPump', (tester) async {
@@ -107,14 +87,12 @@ Future<void> main() async {
         tester,
         'progress_animation_start',
         customPump: (tester) => tester.pump(const Duration(milliseconds: 100)),
-        skip: !Platform.isMacOS,
       );
 
       await screenMatchesGolden(
         tester,
         'progress_animation_middle',
         customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
-        skip: !Platform.isMacOS,
       );
     });
   });
@@ -138,7 +116,7 @@ Future<void> main() async {
         gb.build(),
         surfaceSize: const Size(500, 500),
       );
-      await screenMatchesGolden(tester, 'weather_types_grid', skip: !Platform.isMacOS);
+      await screenMatchesGolden(tester, 'weather_types_grid');
     });
 
     testGoldens('COLUMN: Different weather types with extra frame', (tester) async {
@@ -155,7 +133,7 @@ Future<void> main() async {
         gb.build(),
         surfaceSize: const Size(120, 900),
       );
-      await screenMatchesGolden(tester, 'weather_types_column', skip: !Platform.isMacOS);
+      await screenMatchesGolden(tester, 'weather_types_column');
     });
   });
 
@@ -173,11 +151,7 @@ Future<void> main() async {
         gb.build(),
         surfaceSize: const Size(200, 1000),
       );
-      await screenMatchesGolden(
-        tester,
-        'weather_accessibility',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'weather_accessibility');
     });
   });
 
@@ -201,7 +175,6 @@ Future<void> main() async {
         'all_sized_all_fonts',
         devices: [Device.phone, Device.tabletLandscape],
         overrideGoldenHeight: 1200,
-        skip: !Platform.isMacOS,
       );
     });
   });
@@ -216,11 +189,7 @@ Future<void> main() async {
         ),
         surfaceSize: const Size(80, 40),
       );
-      await screenMatchesGolden(
-        tester,
-        'back_button_android',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'back_button_android');
     });
 
     testGoldens('BackButtonIcon should look rigth on iOS', (tester) async {
@@ -232,11 +201,7 @@ Future<void> main() async {
           theme: ThemeData.light(),
         ),
       );
-      await screenMatchesGolden(
-        tester,
-        'back_button_ios',
-        skip: !Platform.isMacOS,
-      );
+      await screenMatchesGolden(tester, 'back_button_ios');
     });
   });
 }

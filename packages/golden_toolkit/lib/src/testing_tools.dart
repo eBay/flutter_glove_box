@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 
+import 'configuration.dart';
 import 'test_asset_bundle.dart';
 
 const Size _defaultSize = Size(800, 600);
@@ -146,7 +147,7 @@ Future<void> screenMatchesGolden(
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
-  bool skip = false,
+  bool skip,
 }) async {
   assert(
     !goldenFileName.endsWith('.png'),
@@ -156,12 +157,19 @@ Future<void> screenMatchesGolden(
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
+
+  final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
+
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
-  await _primeImages(fileName, actualFinder);
+
+  // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
+  if (!shouldSkipGoldenGeneration) {
+    await _primeImages(fileName, actualFinder);
+  }
   await pumpAfterPrime(tester);
 
   final originalWindowSize = tester.binding.window.physicalSize;
@@ -198,7 +206,7 @@ Future<void> screenMatchesGolden(
   await expectLater(
     actualFinder,
     matchesGoldenFile(fileName),
-    skip: skip,
+    skip: shouldSkipGoldenGeneration,
   );
 
   if (autoHeight == true) {

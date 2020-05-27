@@ -16,6 +16,7 @@ It is highly recommended to look at sample tests here: [golden_builder_test.dart
   - [Loading Fonts](#Loading-Fonts)
   - [testGoldens()](#testGoldens)
   - [Pumping Widgets](#Pumping-Widgets)
+  - [Configuration](#Configuration)
 
 ## Key Features
 
@@ -270,6 +271,16 @@ Example of injecting light Theme:
 Note: you can create your own wrappers similar to `materialAppWrapper`
 
 See more usage examples here: [golden_builder_test.dart](test/golden_builder_test.dart)
+
+### Configuration
+
+There are global settigns that can be configured by calling the following API:
+
+```GoldenToolkit.configure()```
+
+Currently, the primary option is to allow consumers to holistically skip golden assertions. For example, perhaps you only want to perform golden assertions on certain platforms.
+
+See here as an example: [flutter_test_config.dart](test/flutter_test_config.dart)
 
 ## License Information
 

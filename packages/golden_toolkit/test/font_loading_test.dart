@@ -7,8 +7,6 @@
 /// ***************************************************
 ///
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -35,7 +33,7 @@ Future<void> main() async {
         ..addScenario(
             'Unknown fonts render in Ahem (Foo.ttf)', const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
       await tester.pumpWidgetBuilder(golden.build());
-      await screenMatchesGolden(tester, 'material_fonts', skip: !Platform.isMacOS);
+      await screenMatchesGolden(tester, 'material_fonts');
     });
   });
 

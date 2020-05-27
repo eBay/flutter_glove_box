@@ -6,8 +6,6 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -21,11 +19,7 @@ Future<void> main() async {
   group('Multi Screen Golden examples', () {
     testGoldens('Example of testing a responsive layout', (tester) async {
       await tester.pumpWidgetBuilder(const WeatherForecast());
-      await multiScreenGolden(
-        tester,
-        'weather_forecast',
-        skip: !Platform.isMacOS,
-      );
+      await multiScreenGolden(tester, 'weather_forecast');
     });
     group('Responsive layout when image changes depending on layout', () {
       testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
@@ -33,7 +27,6 @@ Future<void> main() async {
         await multiScreenGolden(
           tester,
           'example_of_images_not_properly_loading',
-          skip: !Platform.isMacOS,
         );
       });
       testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
@@ -45,7 +38,6 @@ Future<void> main() async {
             await tester.pump(someDuration);
             await tester.pump(someDuration);
           },
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -67,7 +59,6 @@ Future<void> main() async {
               safeArea: EdgeInsets.fromLTRB(5, 10, 15, 20),
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -95,7 +86,6 @@ Future<void> main() async {
               brightness: Brightness.dark,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -121,7 +111,6 @@ Future<void> main() async {
               textScale: 1.5,
             )
           ],
-          skip: !Platform.isMacOS,
         );
 
         expect(tester.binding.createViewConfiguration().size, equals(size));
@@ -154,7 +143,6 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
@@ -179,12 +167,12 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
       testGoldens('Should shrink to finders height if autoHeight is true', (tester) async {
-        await tester.pumpWidget(Center( // We center here so the Container is not forced to go full height
+        await tester.pumpWidget(Center(
+          // We center here so the Container is not forced to go full height
           child: Container(color: Colors.red, height: 50),
         ));
 
@@ -200,7 +188,6 @@ Future<void> main() async {
               brightness: Brightness.light,
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
     });
