@@ -170,7 +170,10 @@ Future<void> screenMatchesGolden(
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
 
-  await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester, fileName, actualFinder);
+  if (!shouldSkipGoldenGeneration) {
+    await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester, fileName, actualFinder);
+  }
+
   await pumpAfterPrime(tester);
 
   final originalWindowSize = tester.binding.window.physicalSize;
