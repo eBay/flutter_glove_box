@@ -72,7 +72,7 @@ Future<void> main() async {
           fileNameFactory: (String name, Device device) {
             final width = device.size.width.toInt();
             final height = device.size.height.toInt();
-            return '$name-${width}x$height.png';
+            return 'goldens/$name-${width}x$height.png';
           },
           devices: [
             const Device(
