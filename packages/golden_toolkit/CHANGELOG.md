@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0
+
+### Configuration API
+
+Added a configuration API so that you can control the behavior of skipping golden assertions in a single location, rather than at each call to ```screenMatchesGolden``` or ```multiScreenGolden```.
+
+You can now call:
+
+```dart
+//place in /test/test_config.dart
+// typical conditions will be platform checks:
+//    () => TargetPlatform.isLinux
+//    () => !TargetPlatform.isMacOS
+GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => /* some condition */));
+```
+
+### Auto-Sized Goldens
+
+A new optional parameter ```autoHeight``` has been added to ```screenMatchesGolden``` and ```multiScreenGolden```. If set to true, the height of the golden will adapt to fit the 
+widget under test. Thanks to @christian-muertz!
+
 ## 0.3.2
 
 Additional support for Cupertino fonts in Goldens.
