@@ -106,7 +106,6 @@ Future<void> main() async {
         tester,
         'square_container',
         fileNameFactory: (String name) => 'goldens/custom/$name.custom.png',
-        skip: !Platform.isMacOS,
       );
     });
   });

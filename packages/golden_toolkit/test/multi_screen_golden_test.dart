@@ -84,7 +84,6 @@ Future<void> main() async {
               size: Size(200, 200),
             )
           ],
-          skip: !Platform.isMacOS,
         );
       });
 
