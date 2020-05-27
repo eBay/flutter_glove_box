@@ -1,5 +1,3 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -7,9 +5,9 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
-///
 
 import 'package:meta/meta.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'device.dart';
 
