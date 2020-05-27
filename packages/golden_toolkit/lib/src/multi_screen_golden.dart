@@ -9,6 +9,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'device.dart';
 import 'testing_tools.dart';
@@ -49,6 +50,7 @@ Future<void> multiScreenGolden(
   String goldenFileName, {
   Finder finder,
   bool autoHeight,
+  PrimeAssets primeAssets,
   double overrideGoldenHeight,
   CustomPump customPump,
   DeviceSetup deviceSetup,
@@ -70,6 +72,7 @@ Future<void> multiScreenGolden(
           tester,
           '$goldenFileName.${device.name}',
           customPump: customPump,
+          primeAssets: primeAssets,
           autoHeight: autoHeight,
           skip: skip,
           finder: finder,

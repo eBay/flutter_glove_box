@@ -136,6 +136,9 @@ void testGoldens(
 /// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
 /// shrink down the output height to match the render boxes height.
 ///
+/// [primeAssets] to setup a function used to prime all assets. If not specified the globally configured function is
+/// used which by default primes all assets using another call to [matchesGoldenFile].
+///
 /// [finder] optional finder
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
@@ -147,6 +150,7 @@ Future<void> screenMatchesGolden(
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
+  PrimeAssets primeAssets,
   bool skip,
 }) async {
   assert(
@@ -166,7 +170,7 @@ Future<void> screenMatchesGolden(
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = 'goldens/$goldenFileName.png';
 
-  await waitForAllImages(tester);
+  await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester, fileName, actualFinder);
   await pumpAfterPrime(tester);
 
   final originalWindowSize = tester.binding.window.physicalSize;
@@ -213,8 +217,20 @@ Future<void> screenMatchesGolden(
   }
 }
 
-/// Waits for all [Image] widgets found using [find].
-Future<void> waitForAllImages(WidgetTester tester) async {
+/// A function that primes all assets by calling [matchesGoldenFile] with the tester.
+/// Doing so may have some unwanted side effects like the creation of a failures folder even when the test
+/// succeeds.
+///
+/// See also:
+/// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
+Future<void> defaultPrimeAssets(WidgetTester tester, String name, Finder finder) =>
+    matchesGoldenFile(name).matchAsync(finder);
+
+/// A function that waits for all [Image] widgets found in the widget tree to finish decoding.
+///
+/// See also:
+/// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
+Future<void> waitForAllImages(WidgetTester tester, String name, Finder finder) async {
   final imageElements = find.byType(Image).evaluate();
   await tester.runAsync(() async {
     for (final imageElement in imageElements) {
