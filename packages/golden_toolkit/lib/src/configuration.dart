@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -10,13 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:meta/meta.dart';
 
-/// A factory to determine an actual file name/path from a given name.
-///
-/// See alo:
-/// * [screenMatchesGolden], which uses a [FileNameFactory] to determine the actual file path which is passed
-///   to [matchesGoldenFile].
-/// * [GoldenToolkitConfiguration] to configure a global file name factory.
-typedef FileNameFactory = String Function(String name);
+import 'device.dart';
 
 /// Manages global state & behavior for the Golden Toolkit
 /// This is a singleton so that it can be easily configured in one place
@@ -37,6 +32,20 @@ class GoldenToolkit {
 
 typedef SkipGoldenAssertion = bool Function();
 
+/// A factory to determine an actual file name/path from a given name.
+///
+/// See also:
+/// * [screenMatchesGolden], which uses such a factory to determine the file name passed to [matchesGoldenFile].
+/// * [GoldenToolkitConfiguration] to configure a global file name factory.
+typedef FileNameFactory = String Function(String name);
+
+/// A factory to determine a file name/path from a name and a device.
+///
+/// See also:
+/// * [multiScreenGolden], which uses such a factory to determine the file name passed to [matchesGoldenFile].
+/// * [GoldenToolkitConfiguration] to configure a global device file name factory.
+typedef DeviceFileNameFactory = String Function(String name, Device device);
+
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
 @immutable
 class GoldenToolkitConfiguration {
@@ -47,16 +56,17 @@ class GoldenToolkitConfiguration {
   const GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
+    this.deviceFileNameFactory = defaultDeviceFileNameFactory,
   });
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
 
   /// A function to determine the file name/path [screenMatchesGolden] uses to call [matchesGoldenFile].
-  ///
-  /// See:
-  /// * [FileNameFactory] documentation for example implementations.
   final FileNameFactory fileNameFactory;
+
+  /// A function to determine the file name/path [multiScreenGolden] uses to call [matchesGoldenFile].
+  final DeviceFileNameFactory deviceFileNameFactory;
 }
 
 bool _doNotSkip() => false;
@@ -65,4 +75,10 @@ bool _doNotSkip() => false;
 /// actual file name for a golden test. The given [name] is the name passed into [screenMatchesGolden].
 String defaultFileNameFactory(String name) {
   return 'goldens/$name.png';
+}
+
+/// This is the default file name factory which is used by [multiScreenGolden] to determine the
+/// actual file name for a golden test. The given [name] is the name passed into [multiScreenGolden].
+String defaultDeviceFileNameFactory(String name, Device device) {
+  return 'goldens/$name.${device.name}.png';
 }

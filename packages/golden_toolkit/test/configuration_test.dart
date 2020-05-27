@@ -57,10 +57,35 @@ void main() {
       );
     });
 
+    testGoldens('multiScreenGolden method should defer fileNameFactory to global configuration', (tester) async {
+      GoldenToolkit.configure(
+        GoldenToolkitConfiguration(
+            deviceFileNameFactory: (name, device) => 'goldens/custom/custom_${name}_${device.name}.png'),
+      );
+      await tester.pumpWidgetBuilder(Container());
+      await multiScreenGolden(tester, 'global_device_file_name_factory');
+    });
+
+    testGoldens('multiScreenGolden method level fileNameFactory should trump global configuration', (tester) async {
+      GoldenToolkit.configure(
+        GoldenToolkitConfiguration(deviceFileNameFactory: (name, device) => 'goldens/custom/this_should_not_exist.png'),
+      );
+      await tester.pumpWidgetBuilder(Container());
+      await multiScreenGolden(
+        tester,
+        'method_device_file_name_factory',
+        fileNameFactory: (name, device) => 'goldens/custom/${device.name}_$name.png',
+      );
+    });
+
     test('Default Configuration', () {
       const config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
       expect(config.fileNameFactory('test_name'), equals('goldens/test_name.png'));
+      expect(
+        config.deviceFileNameFactory('test_name', const Device(name: 'my_device', size: Size(500, 500))),
+        equals('goldens/test_name.my_device.png'),
+      );
     });
   });
 }

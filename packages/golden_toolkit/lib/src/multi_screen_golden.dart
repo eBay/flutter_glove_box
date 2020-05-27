@@ -10,6 +10,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'configuration.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
@@ -20,26 +21,15 @@ Future<void> _twoPumps(Device device, WidgetTester tester) async {
 
 typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
-/// A device file name factory is used to create a file name/path from a name and a device.
-///
-/// See:
-/// * [multiScreenGolden], which uses such a factory to determine the file name passed to [matchesGoldenFile].
-typedef DeviceFileNameFactory = String Function(String name, Device device);
-
-/// This is the default file name factory which is used by [multiScreenGolden] to determine the
-/// actual file name for a golden test. The given [name] is the name passed into [multiScreenGolden].
-String defaultDeviceFileNameFactory(String name, Device device) {
-  return 'goldens/$name.${device.name}.png';
-}
-
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list
 ///
 /// Will output a single  golden file for each device in [devices] and will append device name to png file
 ///
 /// [name] is a file name output, must NOT include extension like .png
 ///
-/// [fileNameFactory] a factory to determine the effective file name/path for the test. Defaults to [defaultDeviceFileNameFactory],
-/// which uses 'goldens/$name.$deviceName.png' for the file path.
+/// [fileNameFactory] a factory to determine the effective file name/path for the test.
+/// If not specified [GoldenToolkitConfiguration.deviceFileNameFactory] which uses 'goldens/$name.$deviceName.png'
+/// for the file path.
 ///
 /// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
 /// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
@@ -85,7 +75,8 @@ Future<void> multiScreenGolden(
         await screenMatchesGolden(
           tester,
           name,
-          fileNameFactory: (name) => fileNameFactory(name, device),
+          fileNameFactory: (name) =>
+              (fileNameFactory ?? GoldenToolkit.configuration.deviceFileNameFactory)(name, device),
           customPump: customPump,
           autoHeight: autoHeight,
           skip: skip,
