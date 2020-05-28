@@ -37,7 +37,7 @@ typedef SkipGoldenAssertion = bool Function();
 /// to call [matchesGoldenFile] on.
 ///
 /// For ready to use implementations see:
-/// * [defaultPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
+/// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
 /// * [waitForAllImages], which just waits for all [Image] widgets in the widget tree to finish decoding.
 typedef PrimeAssets = Future<void> Function(WidgetTester tester, String name, Finder finder);
 
@@ -50,13 +50,13 @@ class GoldenToolkitConfiguration {
   /// A typical example may be to skip when the assertion is invoked on certain platforms. For example: () => !Platform.isMacOS
   const GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
-    this.primeAssets = defaultPrimeAssets,
+    this.primeAssets = legacyPrimeAssets,
   });
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
 
-  /// A function that primes all needed assets for the given [tester]. Defaults to [defaultPrimeAssets]
+  /// A function that primes all needed assets for the given [tester]. Defaults to [legacyPrimeAssets]
   /// which primes all assets using another call to [matchesGoldenFile].
   final PrimeAssets primeAssets;
 }

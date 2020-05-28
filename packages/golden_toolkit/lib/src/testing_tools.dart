@@ -6,8 +6,10 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 
@@ -226,8 +228,30 @@ Future<void> screenMatchesGolden(
 ///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
-Future<void> defaultPrimeAssets(WidgetTester tester, String name, Finder finder) =>
-    matchesGoldenFile(name).matchAsync(finder);
+Future<void> legacyPrimeAssets(WidgetTester tester, String name, Finder finder) async {
+  final elements = finder.evaluate();
+  assert(elements.length == 1);
+
+  var renderObject = elements.single.renderObject;
+  while (!renderObject.isRepaintBoundary) { // Find the nearest RepaintBoundary up the tree.
+    // ignore: avoid_as
+    renderObject = renderObject.parent as RenderObject;
+    assert(renderObject != null);
+  }
+
+  assert(!renderObject.debugNeedsPaint);
+  // ignore: avoid_as
+  final layer = renderObject.debugLayer as OffsetLayer;
+
+  // This is a very flaky hack which should be avoided if possible.
+  // We are just trying to waste some time that matches the time needed to call matchesGoldenFile.
+  // This should be enough time for most images/assets to be ready.
+  await tester.runAsync<void>(() async {
+    final image = await layer.toImage(renderObject.paintBounds);
+    await image.toByteData(format: ImageByteFormat.png);
+    await image.toByteData(format: ImageByteFormat.png);
+  });
+}
 
 /// A function that waits for all [Image] widgets found in the widget tree to finish decoding.
 ///

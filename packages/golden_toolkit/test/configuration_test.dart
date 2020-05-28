@@ -43,7 +43,7 @@ void main() {
       GoldenToolkit.configure(
         GoldenToolkitConfiguration(primeAssets: (WidgetTester tester, String name, Finder finder) async {
           globalPrimeCalledCount += 1;
-          await defaultPrimeAssets(tester, name, finder);
+          await legacyPrimeAssets(tester, name, finder);
         }),
       );
 
@@ -67,7 +67,7 @@ void main() {
       await screenMatchesGolden(tester, 'screen_matches_golden_trumps_primeAssets',
           primeAssets: (WidgetTester tester, String name, Finder finder) async {
         localPrimeCalledCount += 1;
-        await defaultPrimeAssets(tester, name, finder);
+        await legacyPrimeAssets(tester, name, finder);
       });
 
       expect(globalPrimeCalledCount, 0);
@@ -80,7 +80,7 @@ void main() {
       GoldenToolkit.configure(
         GoldenToolkitConfiguration(primeAssets: (WidgetTester tester, String name, Finder finder) async {
           globalPrimeCalledCount += 1;
-          await defaultPrimeAssets(tester, name, finder);
+          await legacyPrimeAssets(tester, name, finder);
         }),
       );
 
@@ -107,7 +107,7 @@ void main() {
       await multiScreenGolden(tester, 'multi_screen_golden_trumps_primeAssets',
           primeAssets: (WidgetTester tester, String name, Finder finder) async {
         localPrimeCalledCount += 1;
-        await defaultPrimeAssets(tester, name, finder);
+        await legacyPrimeAssets(tester, name, finder);
       }, devices: [const Device(size: Size(200, 200), name: 'custom')]);
 
       expect(globalPrimeCalledCount, 0);
