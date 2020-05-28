@@ -33,13 +33,10 @@ typedef SkipGoldenAssertion = bool Function();
 
 /// A function that primes all needed assets for the given [tester].
 ///
-/// The [name] is the name of the golden file to prime assets for and [finder] is the finder used
-/// to call [matchesGoldenFile] on.
-///
 /// For ready to use implementations see:
 /// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
 /// * [waitForAllImages], which just waits for all [Image] widgets in the widget tree to finish decoding.
-typedef PrimeAssets = Future<void> Function(WidgetTester tester, String name, Finder finder);
+typedef PrimeAssets = Future<void> Function(WidgetTester tester);
 
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
 @immutable

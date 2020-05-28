@@ -41,9 +41,9 @@ void main() {
       var globalPrimeCalledCount = 0;
 
       GoldenToolkit.configure(
-        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester, String name, Finder finder) async {
+        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
           globalPrimeCalledCount += 1;
-          await legacyPrimeAssets(tester, name, finder);
+          await legacyPrimeAssets(tester);
         }),
       );
 
@@ -59,15 +59,15 @@ void main() {
       var localPrimeCalledCount = 0;
 
       GoldenToolkit.configure(
-        GoldenToolkitConfiguration(primeAssets: (_, __, ___) async => globalPrimeCalledCount += 1),
+        GoldenToolkitConfiguration(primeAssets: (_) async => globalPrimeCalledCount += 1),
       );
 
       await tester.pumpWidgetBuilder(Image.asset('images/sample_cloudy.png'));
 
       await screenMatchesGolden(tester, 'screen_matches_golden_trumps_primeAssets',
-          primeAssets: (WidgetTester tester, String name, Finder finder) async {
+          primeAssets: (WidgetTester tester) async {
         localPrimeCalledCount += 1;
-        await legacyPrimeAssets(tester, name, finder);
+        await legacyPrimeAssets(tester);
       });
 
       expect(globalPrimeCalledCount, 0);
@@ -78,9 +78,9 @@ void main() {
       var globalPrimeCalledCount = 0;
 
       GoldenToolkit.configure(
-        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester, String name, Finder finder) async {
+        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
           globalPrimeCalledCount += 1;
-          await legacyPrimeAssets(tester, name, finder);
+          await legacyPrimeAssets(tester);
         }),
       );
 
@@ -97,7 +97,7 @@ void main() {
       var localPrimeCalledCount = 0;
 
       GoldenToolkit.configure(
-        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester, String name, Finder finder) async {
+        GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
           globalPrimeCalledCount += 1;
         }),
       );
@@ -105,9 +105,9 @@ void main() {
       await tester.pumpWidgetBuilder(Image.asset('images/sample_cloudy.png'));
 
       await multiScreenGolden(tester, 'multi_screen_golden_trumps_primeAssets',
-          primeAssets: (WidgetTester tester, String name, Finder finder) async {
+          primeAssets: (WidgetTester tester) async {
         localPrimeCalledCount += 1;
-        await legacyPrimeAssets(tester, name, finder);
+        await legacyPrimeAssets(tester);
       }, devices: [const Device(size: Size(200, 200), name: 'custom')]);
 
       expect(globalPrimeCalledCount, 0);

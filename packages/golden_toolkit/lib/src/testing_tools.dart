@@ -173,7 +173,7 @@ Future<void> screenMatchesGolden(
   final fileName = 'goldens/$goldenFileName.png';
 
   if (!shouldSkipGoldenGeneration) {
-    await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester, fileName, actualFinder);
+    await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester);
   }
 
   await pumpAfterPrime(tester);
@@ -222,24 +222,16 @@ Future<void> screenMatchesGolden(
   }
 }
 
-/// A function that primes all assets by calling [matchesGoldenFile] with the tester.
-/// Doing so may have some unwanted side effects like the creation of a failures folder even when the test
-/// succeeds.
+/// A function that primes all assets by just wasting time and hoping that it is enough for all assets to
+/// finish loading. Doing so is not recommended and very flaky. Consider switching to [waitForAllImages] or
+/// a custom implementation.
 ///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
-Future<void> legacyPrimeAssets(WidgetTester tester, String name, Finder finder) async {
-  final elements = finder.evaluate();
-  assert(elements.length == 1);
-
-  var renderObject = elements.single.renderObject;
-  while (!renderObject.isRepaintBoundary) { // Find the nearest RepaintBoundary up the tree.
-    // ignore: avoid_as
-    renderObject = renderObject.parent as RenderObject;
-    assert(renderObject != null);
-  }
-
+Future<void> legacyPrimeAssets(WidgetTester tester) async {
+  final renderObject = tester.binding.renderView;
   assert(!renderObject.debugNeedsPaint);
+
   // ignore: avoid_as
   final layer = renderObject.debugLayer as OffsetLayer;
 
@@ -257,7 +249,7 @@ Future<void> legacyPrimeAssets(WidgetTester tester, String name, Finder finder) 
 ///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
-Future<void> waitForAllImages(WidgetTester tester, String name, Finder finder) async {
+Future<void> waitForAllImages(WidgetTester tester) async {
   final imageElements = find.byType(Image).evaluate();
   await tester.runAsync(() async {
     for (final imageElement in imageElements) {
