@@ -171,7 +171,6 @@ Future<void> compareWithGolden(
   WidgetTester tester,
   String name, {
   Device device,
-  DeviceFileNameFactory fileNameFactory,
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
