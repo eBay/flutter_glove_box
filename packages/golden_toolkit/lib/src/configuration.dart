@@ -65,6 +65,19 @@ class GoldenToolkitConfiguration {
 
   /// A function to determine the file name/path [multiScreenGolden] uses to call [matchesGoldenFile].
   final DeviceFileNameFactory deviceFileNameFactory;
+
+  /// Copies the configuration with the given values overridden.
+  GoldenToolkitConfiguration copyWith({
+    SkipGoldenAssertion skipGoldenAssertion,
+    FileNameFactory fileNameFactory,
+    DeviceFileNameFactory deviceFileNameFactory,
+  }) {
+    return GoldenToolkitConfiguration(
+      skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
+      fileNameFactory: fileNameFactory ?? this.fileNameFactory,
+      deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
+    );
+  }
 }
 
 bool _doNotSkip() => false;
