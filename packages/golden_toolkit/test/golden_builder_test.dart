@@ -95,19 +95,6 @@ Future<void> main() async {
         customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
       );
     });
-
-    testGoldens('Test with custom file name factory', (tester) async {
-      tester.binding.window.devicePixelRatioTestValue = 1.0;
-      await tester.binding.setSurfaceSize(const Size(200, 200));
-
-      await tester.pumpWidget(squareContainer);
-
-      await screenMatchesGolden(
-        tester,
-        'square_container',
-        fileNameFactory: (String name) => 'goldens/custom/$name.custom.png',
-      );
-    });
   });
 
   group('GoldenBuilder examples with different layouts', () {

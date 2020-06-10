@@ -45,18 +45,6 @@ void main() {
       await screenMatchesGolden(tester, 'global_file_name_factory');
     });
 
-    testGoldens('screenMatchesGolden method level fileNameFactory should trump global configuration', (tester) async {
-      GoldenToolkit.configure(
-        GoldenToolkitConfiguration(fileNameFactory: (name) => 'goldens/custom/this_should_not_exist.png'),
-      );
-      await tester.pumpWidgetBuilder(Container());
-      await screenMatchesGolden(
-        tester,
-        'method_file_name_factory',
-        fileNameFactory: (name) => 'goldens/custom/local_file_name_factory.png',
-      );
-    });
-
     testGoldens('multiScreenGolden method should defer fileNameFactory to global configuration', (tester) async {
       GoldenToolkit.configure(
         GoldenToolkitConfiguration(
@@ -64,18 +52,6 @@ void main() {
       );
       await tester.pumpWidgetBuilder(Container());
       await multiScreenGolden(tester, 'global_device_file_name_factory');
-    });
-
-    testGoldens('multiScreenGolden method level fileNameFactory should trump global configuration', (tester) async {
-      GoldenToolkit.configure(
-        GoldenToolkitConfiguration(deviceFileNameFactory: (name, device) => 'goldens/custom/this_should_not_exist.png'),
-      );
-      await tester.pumpWidgetBuilder(Container());
-      await multiScreenGolden(
-        tester,
-        'method_device_file_name_factory',
-        fileNameFactory: (name, device) => 'goldens/custom/${device.name}_$name.png',
-      );
     });
 
     test('Default Configuration', () {

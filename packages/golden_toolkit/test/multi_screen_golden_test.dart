@@ -62,31 +62,6 @@ Future<void> main() async {
         );
       });
 
-      testGoldens('Custom file name test', (tester) async {
-        await tester.pumpWidgetBuilder(
-          Container(color: Colors.white, child: SafeArea(child: Container(color: Colors.blue))),
-        );
-        await multiScreenGolden(
-          tester,
-          'custom_file_name',
-          fileNameFactory: (String name, Device device) {
-            final width = device.size.width.toInt();
-            final height = device.size.height.toInt();
-            return 'goldens/$name-${width}x$height.png';
-          },
-          devices: [
-            const Device(
-              name: 'device1',
-              size: Size(200, 200),
-            ),
-            const Device(
-              name: 'device2',
-              size: Size(200, 200),
-            )
-          ],
-        );
-      });
-
       testGoldens('Platform Brightness Test', (tester) async {
         await tester.pumpWidgetBuilder(
           Builder(
