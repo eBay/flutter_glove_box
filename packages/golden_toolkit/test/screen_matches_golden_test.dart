@@ -74,5 +74,18 @@ void main() {
 
       await screenMatchesGolden(tester, 'text_container');
     });
+
+    testGoldens('Should be able to load images', (tester) async {
+      await tester.pumpWidgetBuilder(
+        Image.asset('images/image.png', package: 'sample_dependency'),
+        wrapper: materialAppWrapper(
+          theme: ThemeData.light(),
+          platform: TargetPlatform.android,
+        ),
+        surfaceSize: const Size(200, 200),
+      );
+
+      await screenMatchesGolden(tester, 'golden_with_image');
+    });
   });
 }
