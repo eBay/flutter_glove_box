@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:example/example.dart';
+
+import '../lib/src/weather_widgets.dart';
 
 void main() {
   testGoldens('Single weather card', (tester) async {
