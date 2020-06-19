@@ -1,6 +1,6 @@
 # pedantic has a strong foundation, but right now they only enable a small set of lints
 # we'll use them as a base, and add on the additional ones that our team has agreed upon.
-include: package:pedantic/analysis_options.yaml
+# include: package:pedantic/analysis_options.yaml
 
 analyzer:
   strong-mode:
