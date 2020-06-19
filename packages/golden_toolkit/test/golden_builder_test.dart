@@ -11,79 +11,32 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-Future<void> main() async {
-  group('Basic golden test for empty container', () {
-    final squareContainer = Container(
-      width: 100,
-      height: 100,
-      color: const Color.fromARGB(255, 36, 51, 66),
-    );
-
-    testGoldens('Pump widget traditionally', (tester) async {
-      tester.binding.window.devicePixelRatioTestValue = 1.0;
-      await tester.binding.setSurfaceSize(const Size(200, 200));
-
-      await tester.pumpWidget(squareContainer);
-
-      await screenMatchesGolden(tester, 'square_container');
+void main() {
+  group('GoldenBuilder', () {
+    testGoldens('Column layout example', (tester) async {
+      await tester.pumpWidgetBuilder(
+        Center(
+            child: (GoldenBuilder.column()
+                  ..addScenario('red', Container(height: 50, width: 50, color: Colors.red))
+                  ..addScenario('green', Container(height: 50, width: 50, color: Colors.green))
+                  ..addScenario('blue', Container(height: 50, width: 50, color: Colors.blue)))
+                .build()),
+        surfaceSize: const Size(100, 300),
+      );
+      await screenMatchesGolden(tester, 'golden_builder_column', autoHeight: true);
     });
 
-    testGoldens('Pump widgetBuilder with noWrap', (tester) async {
-      /// Note: pumpWidgetBuilder will use [materialAppWrapper] by default.
-      /// If you want no wrapper at all, pass **noWrap()**
+    testGoldens('Grid layout example', (tester) async {
       await tester.pumpWidgetBuilder(
-        squareContainer,
-        surfaceSize: const Size(200, 200),
-        wrapper: noWrap(),
+        Center(
+            child: (GoldenBuilder.grid(columns: 2, widthToHeightRatio: 1)
+                  ..addScenario('red', Container(height: 50, width: 50, color: Colors.red))
+                  ..addScenario('green', Container(height: 50, width: 50, color: Colors.green))
+                  ..addScenario('blue', Container(height: 50, width: 50, color: Colors.blue)))
+                .build()),
+        surfaceSize: const Size(300, 300),
       );
-
-      await screenMatchesGolden(tester, 'square_container');
-    });
-
-    testGoldens('Material widget with text', (tester) async {
-      /// Example of a custom wrapper: in order to render fonts and text, we need Material
-      /// Note: With [materialAppWrapper] you can also modify theme, platform, locales and etc.
-
-      final widget = Container(
-        color: const Color.fromARGB(255, 36, 51, 66),
-        child: const Text(
-          'SAMPLE',
-          style: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
-          ),
-        ),
-      );
-
-      await tester.pumpWidgetBuilder(
-        widget,
-        wrapper: materialAppWrapper(
-          theme: ThemeData.light(),
-          platform: TargetPlatform.android,
-        ),
-        surfaceSize: const Size(200, 200),
-      );
-
-      await screenMatchesGolden(tester, 'text_container');
-    });
-
-    testGoldens('Animation test with CustomPump', (tester) async {
-      /// Example of a test that used [CustomPump] in order to test animation of CircularProgressIndicator
-      await tester.pumpWidgetBuilder(
-        const CircularProgressIndicator(),
-        surfaceSize: const Size(60, 60),
-      );
-
-      await screenMatchesGolden(
-        tester,
-        'progress_animation_start',
-        customPump: (tester) => tester.pump(const Duration(milliseconds: 100)),
-      );
-
-      await screenMatchesGolden(
-        tester,
-        'progress_animation_middle',
-        customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
-      );
+      await screenMatchesGolden(tester, 'golden_builder_grid', autoHeight: true);
     });
   });
 }
