@@ -23,8 +23,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    # needed to trigger the FontManifest.json to be joined
-    - images
+    # needed to trigger the FontManifest.json to be included
+    - images/
   fonts:
     - family: Roboto
       fonts:
