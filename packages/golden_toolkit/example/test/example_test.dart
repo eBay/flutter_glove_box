@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+// ignore: avoid_relative_lib_imports
 import '../lib/src/weather_widgets.dart';
 
 void main() {
