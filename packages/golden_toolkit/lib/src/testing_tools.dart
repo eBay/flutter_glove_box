@@ -170,6 +170,7 @@ Future<void> screenMatchesGolden(
 Future<void> compareWithGolden(
   WidgetTester tester,
   String name, {
+  DeviceFileNameFactory fileNameFactory,
   Device device,
   bool autoHeight,
   Finder finder,
