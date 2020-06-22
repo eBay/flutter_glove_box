@@ -12,15 +12,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 
 import 'configuration.dart';
+import 'device.dart';
 import 'test_asset_bundle.dart';
 
 const Size _defaultSize = Size(800, 600);
 
-typedef WidgetWrapper = Widget Function(Widget);
-
 ///CustomPump is a function that lets you do custom pumping before golden evaluation.
 ///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
+
+typedef WidgetWrapper = Widget Function(Widget);
 
 /// Extensions for a [WidgetTester]
 extension TestingToolsExtension on WidgetTester {
@@ -128,29 +129,56 @@ void testGoldens(
   });
 }
 
-/// This [screenMatchesGolden] is wrapper on top of [matchesGoldenFile]
+/// A function that wraps [matchesGoldenFile] with some extra functionality. The function finds the first widget
+/// in the tree if [finder] is not specified. Furthermore a [fileNameFactory] can be used in combination with a [name]
+/// to specify a custom path and name for the golden file. In addition to that the function makes sure all images are
+/// available before
 ///
-/// [goldenFileName] is a file name output, must NOT include extension like .png
+/// [name] is the name of the golden test and must NOT include extension like .png.
+///
+/// [finder] is an optional finder, which can be used to target a specific widget to use for the test. If not specified
+/// the first widget in the tree is used
 ///
 /// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
 /// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
 /// shrink down the output height to match the render boxes height.
-///
-/// [finder] optional finder
 ///
 /// [customPump] optional pump function, see [CustomPump] documentation
 ///
 /// [skip] by setting to true will skip the golden file assertion. This may be necessary if your development platform is not the same as your CI platform
 Future<void> screenMatchesGolden(
   WidgetTester tester,
-  String goldenFileName, {
+  String name, {
+  bool autoHeight,
+  Finder finder,
+  CustomPump customPump,
+  bool skip,
+}) {
+  return compareWithGolden(
+    tester,
+    name,
+    autoHeight: autoHeight,
+    finder: finder,
+    customPump: customPump,
+    skip: skip,
+    device: null,
+    fileNameFactory: (String name, Device device) => GoldenToolkit.configuration.fileNameFactory(name),
+  );
+}
+
+// ignore: public_member_api_docs
+Future<void> compareWithGolden(
+  WidgetTester tester,
+  String name, {
+  DeviceFileNameFactory fileNameFactory,
+  Device device,
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
   bool skip,
 }) async {
   assert(
-    !goldenFileName.endsWith('.png'),
+    !name.endsWith('.png'),
     'Golden tests should not include file type',
   );
   if (!_inGoldenTest) {
@@ -161,10 +189,10 @@ Future<void> screenMatchesGolden(
   final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
 
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
-  /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same 
+  /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
-  final fileName = 'goldens/$goldenFileName.png';
+  final fileName = fileNameFactory(name, device);
 
   // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
   if (!shouldSkipGoldenGeneration) {
