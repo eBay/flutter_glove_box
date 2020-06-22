@@ -119,7 +119,7 @@ void testGoldens(
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
 }) {
-  final dynamic config = Zone.current[#goldenToolkit.config];
+  final dynamic config = Zone.current[#goldentoolkit.config];
   group(description, () {
     testWidgets('Golden', (tester) async {
       return GoldenToolkit.runWithConfiguration(() async {
