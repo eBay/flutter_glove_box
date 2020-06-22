@@ -63,5 +63,37 @@ void main() {
         equals('goldens/test_name.my_device.png'),
       );
     });
+
+    group('Equality/Hashcode/CopyWith', () {
+      bool skipGoldenAssertion() => false;
+      String fileNameFactory(String filename) => '';
+      String deviceFileNameFactory(String filename, Device device) => '';
+
+      final config = GoldenToolkitConfiguration(
+        skipGoldenAssertion: skipGoldenAssertion,
+        deviceFileNameFactory: deviceFileNameFactory,
+        fileNameFactory: fileNameFactory,
+      );
+
+      test('config with identical params should be equal', () {
+        expect(config, equals(config.copyWith()));
+        expect(config.hashCode, equals(config.copyWith().hashCode));
+      });
+
+      group('should not be equal when params differ', () {
+        test('skipGoldenAssertion', () {
+          expect(config, isNot(equals(config.copyWith(skipGoldenAssertion: () => false))));
+          expect(config.hashCode, isNot(equals(config.copyWith(skipGoldenAssertion: () => false).hashCode)));
+        });
+        test('fileNameFactory', () {
+          expect(config, isNot(equals(config.copyWith(fileNameFactory: (file) => ''))));
+          expect(config.hashCode, isNot(equals(config.copyWith(fileNameFactory: (file) => '').hashCode)));
+        });
+        test('deviceFileNameFactory', () {
+          expect(config, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => ''))));
+          expect(config.hashCode, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => '').hashCode)));
+        });
+      });
+    });
   });
 }

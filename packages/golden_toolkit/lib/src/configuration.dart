@@ -78,6 +78,19 @@ class GoldenToolkitConfiguration {
       deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is GoldenToolkitConfiguration &&
+            runtimeType == other.runtimeType &&
+            skipGoldenAssertion == other.skipGoldenAssertion &&
+            fileNameFactory == other.fileNameFactory &&
+            deviceFileNameFactory == other.deviceFileNameFactory;
+  }
+
+  @override
+  int get hashCode => skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode;
 }
 
 bool _doNotSkip() => false;
