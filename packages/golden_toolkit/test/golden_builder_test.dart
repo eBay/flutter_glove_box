@@ -11,208 +11,45 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-import 'sample_weather_widget.dart';
-
-Future<void> main() async {
-  group('Basic golden test for empty container', () {
-    final squareContainer = Container(
-      width: 100,
-      height: 100,
-      color: const Color.fromARGB(255, 36, 51, 66),
-    );
-
-    testGoldens('Pump widget traditionally', (tester) async {
-      tester.binding.window.devicePixelRatioTestValue = 1.0;
-      await tester.binding.setSurfaceSize(const Size(200, 200));
-
-      await tester.pumpWidget(squareContainer);
-
-      await screenMatchesGolden(tester, 'square_container');
+void main() {
+  group('GoldenBuilder', () {
+    testGoldens('Column layout example', (tester) async {
+      await tester.pumpWidgetBuilder(
+        Center(
+            child: (GoldenBuilder.column()
+                  ..addScenario('red', Container(height: 50, width: 50, color: Colors.red))
+                  ..addScenario('green', Container(height: 50, width: 50, color: Colors.green))
+                  ..addScenario('blue', Container(height: 50, width: 50, color: Colors.blue)))
+                .build()),
+        surfaceSize: const Size(100, 300),
+      );
+      await screenMatchesGolden(tester, 'golden_builder_column', autoHeight: true);
     });
 
-    testGoldens('Pump widgetBuilder with noWrap', (tester) async {
-      /// Note: pumpWidgetBuilder will use [materialAppWrapper] by default.
-      /// If you want no wrapper at all, pass **noWrap()**
+    testGoldens('Grid layout example', (tester) async {
       await tester.pumpWidgetBuilder(
-        squareContainer,
-        surfaceSize: const Size(200, 200),
-        wrapper: noWrap(),
+        Center(
+            child: (GoldenBuilder.grid(columns: 2, widthToHeightRatio: 1)
+                  ..addScenario('red', Container(height: 50, width: 50, color: Colors.red))
+                  ..addScenario('green', Container(height: 50, width: 50, color: Colors.green))
+                  ..addScenario('blue', Container(height: 50, width: 50, color: Colors.blue)))
+                .build()),
+        surfaceSize: const Size(300, 300),
       );
-
-      await screenMatchesGolden(tester, 'square_container');
+      await screenMatchesGolden(tester, 'golden_builder_grid', autoHeight: true);
     });
 
-    testGoldens('Material widget with text', (tester) async {
-      /// Example of a custom wrapper: in order to render fonts and text, we need Material
-      /// Note: With [materialAppWrapper] you can also modify theme, platform, locales and etc.
-
-      final widget = Container(
-        color: const Color.fromARGB(255, 36, 51, 66),
-        child: const Text(
-          'SAMPLE',
-          style: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
-          ),
-        ),
-      );
-
+    testGoldens('TextScaleScenario', (tester) async {
       await tester.pumpWidgetBuilder(
-        widget,
-        wrapper: materialAppWrapper(
-          theme: ThemeData.light(),
-          platform: TargetPlatform.android,
-        ),
-        surfaceSize: const Size(200, 200),
+        Center(
+            child: (GoldenBuilder.column()
+                  ..addTextScaleScenario('small', const Text('text'), textScaleFactor: 1.0)
+                  ..addTextScaleScenario('medium', const Text('text'), textScaleFactor: 2.0)
+                  ..addTextScaleScenario('large', const Text('text'), textScaleFactor: 3.2))
+                .build()),
+        surfaceSize: const Size(100, 300),
       );
-
-      await screenMatchesGolden(tester, 'text_container');
-    });
-
-    testGoldens('Single weather card', (tester) async {
-      await tester.pumpWidgetBuilder(
-        const Center(child: WeatherCard(temp: 66, weather: Weather.sunny)),
-        surfaceSize: const Size(200, 200),
-      );
-      await screenMatchesGolden(tester, 'single_weather_card');
-    });
-
-    testGoldens('Animation test with CustomPump', (tester) async {
-      /// Example of a test that used [CustomPump] in order to test animation of CircularProgressIndicator
-      await tester.pumpWidgetBuilder(
-        const CircularProgressIndicator(),
-        surfaceSize: const Size(60, 60),
-      );
-
-      await screenMatchesGolden(
-        tester,
-        'progress_animation_start',
-        customPump: (tester) => tester.pump(const Duration(milliseconds: 100)),
-      );
-
-      await screenMatchesGolden(
-        tester,
-        'progress_animation_middle',
-        customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
-      );
+      await screenMatchesGolden(tester, 'golden_builder_textscale', autoHeight: true);
     });
   });
-
-  group('GoldenBuilder examples with different layouts', () {
-    testGoldens('GRID: Different weather types without frame', (tester) async {
-      final gb = GoldenBuilder.grid(
-        columns: 2,
-        bgColor: Colors.white,
-        widthToHeightRatio: 1,
-      )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario(
-          'Cold',
-          const WeatherCard(temp: 25, weather: Weather.cold),
-        );
-
-      await tester.pumpWidgetBuilder(
-        gb.build(),
-        surfaceSize: const Size(500, 500),
-      );
-      await screenMatchesGolden(tester, 'weather_types_grid');
-    });
-
-    testGoldens('COLUMN: Different weather types with extra frame', (tester) async {
-      final gb = GoldenBuilder.column(
-        bgColor: Colors.white,
-        wrap: _simpleFrame,
-      )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
-
-      await tester.pumpWidgetBuilder(
-        gb.build(),
-        surfaceSize: const Size(120, 900),
-      );
-      await screenMatchesGolden(tester, 'weather_types_column');
-    });
-  });
-
-  group('GoldenBuilder examples of accessibility testing', () {
-    // With those test we want to make sure our widgets look right when user changes system font size
-    testGoldens('Card should look right when user bumps system font size', (tester) async {
-      const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
-
-      final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
-        ..addScenario('Regular font size', widget)
-        ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-        ..addTextScaleScenario('Largest font size', widget, textScaleFactor: 3.2);
-
-      await tester.pumpWidgetBuilder(
-        gb.build(),
-        surfaceSize: const Size(200, 1000),
-      );
-      await screenMatchesGolden(tester, 'weather_accessibility');
-    });
-  });
-
-  group('GoldenBuilder - combination of different features ', () {
-    // Example of a single test verifies that all widget states look right on different devices with different font sizes
-    testGoldens('Card should look rigth on different devices / screen sizes', (tester) async {
-      final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTextScaleScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
-
-      await tester.pumpWidgetBuilder(
-        gb.build(),
-        surfaceSize: const Size(200, 1200),
-      );
-
-      await multiScreenGolden(
-        tester,
-        'all_sized_all_fonts',
-        devices: [Device.phone, Device.tabletLandscape],
-        overrideGoldenHeight: 1200,
-      );
-    });
-  });
-
-  group('pumpMaterialWidget - platform test ', () {
-    testGoldens('BackButtonIcon should look rigth on Android', (tester) async {
-      await tester.pumpWidgetBuilder(
-        Row(children: const [BackButtonIcon(), Text('Android')]),
-        wrapper: materialAppWrapper(
-          platform: TargetPlatform.android,
-          theme: ThemeData.light(),
-        ),
-        surfaceSize: const Size(80, 40),
-      );
-      await screenMatchesGolden(tester, 'back_button_android');
-    });
-
-    testGoldens('BackButtonIcon should look right on iOS', (tester) async {
-      await tester.pumpWidgetBuilder(
-        Row(children: const [BackButtonIcon(), Text('iOS')]),
-        surfaceSize: const Size(80, 40),
-        wrapper: materialAppWrapper(
-          platform: TargetPlatform.iOS,
-          theme: ThemeData.light(),
-        ),
-      );
-      await screenMatchesGolden(tester, 'back_button_ios');
-    });
-  });
-}
-
-Widget _simpleFrame(Widget child) {
-  return Container(
-    padding: const EdgeInsets.all(4),
-    decoration: BoxDecoration(
-      color: const Color(0xFFFFFFFF),
-      border: Border.all(color: const Color(0xFF9E9E9E)),
-    ),
-    child: child,
-  );
 }

@@ -1,0 +1,23 @@
+name: example
+description: Demonstrate how golden toolkit can be used to
+version: 0.0.1
+author:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  golden_toolkit:
+    path: ../
+  pedantic: ^1.9.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/

@@ -9,6 +9,9 @@ script:
   - ../../flutter/bin/flutter analyze
   - ../../flutter/bin/cache/dart-sdk/bin/dartfmt -n ./lib -l 120 --set-exit-if-changed
   - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
+  - cd example
+  - ../../../flutter/bin/flutter analyze
+  - ../../../flutter/bin/flutter test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 cache:

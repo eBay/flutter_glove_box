@@ -18,6 +18,32 @@ void main() {
       );
       expect(observer.wasPushed, isTrue);
     });
+
+    group('allow specification of TargetPlatform', () {
+      testGoldens('Android asset should display correctly', (tester) async {
+        await tester.pumpWidgetBuilder(
+          Row(children: const [BackButtonIcon(), Text('Android')]),
+          wrapper: materialAppWrapper(
+            platform: TargetPlatform.android,
+            theme: ThemeData.light(),
+          ),
+          surfaceSize: const Size(80, 40),
+        );
+        await screenMatchesGolden(tester, 'back_button_android');
+      });
+
+      testGoldens('iOS should display correctly', (tester) async {
+        await tester.pumpWidgetBuilder(
+          Row(children: const [BackButtonIcon(), Text('iOS')]),
+          surfaceSize: const Size(80, 40),
+          wrapper: materialAppWrapper(
+            platform: TargetPlatform.iOS,
+            theme: ThemeData.light(),
+          ),
+        );
+        await screenMatchesGolden(tester, 'back_button_ios');
+      });
+    });
   });
 }
 

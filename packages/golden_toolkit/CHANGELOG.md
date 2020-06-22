@@ -18,8 +18,7 @@ GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => /*
 
 ### Auto-Sized Goldens
 
-A new optional parameter ```autoHeight``` has been added to ```screenMatchesGolden``` and ```multiScreenGolden```. If set to true, the height of the golden will adapt to fit the 
-widget under test. Thanks to @christian-muertz!
+A new optional parameter ```autoHeight``` has been added to ```screenMatchesGolden``` and ```multiScreenGolden```. If set to true, the height of the golden will adapt to fit the widget under test. Thanks to @christian-muertz!
 
 ## 0.3.2
 

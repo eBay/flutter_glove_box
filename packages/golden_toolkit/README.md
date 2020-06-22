@@ -26,7 +26,7 @@ The GoldenBuilder class lets you quickly test various states of your widgets giv
 
 Consider the following WeatherCard widget:
 
-![screenshot of widget under test](test/goldens/single_weather_card.png)
+![screenshot of widget under test](example/test/goldens/single_weather_card.png)
 
 You might want to validate that the widget looks correct for different weather types:
 
@@ -44,7 +44,7 @@ testGoldens('Weather types should look correct', (tester) {
 
 The output of this test will generate a golden: `weather_types_grid.png` that represents all four states in a single test asset.
 
-![example GoldenBuilder output laid out in a grid](test/goldens/weather_types_grid.png)
+![example GoldenBuilder output laid out in a grid](example/test/goldens/weather_types_grid.png)
 
 A different use case may be validating how the widget looks with a variety of text sizes based on the user's device settings.
 
@@ -62,9 +62,9 @@ testGoldens('Weather Card - Accessibility', (tester) {
 
 The output of this test will be this golden file: `weather_accessibility.png`:
 
-![example GoldenBuilder output showing different text scales](test/goldens/weather_accessibility.png)
+![example GoldenBuilder output showing different text scales](example/test/goldens/weather_accessibility.png)
 
-See tests for usage examples: [golden_builder_test.dart](test/golden_builder_test.dart)
+See tests for usage examples: [golden_builder_test.dart](example/test/golden_builder_test.dart)
 
 ### multiScreenGolden
 
@@ -83,11 +83,11 @@ This will generate the following two goldens:
 
 `weather_forecast.phone.png`
 
-![example widget captured with phone dimensions](test/goldens/weather_forecast.phone.png)
+![example widget captured with phone dimensions](example/test/goldens/weather_forecast.phone.png)
 
 `weather_forecast.tablet_landscape.png`
 
-![example widget captured with tablet dimensions](test/goldens/weather_forecast.tablet_landscape.png)
+![example widget captured with tablet dimensions](example/test/goldens/weather_forecast.tablet_landscape.png)
 
 You can also specify the exact device configurations you are interested in:
 
