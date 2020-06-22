@@ -192,7 +192,7 @@ Future<void> main() async {
       await screenMatchesGolden(tester, 'back_button_android');
     });
 
-    testGoldens('BackButtonIcon should look rigth on iOS', (tester) async {
+    testGoldens('BackButtonIcon should look right on iOS', (tester) async {
       await tester.pumpWidgetBuilder(
         Row(children: const [BackButtonIcon(), Text('iOS')]),
         surfaceSize: const Size(80, 40),

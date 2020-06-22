@@ -10,6 +10,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'configuration.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 
@@ -24,7 +25,7 @@ typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 ///
 /// Will output a single  golden file for each device in [devices] and will append device name to png file
 ///
-/// [goldenFileName] is a file name output, must NOT include extension like .png
+/// [name] is a file name output, must NOT include extension like .png
 ///
 /// [autoHeight] tries to find the optimal height for the output surface. If there is a vertical scrollable this
 /// ensures the whole scrollable is shown. If the targeted render box is smaller then the current height, this will
@@ -46,7 +47,7 @@ typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 ///
 Future<void> multiScreenGolden(
   WidgetTester tester,
-  String goldenFileName, {
+  String name, {
   Finder finder,
   bool autoHeight,
   double overrideGoldenHeight,
@@ -66,13 +67,15 @@ Future<void> multiScreenGolden(
       overriddenHeight: overrideGoldenHeight,
       operation: () async {
         await deviceSetupPump(device, tester);
-        await screenMatchesGolden(
+        await compareWithGolden(
           tester,
-          '$goldenFileName.${device.name}',
-          customPump: customPump,
+          name,
           autoHeight: autoHeight,
-          skip: skip,
           finder: finder,
+          customPump: customPump,
+          skip: skip,
+          device: device,
+          fileNameFactory: GoldenToolkit.configuration.deviceFileNameFactory,
         );
       },
     );
