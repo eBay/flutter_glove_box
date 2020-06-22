@@ -5,6 +5,9 @@
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+//ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -152,7 +155,8 @@ Future<void> screenMatchesGolden(
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
-  bool skip,
+  @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
+      bool skip,
 }) {
   return compareWithGolden(
     tester,

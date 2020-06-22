@@ -22,6 +22,7 @@ void main() {
     testGoldens('screenMatchesGolden method level skip should trump global configuration', (tester) async {
       GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => false));
       await tester.pumpWidgetBuilder(Container());
+      //ignore: deprecated_member_use_from_same_package
       await screenMatchesGolden(tester, 'this_is_expected_to_skip', skip: true);
     });
 
@@ -34,6 +35,7 @@ void main() {
     testGoldens('MultiScreenGolden method level skip should trump global configuration', (tester) async {
       GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => false));
       await tester.pumpWidgetBuilder(Container());
+      //ignore: deprecated_member_use_from_same_package
       await multiScreenGolden(tester, 'this_is_expected_to_skip', skip: true);
     });
 

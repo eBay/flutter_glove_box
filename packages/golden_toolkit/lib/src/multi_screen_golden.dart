@@ -5,6 +5,9 @@
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+
+//ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -57,7 +60,8 @@ Future<void> multiScreenGolden(
     Device.phone,
     Device.tabletLandscape,
   ],
-  bool skip,
+  @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
+      bool skip,
 }) async {
   assert(devices?.isNotEmpty ?? false);
   final deviceSetupPump = deviceSetup ?? _twoPumps;
@@ -73,6 +77,7 @@ Future<void> multiScreenGolden(
           autoHeight: autoHeight,
           finder: finder,
           customPump: customPump,
+          //ignore: deprecated_member_use_from_same_package
           skip: skip,
           device: device,
           fileNameFactory: GoldenToolkit.configuration.deviceFileNameFactory,
