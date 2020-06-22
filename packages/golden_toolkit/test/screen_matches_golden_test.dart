@@ -3,23 +3,36 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/src/testing_tools.dart';
 
 void main() {
-  testGoldens('Animation test with CustomPump', (tester) async {
+  testGoldens('Custom Pump should be evaluated if supplied', (tester) async {
     /// Example of a test that used [CustomPump] in order to test animation of CircularProgressIndicator
+
+    final dynamicColor = ValueNotifier<Color>(Colors.red);
     await tester.pumpWidgetBuilder(
-      const CircularProgressIndicator(),
+      ValueListenableBuilder<Color>(
+        valueListenable: dynamicColor,
+        builder: (ctx, color, _) => AnimatedContainer(color: color, duration: const Duration(seconds: 1)),
+      ),
       surfaceSize: const Size(60, 60),
     );
+
+    dynamicColor.value = Colors.green;
 
     await screenMatchesGolden(
       tester,
       'progress_animation_start',
-      customPump: (tester) => tester.pump(const Duration(milliseconds: 100)),
+      customPump: (tester) => tester.pump(const Duration(milliseconds: 0)),
     );
 
     await screenMatchesGolden(
       tester,
       'progress_animation_middle',
-      customPump: (tester) => tester.pump(const Duration(milliseconds: 400)),
+      customPump: (tester) => tester.pump(const Duration(milliseconds: 500)),
+    );
+
+    await screenMatchesGolden(
+      tester,
+      'progress_animation_end',
+      customPump: (tester) => tester.pump(const Duration(milliseconds: 500)),
     );
   });
 
