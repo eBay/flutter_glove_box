@@ -14,46 +14,66 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 void main() {
   group('GoldenToolkitConfiguration Tests', () {
     testGoldens('screenMatchesGolden method should defer skip to global configuration', (tester) async {
-      GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => true));
-      await tester.pumpWidget(Container());
-      await screenMatchesGolden(tester, 'this_is_expected_to_skip');
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidget(Container());
+          await screenMatchesGolden(tester, 'this_is_expected_to_skip');
+        },
+        config: GoldenToolkitConfiguration(skipGoldenAssertion: () => true),
+      );
     });
 
     testGoldens('screenMatchesGolden method level skip should trump global configuration', (tester) async {
-      GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => false));
-      await tester.pumpWidgetBuilder(Container());
-      //ignore: deprecated_member_use_from_same_package
-      await screenMatchesGolden(tester, 'this_is_expected_to_skip', skip: true);
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          //ignore: deprecated_member_use_from_same_package
+          await screenMatchesGolden(tester, 'this_is_expected_to_skip', skip: true);
+        },
+        config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
+      );
     });
 
     testGoldens('MultiScreenGolden method should defer skip to global configuration', (tester) async {
-      GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => true));
-      await tester.pumpWidgetBuilder(Container());
-      await multiScreenGolden(tester, 'this_is_expected_to_skip');
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          await multiScreenGolden(tester, 'this_is_expected_to_skip');
+        },
+        config: GoldenToolkitConfiguration(skipGoldenAssertion: () => true),
+      );
     });
 
     testGoldens('MultiScreenGolden method level skip should trump global configuration', (tester) async {
-      GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => false));
-      await tester.pumpWidgetBuilder(Container());
-      //ignore: deprecated_member_use_from_same_package
-      await multiScreenGolden(tester, 'this_is_expected_to_skip', skip: true);
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          //ignore: deprecated_member_use_from_same_package
+          await multiScreenGolden(tester, 'this_is_expected_to_skip', skip: true);
+        },
+        config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
+      );
     });
 
     testGoldens('screenMatchesGolden method should defer fileNameFactory to global configuration', (tester) async {
-      GoldenToolkit.configure(
-        GoldenToolkitConfiguration(fileNameFactory: (name) => 'goldens/custom/custom_$name.png'),
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          await screenMatchesGolden(tester, 'global_file_name_factory');
+        },
+        config: GoldenToolkit.configuration.copyWith(fileNameFactory: (name) => 'goldens/custom/custom_$name.png'),
       );
-      await tester.pumpWidgetBuilder(Container());
-      await screenMatchesGolden(tester, 'global_file_name_factory');
     });
 
     testGoldens('multiScreenGolden method should defer fileNameFactory to global configuration', (tester) async {
-      GoldenToolkit.configure(
-        GoldenToolkitConfiguration(
-            deviceFileNameFactory: (name, device) => 'goldens/custom/custom_${name}_${device.name}.png'),
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          await multiScreenGolden(tester, 'global_device_file_name_factory');
+        },
+        config: GoldenToolkit.configuration
+            .copyWith(deviceFileNameFactory: (name, device) => 'goldens/custom/custom_${name}_${device.name}.png'),
       );
-      await tester.pumpWidgetBuilder(Container());
-      await multiScreenGolden(tester, 'global_device_file_name_factory');
     });
 
     test('Default Configuration', () {
