@@ -19,19 +19,19 @@ void main() {
 
     await screenMatchesGolden(
       tester,
-      'progress_animation_start',
+      'custom_pump_start',
       customPump: (tester) => tester.pump(const Duration(milliseconds: 0)),
     );
 
     await screenMatchesGolden(
       tester,
-      'progress_animation_middle',
+      'custom_pump_middle',
       customPump: (tester) => tester.pump(const Duration(milliseconds: 500)),
     );
 
     await screenMatchesGolden(
       tester,
-      'progress_animation_end',
+      'custom_pump_end',
       customPump: (tester) => tester.pump(const Duration(milliseconds: 500)),
     );
   });
