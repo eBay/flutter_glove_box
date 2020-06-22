@@ -14,11 +14,6 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 void main() {
   group('GoldenToolkitConfiguration Tests', () {
     testGoldens('screenMatchesGolden method should defer skip to global configuration', (tester) async {
-      await tester.pumpWidget(Container());
-      await screenMatchesGolden(tester, 'this_is_expected_to_skip');
-    });
-
-    testGoldens('screenMatchesGolden method should defer skip to global configuration', (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidget(Container());
