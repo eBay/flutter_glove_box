@@ -38,11 +38,7 @@ class GoldenToolkit {
 
   /// reads the current configuration for based on the active zone, or else falls back to the global static state.
   static GoldenToolkitConfiguration get configuration {
-    final dynamic zoneValue = Zone.current[#goldentoolkit.config];
-    if (zoneValue == null) {
-      return _configuration;
-    }
-    return zoneValue;
+    return Zone.current[#goldentoolkit.config] ?? _configuration;
   }
 
   /// Invoke this to replace the current Golden Toolkit configuration
