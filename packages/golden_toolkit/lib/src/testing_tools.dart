@@ -119,15 +119,18 @@ void testGoldens(
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
 }) {
+  final dynamic config = Zone.current[#goldenToolkit.config];
   group(description, () {
     testWidgets('Golden', (tester) async {
-      _inGoldenTest = true;
-      tester.binding.addTime(const Duration(seconds: 10));
-      try {
-        await test(tester);
-      } finally {
-        _inGoldenTest = false;
-      }
+      return GoldenToolkit.runWithConfiguration(() async {
+        _inGoldenTest = true;
+        tester.binding.addTime(const Duration(seconds: 10));
+        try {
+          await test(tester);
+        } finally {
+          _inGoldenTest = false;
+        }
+      }, config: config);
     }, skip: skip);
   });
 }

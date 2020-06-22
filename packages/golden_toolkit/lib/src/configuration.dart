@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -8,7 +12,6 @@
 
 import 'package:meta/meta.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'device.dart';
 
 /// Manages global state & behavior for the Golden Toolkit
@@ -19,10 +22,32 @@ class GoldenToolkit {
 
   static GoldenToolkitConfiguration _configuration = const GoldenToolkitConfiguration();
 
-  /// the current global configuration for the GoldenToolkit
-  static GoldenToolkitConfiguration get configuration => _configuration;
+  /// Applies a GoldenToolkitConfiguration to a block of code to effectively provide a scoped
+  /// singleton. The configuration will apply to just the injected body function.
+  ///
+  /// In most cases, this can be applied in your flutter_test_config.dart to wrap every test in its own zone
+  static T runWithConfiguration<T>(
+    T Function() body, {
+    @required GoldenToolkitConfiguration config,
+  }) {
+    return runZoned<T>(
+      body,
+      zoneValues: <dynamic, dynamic>{#goldentoolkit.config: config},
+    );
+  }
+
+  /// reads the current configuration for based on the active zone, or else falls back to the global static state.
+  static GoldenToolkitConfiguration get configuration {
+    final dynamic zoneValue = Zone.current[#goldentoolkit.config];
+    if (zoneValue == null) {
+      return _configuration;
+    }
+    return zoneValue;
+  }
 
   /// Invoke this to replace the current Golden Toolkit configuration
+  @Deprecated(
+      'This Global state is being deprecated in favor of using a zoned approach. See GoldenToolkit.runWithConfiguration()')
   static void configure(GoldenToolkitConfiguration configuration) {
     _configuration = configuration;
   }
