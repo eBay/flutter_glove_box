@@ -276,7 +276,7 @@ See more usage examples here: [golden_builder_test.dart](test/golden_builder_tes
 
 There are global settigns that can be configured by calling the following API:
 
-```GoldenToolkit.configure()```
+```GoldenToolkit.runWithConfiguration()```
 
 Currently, the primary option is to allow consumers to holistically skip golden assertions. For example, perhaps you only want to perform golden assertions on certain platforms.
 
