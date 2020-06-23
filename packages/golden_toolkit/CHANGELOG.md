@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.5.0
+
+### New API for configuring the toolkit
+
+Reworked the configuration API introduced in 0.4.0. The prior method relied on global state and could be error prone. The old implementation still functions, but has been marked as deprecated and will be removed in a future release.
+
+The new API can be invoked in `flutter_test_config.dart` to be applied for all tests within a given folder (or the entire package). Additionally, if there is a need to override configuration at a narrower scope, this API can be invoked in-line as well.
+
+```dart
+GoldenToolkit.runWithConfiguration((){/* callback() */}, config: GoldenToolkitConfiguration(/* custom config here */));
+```
+
+### Added the ability to customize the generated filenames
+
+When using ```screenMatchesGolden``` or ```multiGoldenFile```, you can now supply your own functions for controlling the naming of the files. This can be done using the configuration API mentioned above.
+
+```dart
+GoldenToolkit.runWithConfiguration((){ /* callback() */}, config: GoldenToolkitConfiguration(fileNameFactory: (filename) => '' /*output filename*/));
+```
+
+There are two methods that can be overridden:
+
+* ```fileNameFactory``` is used for screenMatchesGolden
+* ```deviceFileNameFactory``` is used for multiScreenGolden
+
+Future releases will likely consolidate these APIs.
+
+Thanks to @christian-muertz for this enhancement.
+
+### Misc Changes
+
+A few API / parameters were marked as deprecated and will be removed in future releases.
+
 ## 0.4.0
 
 ### Configuration API
