@@ -276,6 +276,8 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
 
 /// A function that waits for all [Image] widgets found in the widget tree to finish decoding.
 ///
+/// Currently this supports images included via Image widgets, or as part of BoxDecorations.
+///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
 Future<void> defaultPrimeAssets(WidgetTester tester) async {
