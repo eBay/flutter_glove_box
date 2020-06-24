@@ -124,11 +124,13 @@ void main() {
       bool skipGoldenAssertion() => false;
       String fileNameFactory(String filename) => '';
       String deviceFileNameFactory(String filename, Device device) => '';
+      Future<void> primeAssets(WidgetTester tester) async {}
 
       final config = GoldenToolkitConfiguration(
         skipGoldenAssertion: skipGoldenAssertion,
         deviceFileNameFactory: deviceFileNameFactory,
         fileNameFactory: fileNameFactory,
+        primeAssets: primeAssets,
       );
 
       test('config with identical params should be equal', () {
@@ -148,6 +150,10 @@ void main() {
         test('deviceFileNameFactory', () {
           expect(config, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => ''))));
           expect(config.hashCode, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => '').hashCode)));
+        });
+        test('primeImages', () {
+          expect(config, isNot(equals(config.copyWith(primeAssets: (_) async {}))));
+          expect(config.hashCode, isNot(equals(config.copyWith(primeAssets: (_) async {}).hashCode)));
         });
       });
     });

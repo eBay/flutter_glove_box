@@ -101,11 +101,13 @@ class GoldenToolkitConfiguration {
     SkipGoldenAssertion skipGoldenAssertion,
     FileNameFactory fileNameFactory,
     DeviceFileNameFactory deviceFileNameFactory,
+    PrimeAssets primeAssets,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
       fileNameFactory: fileNameFactory ?? this.fileNameFactory,
       deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
+      primeAssets: primeAssets ?? this.primeAssets,
     );
   }
 
@@ -116,11 +118,13 @@ class GoldenToolkitConfiguration {
             runtimeType == other.runtimeType &&
             skipGoldenAssertion == other.skipGoldenAssertion &&
             fileNameFactory == other.fileNameFactory &&
-            deviceFileNameFactory == other.deviceFileNameFactory;
+            deviceFileNameFactory == other.deviceFileNameFactory &&
+            primeAssets == other.primeAssets;
   }
 
   @override
-  int get hashCode => skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode;
+  int get hashCode =>
+      skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode;
 
   /// A function that primes all needed assets for the given [tester]. Defaults to [legacyPrimeAssets]
   /// which primes all assets using another call to [matchesGoldenFile].
