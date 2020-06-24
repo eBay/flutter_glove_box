@@ -162,6 +162,26 @@ Future<void> main() async {
           ],
         );
       });
+
+      testGoldens('Should set to exact height if override height is specified', (tester) async {
+        await tester.pumpWidget(Center(
+          // We center here so the Container is not forced to go full height
+          child: Container(color: Colors.red, height: 50),
+        ));
+
+        await multiScreenGolden(
+          tester,
+          'override_height',
+          overrideGoldenHeight: 300,
+          devices: [
+            const Device(
+              name: 'anything',
+              size: Size(100, 200),
+              brightness: Brightness.light,
+            )
+          ],
+        );
+      });
     });
   });
 }

@@ -29,6 +29,26 @@ Future releases will likely consolidate these APIs.
 
 Thanks to @christian-muertz for this enhancement.
 
+### Added additional utility functions for preparing for goldens
+
+Extracted out some public extension methods that were previously private implementation details of ```multiScreenGolden``` & ```screenMatchesGolden```
+
+Added the following extensions. These can be used with any vanilla golden assertions and do not require ```multiScreenGolden```, ```screenMatchesGolden```, or ```GoldenBuilder```.
+
+```dart
+// configures the simulated device to mirror the supplied device configuration (dimensions, pixel density, safe area, etc)
+tester.binding.applyDeviceOverrides(device);
+
+// resets any configuration applied by applyDeviceOverrides
+tester.binding.resetDeviceOverrides();
+
+// runs a block of code with the simulated device settings and automatically clears upon completion
+tester.binding.runWithDeviceOverrides(device, body: (){});
+
+// convenience helper for configurating the safe area... the built-in paddingTestValue is difficult to work with
+tester.binding.window.safeAreaTestValue = EdgeInsets.all(8);
+```
+
 ### Misc Changes
 
 A few API / parameters were marked as deprecated and will be removed in future releases.
