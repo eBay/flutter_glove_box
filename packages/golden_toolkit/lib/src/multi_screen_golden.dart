@@ -67,7 +67,7 @@ Future<void> multiScreenGolden(
   for (final device in devices) {
     await tester.binding.runWithDeviceOverrides(
       device,
-      operation: () async {
+      body: () async {
         await deviceSetupPump(device, tester);
         await compareWithGolden(
           tester,
