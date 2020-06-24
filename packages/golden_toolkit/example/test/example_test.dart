@@ -85,6 +85,24 @@ void main() {
         overrideGoldenHeight: 1200,
       );
     });
+
+    group('GoldenBuilder examples of accessibility testing', () {
+      // With those test we want to make sure our widgets look right when user changes system font size
+      testGoldens('Card should look right when user bumps system font size', (tester) async {
+        const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
+
+        final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
+          ..addScenario('Regular font size', widget)
+          ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
+          ..addTextScaleScenario('Largest font size', widget, textScaleFactor: 3.2);
+
+        await tester.pumpWidgetBuilder(
+          gb.build(),
+          surfaceSize: const Size(200, 1000),
+        );
+        await screenMatchesGolden(tester, 'weather_accessibility');
+      });
+    });
   });
 
   group('Multi-Screen Golden', () {
