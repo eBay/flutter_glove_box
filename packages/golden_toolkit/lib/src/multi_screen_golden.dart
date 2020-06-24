@@ -8,14 +8,13 @@
 
 //ignore_for_file: deprecated_member_use_from_same_package
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'configuration.dart';
 import 'device.dart';
 import 'testing_tools.dart';
+import 'widget_tester_extensions.dart';
 
 Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();
@@ -66,9 +65,8 @@ Future<void> multiScreenGolden(
   assert(devices?.isNotEmpty ?? false);
   final deviceSetupPump = deviceSetup ?? _twoPumps;
   for (final device in devices) {
-    await tester._applyDeviceOverrides(
+    await tester.binding.runWithDeviceOverrides(
       device,
-      overriddenHeight: overrideGoldenHeight,
       operation: () async {
         await deviceSetupPump(device, tester);
         await compareWithGolden(
@@ -85,54 +83,4 @@ Future<void> multiScreenGolden(
       },
     );
   }
-}
-
-extension on WidgetTester {
-  Future<void> _applyDeviceOverrides(
-    Device device, {
-    double overriddenHeight,
-    Future<void> Function() operation,
-  }) async {
-    await binding.setSurfaceSize(Size(device.size.width, overriddenHeight ?? device.size.height));
-    binding.window.physicalSizeTestValue = device.size;
-    binding.window.devicePixelRatioTestValue = device.devicePixelRatio;
-    binding.window.textScaleFactorTestValue = device.textScale;
-    binding.window.paddingTestValue = _FakeWindowPadding(
-      bottom: device.safeArea.bottom,
-      left: device.safeArea.left,
-      right: device.safeArea.right,
-      top: device.safeArea.top,
-    );
-    binding.window.platformBrightnessTestValue = device.brightness;
-
-    await operation();
-
-    binding.window.clearDevicePixelRatioTestValue();
-    binding.window.clearPlatformBrightnessTestValue();
-    binding.window.clearPaddingTestValue();
-    binding.window.clearTextScaleFactorTestValue();
-    binding.window.clearPhysicalSizeTestValue();
-    await binding.setSurfaceSize(null);
-  }
-}
-
-class _FakeWindowPadding implements WindowPadding {
-  const _FakeWindowPadding({
-    this.bottom = 0,
-    this.left = 0,
-    this.right = 0,
-    this.top = 0,
-  });
-
-  @override
-  final double bottom;
-
-  @override
-  final double left;
-
-  @override
-  final double right;
-
-  @override
-  final double top;
 }
