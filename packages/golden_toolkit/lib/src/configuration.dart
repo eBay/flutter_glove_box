@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
+import '../golden_toolkit.dart';
 import 'device.dart';
 
 /// Manages global state & behavior for the Golden Toolkit
