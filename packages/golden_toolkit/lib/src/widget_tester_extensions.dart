@@ -3,10 +3,20 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'configuration.dart';
 import 'device.dart';
 
+/// Convenience extensions on WidgetTester
+extension WidgetTesterImageLoadingExtensions on WidgetTester {
+  /// Waits for images to decode. Use this to ensure that images are properly displayed
+  /// in Goldens. The implementation of this can be configured as part of GoldenToolkitConfiguration
+  ///
+  /// If you have assets that are not loading with this implementation, please file an issue and we will explore solutions.
+  Future<void> waitForAssets() => GoldenToolkit.configuration.primeAssets(this);
+}
+
 /// Convenience extensions for more easily configuring WidgetTester for pre-set configurations
-extension WidgetTesterExtensions on TestWidgetsFlutterBinding {
+extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
   /// Configure the Test device for the duration of the supplied operation and revert
   ///
   /// [device] the desired configuration to apply

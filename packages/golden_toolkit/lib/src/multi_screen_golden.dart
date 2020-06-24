@@ -11,7 +11,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'configuration.dart';
+import '../golden_toolkit.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 import 'widget_tester_extensions.dart';
@@ -75,9 +75,9 @@ Future<void> multiScreenGolden(
         await compareWithGolden(
           tester,
           name,
+          customPump: customPump,
           autoHeight: autoHeight,
           finder: finder,
-          customPump: customPump,
           //ignore: deprecated_member_use_from_same_package
           skip: skip,
           device: device,

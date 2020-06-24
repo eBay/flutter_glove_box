@@ -2,6 +2,25 @@
 
 ## 0.5.0
 
+### More intelligent behavior for loading assets
+
+A new mechanism has been added for ensuring that images have been decoded before capturing goldens. The old implementation worked most of the time, but was non-deterministic and hacky. The new implementation inspects the widget tree to identify images that need to be loaded. It should display images more consistently in goldens.
+
+This may be a breaking change for some consumers. If you run into issues, you can revert to the old behavior, by applying the following configuration:
+
+```GoldenToolkitConfiguration(primeAssets: legacyPrimeAssets);```
+
+Additionally, you can provide your own implementation that extends the new default behavior:
+
+```dart
+GoldenToolkitConfiguration(primeAssets: (tester) async {
+ await defaultPrimeAssets(tester);
+ /* do anything custom */
+});
+```
+
+If you run into issues, please submit issues so we can expand on the default behavior. We expect that it is likely missing some cases.
+
 ### New API for configuring the toolkit
 
 Reworked the configuration API introduced in 0.4.0. The prior method relied on global state and could be error prone. The old implementation still functions, but has been marked as deprecated and will be removed in a future release.
@@ -37,16 +56,20 @@ Added the following extensions. These can be used with any vanilla golden assert
 
 ```dart
 // configures the simulated device to mirror the supplied device configuration (dimensions, pixel density, safe area, etc)
-tester.binding.applyDeviceOverrides(device);
+await tester.binding.applyDeviceOverrides(device);
 
 // resets any configuration applied by applyDeviceOverrides
-tester.binding.resetDeviceOverrides();
+await tester.binding.resetDeviceOverrides();
 
 // runs a block of code with the simulated device settings and automatically clears upon completion
-tester.binding.runWithDeviceOverrides(device, body: (){});
+await tester.binding.runWithDeviceOverrides(device, body: (){});
 
 // convenience helper for configurating the safe area... the built-in paddingTestValue is difficult to work with
 tester.binding.window.safeAreaTestValue = EdgeInsets.all(8);
+
+// a stand-alone version of the image loading mechanism described at the top of these release notes. Will wait for all images to be decoded
+// so that they will for sure appear in the golden.
+await tester.waitForAssets();
 ```
 
 ### Misc Changes

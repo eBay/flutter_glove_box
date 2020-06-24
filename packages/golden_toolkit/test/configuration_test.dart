@@ -76,6 +76,40 @@ void main() {
       );
     });
 
+    testGoldens('screenMatchesGolden method uses primeAssets from global configuration', (tester) async {
+      var globalPrimeCalledCount = 0;
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Image.asset('packages/sample_dependency/images/image.png'));
+          await screenMatchesGolden(tester, 'screen_matches_golden_defers_primeAssets');
+          expect(globalPrimeCalledCount, 1);
+        },
+        config: GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
+          globalPrimeCalledCount += 1;
+          await legacyPrimeAssets(tester);
+        }),
+      );
+    });
+
+    testGoldens('multiScreenGolden method uses primeAssets from global configuration', (tester) async {
+      var globalPrimeCalledCount = 0;
+      return GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Image.asset('packages/sample_dependency/images/image.png'));
+          await multiScreenGolden(
+            tester,
+            'multi_screen_golden_defers_primeAssets',
+            devices: [const Device(size: Size(200, 200), name: 'custom')],
+          );
+          expect(globalPrimeCalledCount, 1);
+        },
+        config: GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
+          globalPrimeCalledCount += 1;
+          await legacyPrimeAssets(tester);
+        }),
+      );
+    });
+
     test('Default Configuration', () {
       const config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
@@ -90,11 +124,13 @@ void main() {
       bool skipGoldenAssertion() => false;
       String fileNameFactory(String filename) => '';
       String deviceFileNameFactory(String filename, Device device) => '';
+      Future<void> primeAssets(WidgetTester tester) async {}
 
       final config = GoldenToolkitConfiguration(
         skipGoldenAssertion: skipGoldenAssertion,
         deviceFileNameFactory: deviceFileNameFactory,
         fileNameFactory: fileNameFactory,
+        primeAssets: primeAssets,
       );
 
       test('config with identical params should be equal', () {
@@ -114,6 +150,10 @@ void main() {
         test('deviceFileNameFactory', () {
           expect(config, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => ''))));
           expect(config.hashCode, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => '').hashCode)));
+        });
+        test('primeImages', () {
+          expect(config, isNot(equals(config.copyWith(primeAssets: (_) async {}))));
+          expect(config.hashCode, isNot(equals(config.copyWith(primeAssets: (_) async {}).hashCode)));
         });
       });
     });

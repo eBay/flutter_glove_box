@@ -10,8 +10,9 @@ import 'package:flutter/foundation.dart';
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'package:meta/meta.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meta/meta.dart';
+import '../golden_toolkit.dart';
 import 'device.dart';
 
 /// Manages global state & behavior for the Golden Toolkit
@@ -49,6 +50,7 @@ class GoldenToolkit {
   }
 }
 
+/// A func that will be evaluated at runtime to determine if the golden assertion should be skipped
 typedef SkipGoldenAssertion = bool Function();
 
 /// A factory to determine an actual file name/path from a given name.
@@ -65,6 +67,13 @@ typedef FileNameFactory = String Function(String name);
 /// * [GoldenToolkitConfiguration] to configure a global device file name factory.
 typedef DeviceFileNameFactory = String Function(String name, Device device);
 
+/// A function that primes all needed assets for the given [tester].
+///
+/// For ready to use implementations see:
+/// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
+/// * [defaultPrimeAssets], which just waits for all [Image] widgets in the widget tree to finish decoding.
+typedef PrimeAssets = Future<void> Function(WidgetTester tester);
+
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
 @immutable
 class GoldenToolkitConfiguration {
@@ -72,10 +81,17 @@ class GoldenToolkitConfiguration {
   ///
   /// [skipGoldenAssertion] a func that returns a bool as to whether the golden assertion should be skipped.
   /// A typical example may be to skip when the assertion is invoked on certain platforms. For example: () => !Platform.isMacOS
+  ///
+  /// [fileNameFactory] a func used to decide the final filename for screenMatchesGolden() invocations
+  ///
+  /// [deviceFileNameFactory] a func used to decide the final filename for multiScreenGolden() invocations
+  ///
+  /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
   const GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
     this.deviceFileNameFactory = defaultDeviceFileNameFactory,
+    this.primeAssets = defaultPrimeAssets,
   });
 
   /// a function indicating whether a golden assertion should be skipped
@@ -87,16 +103,21 @@ class GoldenToolkitConfiguration {
   /// A function to determine the file name/path [multiScreenGolden] uses to call [matchesGoldenFile].
   final DeviceFileNameFactory deviceFileNameFactory;
 
+  /// A function that primes all needed assets for the given [tester]. Defaults to [defaultPrimeAssets].
+  final PrimeAssets primeAssets;
+
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
     SkipGoldenAssertion skipGoldenAssertion,
     FileNameFactory fileNameFactory,
     DeviceFileNameFactory deviceFileNameFactory,
+    PrimeAssets primeAssets,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
       fileNameFactory: fileNameFactory ?? this.fileNameFactory,
       deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
+      primeAssets: primeAssets ?? this.primeAssets,
     );
   }
 
@@ -107,11 +128,13 @@ class GoldenToolkitConfiguration {
             runtimeType == other.runtimeType &&
             skipGoldenAssertion == other.skipGoldenAssertion &&
             fileNameFactory == other.fileNameFactory &&
-            deviceFileNameFactory == other.deviceFileNameFactory;
+            deviceFileNameFactory == other.deviceFileNameFactory &&
+            primeAssets == other.primeAssets;
   }
 
   @override
-  int get hashCode => skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode;
+  int get hashCode =>
+      skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode;
 }
 
 bool _doNotSkip() => false;
