@@ -180,7 +180,6 @@ Future<void> compareWithGolden(
   DeviceFileNameFactory fileNameFactory,
   Device device,
   bool autoHeight,
-  double overrideHeight,
   Finder finder,
   CustomPump customPump,
   bool skip,
@@ -193,8 +192,6 @@ Future<void> compareWithGolden(
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
-  assert(!(overrideHeight != null && autoHeight), 'overrideHeight and autoHeight cannot be used together');
-
   final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
 
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
@@ -202,18 +199,13 @@ Future<void> compareWithGolden(
   RepaintBoundary, it should not matter */
   final actualFinder = finder ?? find.byWidgetPredicate((w) => true).first;
   final fileName = fileNameFactory(name, device);
+  final originalWindowSize = tester.binding.window.physicalSize;
 
   // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
   if (!shouldSkipGoldenGeneration) {
     await _primeImages(fileName, actualFinder);
   }
   await pumpAfterPrime(tester);
-
-  final originalWindowSize = tester.binding.window.physicalSize;
-
-  if (overrideHeight != null) {
-    await tester.binding.setSurfaceSize(Size(originalWindowSize.width, overrideHeight));
-  }
 
   if (autoHeight == true) {
     // Find the first scrollable element which can be scrolled vertical.
