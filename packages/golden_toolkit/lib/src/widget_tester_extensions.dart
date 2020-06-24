@@ -8,8 +8,8 @@ import 'device.dart';
 
 /// Convenience extensions on WidgetTester
 extension WidgetTesterImageLoadingExtensions on WidgetTester {
-  /// Waits until for images to decode. Use this to ensure that images are properly displayed
-  /// in Golden images. The implementation of this can be configured as part of GoldenToolkitConfiguration
+  /// Waits for images to decode. Use this to ensure that images are properly displayed
+  /// in Goldens. The implementation of this can be configured as part of GoldenToolkitConfiguration
   ///
   /// If you have assets that are not loading with this implementation, please file an issue and we will explore solutions.
   Future<void> waitForAssets() {
