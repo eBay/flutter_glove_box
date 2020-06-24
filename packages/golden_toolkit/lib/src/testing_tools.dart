@@ -253,7 +253,7 @@ Future<void> compareWithGolden(
 }
 
 /// A function that primes all assets by just wasting time and hoping that it is enough for all assets to
-/// finish loading. Doing so is not recommended and very flaky. Consider switching to [waitForAllImages] or
+/// finish loading. Doing so is not recommended and very flaky. Consider switching to [primeAssets] or
 /// a custom implementation.
 ///
 /// See also:
@@ -262,8 +262,7 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
   final renderObject = tester.binding.renderView;
   assert(!renderObject.debugNeedsPaint);
 
-  // ignore: avoid_as
-  final layer = renderObject.debugLayer as OffsetLayer;
+  final OffsetLayer layer = renderObject.debugLayer;
 
   // This is a very flaky hack which should be avoided if possible.
   // We are just trying to waste some time that matches the time needed to call matchesGoldenFile.
@@ -279,13 +278,23 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
 ///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
-Future<void> waitForAllImages(WidgetTester tester) async {
+Future<void> primeAssets(WidgetTester tester) async {
   final imageElements = find.byType(Image).evaluate();
+  final containerElements = find.byType(Container).evaluate();
   await tester.runAsync(() async {
     for (final imageElement in imageElements) {
       final widget = imageElement.widget;
       if (widget is Image) {
         await precacheImage(widget.image, imageElement);
+      }
+    }
+    for (final container in containerElements) {
+      final Container widget = container.widget;
+      final decoration = widget.decoration;
+      if (decoration is BoxDecoration) {
+        if (decoration.image != null) {
+          await precacheImage(decoration.image.image, container);
+        }
       }
     }
   });

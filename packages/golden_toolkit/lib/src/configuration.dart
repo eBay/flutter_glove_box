@@ -50,6 +50,7 @@ class GoldenToolkit {
   }
 }
 
+/// A func that will be evaluated at runtime to determine if the golden assertion should be skipped
 typedef SkipGoldenAssertion = bool Function();
 
 /// A factory to determine an actual file name/path from a given name.
@@ -70,7 +71,7 @@ typedef DeviceFileNameFactory = String Function(String name, Device device);
 ///
 /// For ready to use implementations see:
 /// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
-/// * [waitForAllImages], which just waits for all [Image] widgets in the widget tree to finish decoding.
+/// * [primeAssets], which just waits for all [Image] widgets in the widget tree to finish decoding.
 typedef PrimeAssets = Future<void> Function(WidgetTester tester);
 
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
