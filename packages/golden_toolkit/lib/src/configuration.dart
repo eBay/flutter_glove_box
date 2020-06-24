@@ -81,6 +81,12 @@ class GoldenToolkitConfiguration {
   ///
   /// [skipGoldenAssertion] a func that returns a bool as to whether the golden assertion should be skipped.
   /// A typical example may be to skip when the assertion is invoked on certain platforms. For example: () => !Platform.isMacOS
+  ///
+  /// [fileNameFactory] a func used to decide the final filename for screenMatchesGolden() invocations
+  ///
+  /// [deviceFileNameFactory] a func used to decide the final filename for multiScreenGolden() invocations
+  ///
+  /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
   const GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
