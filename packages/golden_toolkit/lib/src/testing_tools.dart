@@ -19,6 +19,7 @@ import 'package:meta/meta.dart';
 import 'configuration.dart';
 import 'device.dart';
 import 'test_asset_bundle.dart';
+import 'widget_tester_extensions.dart';
 
 const Size _defaultSize = Size(800, 600);
 
@@ -184,7 +185,6 @@ Future<void> compareWithGolden(
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
-  PrimeAssets primeAssets,
   bool skip,
 }) async {
   assert(
@@ -205,7 +205,7 @@ Future<void> compareWithGolden(
   final originalWindowSize = tester.binding.window.physicalSize;
 
   if (!shouldSkipGoldenGeneration) {
-    await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester);
+    await tester.waitForAssets();
   }
 
   await pumpAfterPrime(tester);

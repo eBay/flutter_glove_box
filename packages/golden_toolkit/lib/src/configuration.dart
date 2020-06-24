@@ -103,6 +103,9 @@ class GoldenToolkitConfiguration {
   /// A function to determine the file name/path [multiScreenGolden] uses to call [matchesGoldenFile].
   final DeviceFileNameFactory deviceFileNameFactory;
 
+  /// A function that primes all needed assets for the given [tester]. Defaults to [defaultPrimeAssets].
+  final PrimeAssets primeAssets;
+
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
     SkipGoldenAssertion skipGoldenAssertion,
@@ -132,10 +135,6 @@ class GoldenToolkitConfiguration {
   @override
   int get hashCode =>
       skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode;
-
-  /// A function that primes all needed assets for the given [tester]. Defaults to [legacyPrimeAssets]
-  /// which primes all assets using another call to [matchesGoldenFile].
-  final PrimeAssets primeAssets;
 }
 
 bool _doNotSkip() => false;
