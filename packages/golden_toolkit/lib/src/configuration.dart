@@ -10,8 +10,8 @@ import 'package:flutter/foundation.dart';
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 
-import 'package:meta/meta.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meta/meta.dart';
 import 'device.dart';
 
 /// Manages global state & behavior for the Golden Toolkit
@@ -65,6 +65,13 @@ typedef FileNameFactory = String Function(String name);
 /// * [GoldenToolkitConfiguration] to configure a global device file name factory.
 typedef DeviceFileNameFactory = String Function(String name, Device device);
 
+/// A function that primes all needed assets for the given [tester].
+///
+/// For ready to use implementations see:
+/// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
+/// * [waitForAllImages], which just waits for all [Image] widgets in the widget tree to finish decoding.
+typedef PrimeAssets = Future<void> Function(WidgetTester tester);
+
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
 @immutable
 class GoldenToolkitConfiguration {
@@ -76,6 +83,7 @@ class GoldenToolkitConfiguration {
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
     this.deviceFileNameFactory = defaultDeviceFileNameFactory,
+    this.primeAssets = legacyPrimeAssets,
   });
 
   /// a function indicating whether a golden assertion should be skipped
@@ -112,6 +120,10 @@ class GoldenToolkitConfiguration {
 
   @override
   int get hashCode => skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode;
+
+  /// A function that primes all needed assets for the given [tester]. Defaults to [legacyPrimeAssets]
+  /// which primes all assets using another call to [matchesGoldenFile].
+  final PrimeAssets primeAssets;
 }
 
 bool _doNotSkip() => false;

@@ -11,7 +11,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'configuration.dart';
+import '../golden_toolkit.dart';
 import 'device.dart';
 import 'testing_tools.dart';
 import 'widget_tester_extensions.dart';
@@ -52,6 +52,7 @@ Future<void> multiScreenGolden(
   String name, {
   Finder finder,
   bool autoHeight,
+  PrimeAssets primeAssets,
   double overrideGoldenHeight,
   CustomPump customPump,
   DeviceSetup deviceSetup,
@@ -75,9 +76,10 @@ Future<void> multiScreenGolden(
         await compareWithGolden(
           tester,
           name,
+          customPump: customPump,
+          primeAssets: primeAssets,
           autoHeight: autoHeight,
           finder: finder,
-          customPump: customPump,
           //ignore: deprecated_member_use_from_same_package
           skip: skip,
           device: device,

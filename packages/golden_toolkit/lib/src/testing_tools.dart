@@ -9,8 +9,10 @@
 //ignore_for_file: deprecated_member_use_from_same_package
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 
@@ -182,6 +184,7 @@ Future<void> compareWithGolden(
   bool autoHeight,
   Finder finder,
   CustomPump customPump,
+  PrimeAssets primeAssets,
   bool skip,
 }) async {
   assert(
@@ -201,10 +204,10 @@ Future<void> compareWithGolden(
   final fileName = fileNameFactory(name, device);
   final originalWindowSize = tester.binding.window.physicalSize;
 
-  // This is a minor optimization and works around an issue with the current hacky implementation of invoking the golden assertion method.
   if (!shouldSkipGoldenGeneration) {
-    await _primeImages(fileName, actualFinder);
+    await (primeAssets ?? GoldenToolkit.configuration.primeAssets)(tester);
   }
+
   await pumpAfterPrime(tester);
 
   if (autoHeight == true) {
@@ -249,7 +252,43 @@ Future<void> compareWithGolden(
   }
 }
 
-// Matches Golden file is the easiest way for the images to be requested.
-Future<void> _primeImages(String fileName, Finder finder) => matchesGoldenFile(fileName).matchAsync(finder);
+/// A function that primes all assets by just wasting time and hoping that it is enough for all assets to
+/// finish loading. Doing so is not recommended and very flaky. Consider switching to [waitForAllImages] or
+/// a custom implementation.
+///
+/// See also:
+/// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
+Future<void> legacyPrimeAssets(WidgetTester tester) async {
+  final renderObject = tester.binding.renderView;
+  assert(!renderObject.debugNeedsPaint);
+
+  // ignore: avoid_as
+  final layer = renderObject.debugLayer as OffsetLayer;
+
+  // This is a very flaky hack which should be avoided if possible.
+  // We are just trying to waste some time that matches the time needed to call matchesGoldenFile.
+  // This should be enough time for most images/assets to be ready.
+  await tester.runAsync<void>(() async {
+    final image = await layer.toImage(renderObject.paintBounds);
+    await image.toByteData(format: ImageByteFormat.png);
+    await image.toByteData(format: ImageByteFormat.png);
+  });
+}
+
+/// A function that waits for all [Image] widgets found in the widget tree to finish decoding.
+///
+/// See also:
+/// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
+Future<void> waitForAllImages(WidgetTester tester) async {
+  final imageElements = find.byType(Image).evaluate();
+  await tester.runAsync(() async {
+    for (final imageElement in imageElements) {
+      final widget = imageElement.widget;
+      if (widget is Image) {
+        await precacheImage(widget.image, imageElement);
+      }
+    }
+  });
+}
 
 Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
