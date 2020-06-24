@@ -253,7 +253,7 @@ Future<void> compareWithGolden(
 }
 
 /// A function that primes all assets by just wasting time and hoping that it is enough for all assets to
-/// finish loading. Doing so is not recommended and very flaky. Consider switching to [primeAssets] or
+/// finish loading. Doing so is not recommended and very flaky. Consider switching to [defaultPrimeAssets] or
 /// a custom implementation.
 ///
 /// See also:
@@ -278,7 +278,7 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
 ///
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
-Future<void> primeAssets(WidgetTester tester) async {
+Future<void> defaultPrimeAssets(WidgetTester tester) async {
   final imageElements = find.byType(Image).evaluate();
   final containerElements = find.byType(Container).evaluate();
   await tester.runAsync(() async {

@@ -33,4 +33,5 @@ class BoxDecorationWithImage extends StatelessWidget {
 GoldenToolkitConfiguration get legacyConfiguration =>
     GoldenToolkit.configuration.copyWith(primeAssets: legacyPrimeAssets);
 
-GoldenToolkitConfiguration get defaultConfiguration => GoldenToolkit.configuration.copyWith(primeAssets: primeAssets);
+GoldenToolkitConfiguration get defaultConfiguration =>
+    GoldenToolkit.configuration.copyWith(primeAssets: defaultPrimeAssets);

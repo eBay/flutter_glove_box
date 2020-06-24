@@ -71,7 +71,7 @@ typedef DeviceFileNameFactory = String Function(String name, Device device);
 ///
 /// For ready to use implementations see:
 /// * [legacyPrimeAssets], which is the default [PrimeAssets] used by the global configuration by default.
-/// * [primeAssets], which just waits for all [Image] widgets in the widget tree to finish decoding.
+/// * [defaultPrimeAssets], which just waits for all [Image] widgets in the widget tree to finish decoding.
 typedef PrimeAssets = Future<void> Function(WidgetTester tester);
 
 /// Represents configuration options for the GoldenToolkit. These are akin to environmental flags.
@@ -85,7 +85,7 @@ class GoldenToolkitConfiguration {
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
     this.deviceFileNameFactory = defaultDeviceFileNameFactory,
-    this.primeAssets = legacyPrimeAssets,
+    this.primeAssets = defaultPrimeAssets,
   });
 
   /// a function indicating whether a golden assertion should be skipped
