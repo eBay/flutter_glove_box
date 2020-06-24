@@ -11,15 +11,18 @@ extension WidgetTesterExtensions on TestWidgetsFlutterBinding {
   ///
   /// [device] the desired configuration to apply
   ///
-  /// [operation] the closure you wish to be executed with the device configuration applied
+  /// [body] the closure you wish to be executed with the device configuration applied
   ///
   Future<void> runWithDeviceOverrides(
     Device device, {
-    Future<void> Function() operation,
+    Future<void> Function() body,
   }) async {
     await applyDeviceOverrides(device);
-    await operation();
-    await resetDeviceOverrides();
+    try {
+      await body();
+    } finally {
+      await resetDeviceOverrides();
+    }
   }
 
   /// Configure the Test device to match the configuration of the supplied device
