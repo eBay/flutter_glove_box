@@ -12,9 +12,7 @@ extension WidgetTesterImageLoadingExtensions on WidgetTester {
   /// in Goldens. The implementation of this can be configured as part of GoldenToolkitConfiguration
   ///
   /// If you have assets that are not loading with this implementation, please file an issue and we will explore solutions.
-  Future<void> waitForAssets() {
-    return GoldenToolkit.configuration.primeAssets(this);
-  }
+  Future<void> waitForAssets() => GoldenToolkit.configuration.primeAssets(this);
 }
 
 /// Convenience extensions for more easily configuring WidgetTester for pre-set configurations
