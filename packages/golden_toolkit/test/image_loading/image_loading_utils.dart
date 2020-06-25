@@ -18,10 +18,8 @@ class BoxDecorationWithImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 800,
-      height: 600,
-      decoration: const BoxDecoration(
+    return const DecoratedBox(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/earth_image.jpg', package: 'sample_dependency'),
         ),
