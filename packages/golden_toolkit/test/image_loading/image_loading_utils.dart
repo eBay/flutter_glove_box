@@ -54,8 +54,6 @@ class ListOfItemsWithOneImage extends StatelessWidget {
         itemBuilder: (context, index) => Center(
           child: Row(
             children: [
-              Text(index.toString()),
-              const SizedBox(width: 8),
               Container(
                 width: itemSize.width,
                 height: itemSize.height,
