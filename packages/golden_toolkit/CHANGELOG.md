@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+Improved the reliability of the default behavior for ```tester.waitForAssets()``` to handle additional cases.
+
 ## 0.5.0
 
 ### More intelligent behavior for loading assets
