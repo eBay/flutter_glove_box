@@ -281,8 +281,8 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
 /// See also:
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
 Future<void> defaultPrimeAssets(WidgetTester tester) async {
-  final imageElements = find.byType(Image).evaluate();
-  final containerElements = find.byType(DecoratedBox).evaluate();
+  final imageElements = find.byType(Image, skipOffstage: false).evaluate();
+  final containerElements = find.byType(DecoratedBox, skipOffstage: false).evaluate();
   await tester.runAsync(() async {
     for (final imageElement in imageElements) {
       final widget = imageElement.widget;

@@ -33,3 +33,38 @@ GoldenToolkitConfiguration get legacyConfiguration =>
 
 GoldenToolkitConfiguration get defaultConfiguration =>
     GoldenToolkit.configuration.copyWith(primeAssets: defaultPrimeAssets);
+
+@immutable
+class ListOfImages extends StatelessWidget {
+  const ListOfImages({@required this.height});
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey,
+      child: ListView.builder(
+        primary: true,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: true,
+        itemCount: 20,
+        itemBuilder: (context, index) => Center(
+          child: Row(
+            children: [
+              Text(index.toString()),
+              const SizedBox(width: 8),
+              Container(
+                width: height,
+                height: height,
+                color: Colors.lightBlue,
+                child: (index < 10) ? null : const ImageWidget(),
+              ),
+            ],
+          ),
+        ),
+        cacheExtent: 2000,
+      ),
+    );
+  }
+}

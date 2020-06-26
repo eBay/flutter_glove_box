@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:golden_toolkit/src/configuration.dart';
@@ -51,6 +52,20 @@ void main() {
             await tester.pump();
             await expectLater(
                 find.byType(BoxDecorationWithImage).first, matchesGoldenFile('goldens/boxdecoration_will_show.png'));
+          },
+          config: defaultConfiguration,
+        );
+      });
+
+      testWidgets('should load assets that have not come into view yet', (tester) async {
+        await GoldenToolkit.runWithConfiguration(
+          () async {
+            await tester.pumpWidgetBuilder(const ListOfImages(height: 100), surfaceSize: const Size(300, 100));
+            await tester.waitForAssets();
+            await tester.drag(find.byType(Scrollable), const Offset(0, -20000));
+            await tester.pump();
+            await expectLater(
+                find.byType(ListOfImages).first, matchesGoldenFile('goldens/list_of_images_will_show.png'));
           },
           config: defaultConfiguration,
         );
