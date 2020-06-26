@@ -18,10 +18,8 @@ class BoxDecorationWithImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 800,
-      height: 600,
-      decoration: const BoxDecoration(
+    return const DecoratedBox(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/earth_image.jpg', package: 'sample_dependency'),
         ),
@@ -35,3 +33,38 @@ GoldenToolkitConfiguration get legacyConfiguration =>
 
 GoldenToolkitConfiguration get defaultConfiguration =>
     GoldenToolkit.configuration.copyWith(primeAssets: defaultPrimeAssets);
+
+@immutable
+class ListOfItemsWithOneImage extends StatelessWidget {
+  const ListOfItemsWithOneImage({
+    @required this.itemSize,
+    @required this.indexThatContainsImage,
+    @required this.cacheExtent,
+  });
+
+  final Size itemSize;
+  final int indexThatContainsImage;
+  final double cacheExtent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey,
+      child: ListView.builder(
+        itemBuilder: (context, index) => Center(
+          child: Row(
+            children: [
+              Container(
+                width: itemSize.width,
+                height: itemSize.height,
+                color: Colors.lightBlue,
+                child: (index == indexThatContainsImage) ? const ImageWidget() : null,
+              ),
+            ],
+          ),
+        ),
+        cacheExtent: cacheExtent,
+      ),
+    );
+  }
+}
