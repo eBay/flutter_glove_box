@@ -55,16 +55,13 @@ Future<void> multiScreenGolden(
   double overrideGoldenHeight,
   CustomPump customPump,
   DeviceSetup deviceSetup,
-  List<Device> devices = const [
-    Device.phone,
-    Device.tabletLandscape,
-  ],
+  List<Device> devices,
   @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
       bool skip,
 }) async {
-  assert(devices?.isNotEmpty ?? false);
+  assert(devices == null || devices.isNotEmpty);
   final deviceSetupPump = deviceSetup ?? _twoPumps;
-  for (final device in devices) {
+  for (final device in devices ?? GoldenToolkit.configuration.defaultDevices) {
     await tester.binding.runWithDeviceOverrides(
       device,
       body: () async {

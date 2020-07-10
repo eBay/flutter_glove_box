@@ -21,7 +21,7 @@ import 'device.dart';
 class GoldenToolkit {
   GoldenToolkit._();
 
-  static GoldenToolkitConfiguration _configuration = const GoldenToolkitConfiguration();
+  static GoldenToolkitConfiguration _configuration = GoldenToolkitConfiguration();
 
   /// Applies a GoldenToolkitConfiguration to a block of code to effectively provide a scoped
   /// singleton. The configuration will apply to just the injected body function.
@@ -87,12 +87,13 @@ class GoldenToolkitConfiguration {
   /// [deviceFileNameFactory] a func used to decide the final filename for multiScreenGolden() invocations
   ///
   /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
-  const GoldenToolkitConfiguration({
+  GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
     this.deviceFileNameFactory = defaultDeviceFileNameFactory,
     this.primeAssets = defaultPrimeAssets,
-  });
+    this.defaultDevices = const [Device.phone, Device.tabletLandscape],
+  }) : assert(defaultDevices != null && defaultDevices.isNotEmpty);
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
@@ -106,18 +107,23 @@ class GoldenToolkitConfiguration {
   /// A function that primes all needed assets for the given [tester]. Defaults to [defaultPrimeAssets].
   final PrimeAssets primeAssets;
 
+  /// the default set of devices to use for multiScreenGolden assertions
+  final List<Device> defaultDevices;
+
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
     SkipGoldenAssertion skipGoldenAssertion,
     FileNameFactory fileNameFactory,
     DeviceFileNameFactory deviceFileNameFactory,
     PrimeAssets primeAssets,
+    List<Device> defaultDevices,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
       fileNameFactory: fileNameFactory ?? this.fileNameFactory,
       deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
       primeAssets: primeAssets ?? this.primeAssets,
+      defaultDevices: defaultDevices ?? this.defaultDevices,
     );
   }
 
@@ -129,12 +135,13 @@ class GoldenToolkitConfiguration {
             skipGoldenAssertion == other.skipGoldenAssertion &&
             fileNameFactory == other.fileNameFactory &&
             deviceFileNameFactory == other.deviceFileNameFactory &&
-            primeAssets == other.primeAssets;
+            primeAssets == other.primeAssets &&
+            defaultDevices == other.defaultDevices;
   }
 
   @override
   int get hashCode =>
-      skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode;
+      skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode ^ defaultDevices.hashCode;
 }
 
 bool _doNotSkip() => false;

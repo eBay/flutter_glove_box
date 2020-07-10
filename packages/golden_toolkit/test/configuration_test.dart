@@ -110,14 +110,53 @@ void main() {
       );
     });
 
+    testGoldens('defaultDevices should be used', (tester) async {
+      final device1 = Device.phone.copyWith(name: 'custom1');
+      final device2 = Device.phone.copyWith(name: 'custom2');
+      final actualDevices = <Device>[];
+      await GoldenToolkit.runWithConfiguration(
+        () async {
+          await tester.pumpWidgetBuilder(Container());
+          await multiScreenGolden(tester, 'multiScreenGolden_defaultdevices');
+        },
+        config: GoldenToolkitConfiguration(
+          deviceFileNameFactory: (filename, device) {
+            actualDevices.add(device);
+            return '$filename\_${device.name}.png';
+          },
+          defaultDevices: [device1, device2],
+        ),
+      );
+      expect(actualDevices, equals([device1, device2]));
+    });
+
+    test('defaultDevices should not be null or empty', () async {
+      await expectLater(() =>
+        GoldenToolkit.runWithConfiguration(
+          () {},
+          config: GoldenToolkitConfiguration(defaultDevices: null),
+        ),
+        throwsAssertionError,
+      );
+
+      await expectLater(() =>
+        GoldenToolkit.runWithConfiguration(
+          () {},
+          config: GoldenToolkitConfiguration(defaultDevices: const []),
+        ),
+        throwsAssertionError,
+      );
+    });
+
     test('Default Configuration', () {
-      const config = GoldenToolkitConfiguration();
+      final config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
       expect(config.fileNameFactory('test_name'), equals('goldens/test_name.png'));
       expect(
         config.deviceFileNameFactory('test_name', const Device(name: 'my_device', size: Size(500, 500))),
         equals('goldens/test_name.my_device.png'),
       );
+      expect(config.defaultDevices, equals([Device.phone, Device.tabletLandscape]));
     });
 
     group('Equality/Hashcode/CopyWith', () {
@@ -125,12 +164,14 @@ void main() {
       String fileNameFactory(String filename) => '';
       String deviceFileNameFactory(String filename, Device device) => '';
       Future<void> primeAssets(WidgetTester tester) async {}
+      final devices = [Device.iphone11, Device.iphone11.dark()];
 
       final config = GoldenToolkitConfiguration(
         skipGoldenAssertion: skipGoldenAssertion,
         deviceFileNameFactory: deviceFileNameFactory,
         fileNameFactory: fileNameFactory,
         primeAssets: primeAssets,
+        defaultDevices: devices,
       );
 
       test('config with identical params should be equal', () {
@@ -154,6 +195,11 @@ void main() {
         test('primeImages', () {
           expect(config, isNot(equals(config.copyWith(primeAssets: (_) async {}))));
           expect(config.hashCode, isNot(equals(config.copyWith(primeAssets: (_) async {}).hashCode)));
+        });
+
+        test('defaultDevices', () {
+          expect(config, isNot(equals(config.copyWith(defaultDevices: [Device.tabletPortrait]))));
+          expect(config.hashCode, isNot(equals(config.copyWith(defaultDevices: [Device.tabletPortrait]).hashCode)));
         });
       });
     });
