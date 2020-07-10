@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+Added the ability to configure the default set of devices to use for ```multiScreenGolden``` assertions globally.
+
+For example:
+```GoldenToolkitConfiguration(defaultDevices: [Device.iphone11, Device.iphone11.dark()])```
+
+As part of this, the default parameter value has been removed from ```multiScreenGolden```.
+
+There was also a minor breaking change in that the const constructor of GoldenToolkitConfiguration is no longer const.
+
 ## 0.5.1
 
 Improved the reliability of the default behavior for ```tester.waitForAssets()``` to handle additional cases.
