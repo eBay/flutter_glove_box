@@ -141,7 +141,11 @@ class GoldenToolkitConfiguration {
 
   @override
   int get hashCode =>
-      skipGoldenAssertion.hashCode ^ fileNameFactory.hashCode ^ deviceFileNameFactory.hashCode ^ primeAssets.hashCode ^ defaultDevices.hashCode;
+      skipGoldenAssertion.hashCode ^
+      fileNameFactory.hashCode ^
+      deviceFileNameFactory.hashCode ^
+      primeAssets.hashCode ^
+      defaultDevices.hashCode;
 }
 
 bool _doNotSkip() => false;

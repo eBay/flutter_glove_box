@@ -131,16 +131,16 @@ void main() {
     });
 
     test('defaultDevices should not be null or empty', () async {
-      await expectLater(() =>
-        GoldenToolkit.runWithConfiguration(
+      await expectLater(
+        () => GoldenToolkit.runWithConfiguration(
           () {},
           config: GoldenToolkitConfiguration(defaultDevices: null),
         ),
         throwsAssertionError,
       );
 
-      await expectLater(() =>
-        GoldenToolkit.runWithConfiguration(
+      await expectLater(
+        () => GoldenToolkit.runWithConfiguration(
           () {},
           config: GoldenToolkitConfiguration(defaultDevices: const []),
         ),
