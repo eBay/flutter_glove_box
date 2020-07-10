@@ -89,4 +89,9 @@ class Device {
       name: '$name\_dark',
     );
   }
+
+  @override
+  String toString() {
+    return 'Device: $name, ${size.width}x${size.height} @ $devicePixelRatio, text: $textScale, $brightness, safe: $safeArea';
+  }
 }
