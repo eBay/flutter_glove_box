@@ -274,7 +274,7 @@ See more usage examples here: [golden_builder_test.dart](test/golden_builder_tes
 
 ### Configuration
 
-There are global settigns that can be configured by calling the following API:
+There are global settings that can be configured by calling the following API:
 
 ```GoldenToolkit.runWithConfiguration()```
 
