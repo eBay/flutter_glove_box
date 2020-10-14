@@ -18,6 +18,7 @@ import 'package:meta/meta.dart';
 
 import 'configuration.dart';
 import 'device.dart';
+import 'device_builder.dart';
 import 'test_asset_bundle.dart';
 import 'widget_tester_extensions.dart';
 
@@ -28,6 +29,8 @@ const Size _defaultSize = Size(800, 600);
 typedef CustomPump = Future<void> Function(WidgetTester);
 
 typedef WidgetWrapper = Widget Function(Widget);
+
+typedef OnScenarioCreate = Future<void> Function(Key scenarioWidgetKey);
 
 /// Extensions for a [WidgetTester]
 extension TestingToolsExtension on WidgetTester {
@@ -52,6 +55,26 @@ extension TestingToolsExtension on WidgetTester {
       surfaceSize: surfaceSize,
       textScaleSize: textScaleSize,
     );
+  }
+
+  /// Extension for a [WidgetTester] that pumps a [DeviceBuilder] class
+  ///
+  /// [WidgetWrapper] defaults to [materialAppWrapper]
+  ///
+  /// [textScaleSize] set's the text scale size (usually in a range from 1 to 3)
+  Future<void> pumpDeviceBuilder(
+    DeviceBuilder deviceBuilder, {
+    WidgetWrapper wrapper,
+  }) async {
+    await pumpWidgetBuilder(
+      deviceBuilder.build(),
+      wrapper: wrapper,
+      surfaceSize: deviceBuilder.requiredWidgetSize,
+    );
+
+    for (final scenario in deviceBuilder.scenarios) {
+      await scenario.onCreate?.call(scenario.key);
+    }
   }
 }
 

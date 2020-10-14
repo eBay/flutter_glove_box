@@ -8,15 +8,23 @@ It is highly recommended to look at sample tests here: [golden_builder_test.dart
 
 ## Table of Contents
 
-- [Key Features](#Key-Features)
-  - [GoldenBuilder](#goldenbuilder)
-  - [multiScreenGolden](#multiscreengolden)
-- [Getting Started](#Getting-Started)
-  - [Setup](#Setup)
-  - [Loading Fonts](#Loading-Fonts)
-  - [testGoldens()](#testGoldens)
-  - [Pumping Widgets](#Pumping-Widgets)
-  - [Configuration](#Configuration)
+- [Golden Toolkit](#golden-toolkit)
+  - [Table of Contents](#table-of-contents)
+  - [Key Features](#key-features)
+    - [GoldenBuilder](#goldenbuilder)
+    - [DeviceBuilder](#devicebuilder)
+    - [multiScreenGolden](#multiscreengolden)
+  - [Getting Started](#getting-started)
+    - [Setup](#setup)
+      - [Add the failures folder to .gitignore](#add-the-failures-folder-to-gitignore)
+      - [Configure VS Code](#configure-vs-code)
+    - [Loading Fonts](#loading-fonts)
+      - [Caveats](#caveats)
+    - [testGoldens()](#testgoldens)
+    - [Pumping Widgets](#pumping-widgets)
+    - [Configuration](#configuration)
+  - [License Information](#license-information)
+  - [3rd Party Software Included or Modified in Project](#3rd-party-software-included-or-modified-in-project)
 
 ## Key Features
 
@@ -65,6 +73,75 @@ The output of this test will be this golden file: `weather_accessibility.png`:
 ![example GoldenBuilder output showing different text scales](example/test/goldens/weather_accessibility.png)
 
 See tests for usage examples: [golden_builder_test.dart](example/test/golden_builder_test.dart)
+
+
+### DeviceBuilder
+
+DeviceBuilder class is like the GoldenBuilder except that it constrains scenario widget sizes to Device configurations. This removes the need
+to specify a column or grid based layout.
+
+It will generate a widget that lays out its scenarios vertically and the Device configurations of those scenarios horizontally. All in one single
+golden png file.
+
+In the case of a single scenario the helper method of (#multiDeviceGolden) can simplify DeviceBuilder usage. For multiple scenarios, DeviceBuilder
+can help
+
+```dart
+testGoldens('DeviceBuilder - multiple scenarios - with onCreate',
+      (tester) async {
+    final builder = DeviceBuilder()
+      ..overrideDevicesForAllScenarios(devices: [
+        Device.phone,
+        Device.iphone11,
+        Device.tabletPortrait,
+        Device.tabletLandscape,
+      ])
+      ..addScenario(
+        widget: FlutterDemoPage(),
+        name: 'default page',
+      )
+      ..addScenario(
+        widget: FlutterDemoPage(),
+        name: 'tap once',
+        onCreate: (scenarioWidgetKey) async {
+          final finder = find.descendant(
+            of: find.byKey(scenarioWidgetKey),
+            matching: find.byIcon(Icons.add),
+          );
+          expect(finder, findsOneWidget);
+          await tester.tap(finder);
+        },
+      )
+      ..addScenario(
+        widget: FlutterDemoPage(),
+        name: 'tap five times',
+        onCreate: (scenarioWidgetKey) async {
+          final finder = find.descendant(
+            of: find.byKey(scenarioWidgetKey),
+            matching: find.byIcon(Icons.add),
+          );
+          expect(finder, findsOneWidget);
+
+          await tester.tap(finder);
+          await tester.tap(finder);
+          await tester.tap(finder);
+          await tester.tap(finder);
+          await tester.tap(finder);
+        },
+      );
+
+    await tester.pumpDeviceBuilder(builder);
+
+    await screenMatchesGolden(tester, 'flutter_demo_page_multiple_scenarios');
+  });
+```
+
+This will generate the following golden:
+
+`flutter_demo_page_multiple_scenarios.png`
+
+![example widget captured](example/test/goldens/flutter_demo_page_multiple_scenarios.png)
+
 
 ### multiScreenGolden
 
