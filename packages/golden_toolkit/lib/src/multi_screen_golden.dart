@@ -84,3 +84,44 @@ Future<void> multiScreenGolden(
     );
   }
 }
+
+/// This [multiDeviceGolden] will create a [DeviceBuilder] for different [scenarios] for given [devices] list
+///
+/// Will output a single golden file for all devices
+///
+/// [name] is a file name output, must NOT include extension like .png
+///
+/// [customPump] optional pump function, see [CustomPump] documentation
+///
+/// [devices] list of devices to run the tests - overriding `GoldenToolkit.configuration.defaultDevices`
+///
+/// [afterPump] is passed into DeviceBuilder scenario to be called after that device specific widget is rendered
+///
+Future<void> multiDeviceGolden(
+  WidgetTester tester,
+  String name, {
+  Widget widget,
+  CustomPump customPump,
+  List<Device> devices,
+  AfterPump afterPump,
+}) async {
+  assert(devices == null || devices.isNotEmpty);
+  assert(tester.allWidgets.isNotEmpty);
+
+  final devicesToUse = devices ?? GoldenToolkit.configuration.defaultDevices;
+
+  final deviceBuilder = DeviceBuilder()
+    ..overrideDevicesForAllScenarios(devices: devicesToUse)
+    ..addDeviceScenario(
+      widget: widget ?? tester.allWidgets.first,
+      afterPump: afterPump,
+    );
+
+  await tester.pumpDeviceBuilder(deviceBuilder);
+
+  if (customPump != null) {
+    await customPump(tester);
+  }
+
+  await screenMatchesGolden(tester, name);
+}
