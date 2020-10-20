@@ -5,6 +5,7 @@
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
+// ignore_for_file: public_member_api_docs
 
 import 'dart:ui';
 
@@ -26,7 +27,7 @@ class WeatherForecast extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           colors: [Colors.lightBlue, Colors.deepPurple],
@@ -236,11 +237,11 @@ class WeatherCard extends StatelessWidget {
 
   Text _description() => Text(
         _textForWeather(weather),
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.center,
       );
 
-  Text _day() => Text(day, style: TextStyle(color: Colors.white));
+  Text _day() => Text(day, style: const TextStyle(color: Colors.white));
 
   Image _image() => Image.asset(
         'images/${_assetForWeather(weather)}',
