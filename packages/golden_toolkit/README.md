@@ -149,7 +149,12 @@ If you use VSCode, we highly recommend adding this configuration to your `.vscod
       "name": "Golden",
       "request": "launch",
       "type": "dart",
-      "template": "run-test",
+      "codeLens": {
+        "for": [
+          "run-test",
+          "run-test-file"
+        ]
+      },
       "args": ["--update-goldens"]
     }
   ]
