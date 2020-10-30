@@ -30,9 +30,12 @@ void main() {
         bgColor: Colors.white,
         widthToHeightRatio: 1,
       )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
         ..addScenario(
           'Cold',
           const WeatherCard(temp: 25, weather: Weather.cold),
@@ -46,15 +49,20 @@ void main() {
     });
 
     /// lays out the results in a column
-    testGoldens('COLUMN: Different weather types with extra frame', (tester) async {
+    testGoldens('COLUMN: Different weather types with extra frame',
+        (tester) async {
       final gb = GoldenBuilder.column(
         bgColor: Colors.white,
         wrap: _simpleFrame,
       )
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -65,13 +73,19 @@ void main() {
 
     /// Demonstrates how golden builder can be combined with multiScreenGolden to
     /// test with multiple dimensions of parameters
-    testGoldens('Card should look right on different devices / screen sizes', (tester) async {
+    testGoldens('Card should look right on different devices / screen sizes',
+        (tester) async {
       final gb = GoldenBuilder.column(bgColor: Colors.white)
-        ..addScenario('Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
-        ..addScenario('Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
-        ..addScenario('Raining', const WeatherCard(temp: 37, weather: Weather.rain))
-        ..addScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold))
-        ..addTextScaleScenario('Cold', const WeatherCard(temp: 25, weather: Weather.cold));
+        ..addScenario(
+            'Sunny', const WeatherCard(temp: 66, weather: Weather.sunny))
+        ..addScenario(
+            'Cloudy', const WeatherCard(temp: 56, weather: Weather.cloudy))
+        ..addScenario(
+            'Raining', const WeatherCard(temp: 37, weather: Weather.rain))
+        ..addScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold))
+        ..addTextScaleScenario(
+            'Cold', const WeatherCard(temp: 25, weather: Weather.cold));
 
       await tester.pumpWidgetBuilder(
         gb.build(),
@@ -88,13 +102,17 @@ void main() {
 
     group('GoldenBuilder examples of accessibility testing', () {
       // With those test we want to make sure our widgets look right when user changes system font size
-      testGoldens('Card should look right when user bumps system font size', (tester) async {
+      testGoldens('Card should look right when user bumps system font size',
+          (tester) async {
         const widget = WeatherCard(temp: 56, weather: Weather.cloudy);
 
-        final gb = GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
-          ..addScenario('Regular font size', widget)
-          ..addTextScaleScenario('Large font size', widget, textScaleFactor: 2.0)
-          ..addTextScaleScenario('Largest font size', widget, textScaleFactor: 3.2);
+        final gb =
+            GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
+              ..addScenario('Regular font size', widget)
+              ..addTextScaleScenario('Large font size', widget,
+                  textScaleFactor: 2.0)
+              ..addTextScaleScenario('Largest font size', widget,
+                  textScaleFactor: 3.2);
 
         await tester.pumpWidgetBuilder(
           gb.build(),
@@ -119,8 +137,11 @@ void main() {
     ///then you may run into issues with some images not displaying properly.
     ///
     ///This is an example of the the "issue"
-    testGoldens('Some images missing in multiScreenGoldens that require additional setup', (tester) async {
-      await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
+    testGoldens(
+        'Some images missing in multiScreenGoldens that require additional setup',
+        (tester) async {
+      await tester.pumpWidgetBuilder(
+          _forecastWithDifferentImagesForLargeAndSmallScreen());
       await multiScreenGolden(
         tester,
         'example_of_images_not_properly_loading',
@@ -128,8 +149,11 @@ void main() {
     });
 
     ///here is an example of how to workaround it.
-    testGoldens('Should render images in multiScreenGoldens that require additional setup', (tester) async {
-      await tester.pumpWidgetBuilder(_forecastWithDifferentImagesForLargeAndSmallScreen());
+    testGoldens(
+        'Should render images in multiScreenGoldens that require additional setup',
+        (tester) async {
+      await tester.pumpWidgetBuilder(
+          _forecastWithDifferentImagesForLargeAndSmallScreen());
       await multiScreenGolden(
         tester,
         'weather_image_async_load_correct_duration',
@@ -176,7 +200,9 @@ Widget _forecastWithDifferentImagesForLargeAndSmallScreen() {
 }
 
 class FutureWidgetTester extends StatefulWidget {
-  const FutureWidgetTester({Key key, this.child, this.duration = const Duration(milliseconds: 100)}) : super(key: key);
+  const FutureWidgetTester(
+      {Key key, this.child, this.duration = const Duration(milliseconds: 100)})
+      : super(key: key);
   final Widget child;
   final Duration duration;
   @override
@@ -205,7 +231,8 @@ class _FutureWidgetTesterState extends State<FutureWidgetTester> {
 }
 
 class InvalidateWidgetTreeWhenSizeChanges extends StatelessWidget {
-  const InvalidateWidgetTreeWhenSizeChanges({Key key, this.child}) : super(key: key);
+  const InvalidateWidgetTreeWhenSizeChanges({Key key, this.child})
+      : super(key: key);
   final Widget child;
 
   @override

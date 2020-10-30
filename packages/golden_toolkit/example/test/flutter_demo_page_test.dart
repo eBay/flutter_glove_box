@@ -18,7 +18,8 @@ void main() {
     await screenMatchesGolden(tester, 'flutter_demo_page_single_scenario');
   });
 
-  testGoldens('DeviceBuilder - one scenario - override devices', (tester) async {
+  testGoldens('DeviceBuilder - one scenario - override devices',
+      (tester) async {
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [
         Device.phone,
@@ -33,10 +34,12 @@ void main() {
 
     await tester.pumpDeviceBuilder(builder);
 
-    await screenMatchesGolden(tester, 'flutter_demo_page_single_scenario_more_devices');
+    await screenMatchesGolden(
+        tester, 'flutter_demo_page_single_scenario_more_devices');
   });
 
-  testGoldens('DeviceBuilder - multiple scenarios - with onCreate', (tester) async {
+  testGoldens('DeviceBuilder - multiple scenarios - with onCreate',
+      (tester) async {
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [
         Device.phone,

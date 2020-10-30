@@ -66,7 +66,8 @@ Future<void> multiScreenGolden(
       device,
       body: () async {
         if (overrideGoldenHeight != null) {
-          await tester.binding.setSurfaceSize(Size(device.size.width, overrideGoldenHeight));
+          await tester.binding
+              .setSurfaceSize(Size(device.size.width, overrideGoldenHeight));
         }
         await deviceSetupPump(device, tester);
         await compareWithGolden(

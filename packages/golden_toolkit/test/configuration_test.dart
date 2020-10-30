@@ -13,7 +13,9 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('GoldenToolkitConfiguration Tests', () {
-    testGoldens('screenMatchesGolden method should defer skip to global configuration', (tester) async {
+    testGoldens(
+        'screenMatchesGolden method should defer skip to global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidget(Container());
@@ -23,18 +25,23 @@ void main() {
       );
     });
 
-    testGoldens('screenMatchesGolden method level skip should trump global configuration', (tester) async {
+    testGoldens(
+        'screenMatchesGolden method level skip should trump global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
           //ignore: deprecated_member_use_from_same_package
-          await screenMatchesGolden(tester, 'this_is_expected_to_skip', skip: true);
+          await screenMatchesGolden(tester, 'this_is_expected_to_skip',
+              skip: true);
         },
         config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
       );
     });
 
-    testGoldens('MultiScreenGolden method should defer skip to global configuration', (tester) async {
+    testGoldens(
+        'MultiScreenGolden method should defer skip to global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
@@ -44,58 +51,75 @@ void main() {
       );
     });
 
-    testGoldens('MultiScreenGolden method level skip should trump global configuration', (tester) async {
+    testGoldens(
+        'MultiScreenGolden method level skip should trump global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
           //ignore: deprecated_member_use_from_same_package
-          await multiScreenGolden(tester, 'this_is_expected_to_skip', skip: true);
+          await multiScreenGolden(tester, 'this_is_expected_to_skip',
+              skip: true);
         },
         config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
       );
     });
 
-    testGoldens('screenMatchesGolden method should defer fileNameFactory to global configuration', (tester) async {
+    testGoldens(
+        'screenMatchesGolden method should defer fileNameFactory to global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
           await screenMatchesGolden(tester, 'global_file_name_factory');
         },
-        config: GoldenToolkit.configuration.copyWith(fileNameFactory: (name) => 'goldens/custom/custom_$name.png'),
+        config: GoldenToolkit.configuration.copyWith(
+            fileNameFactory: (name) => 'goldens/custom/custom_$name.png'),
       );
     });
 
-    testGoldens('multiScreenGolden method should defer fileNameFactory to global configuration', (tester) async {
+    testGoldens(
+        'multiScreenGolden method should defer fileNameFactory to global configuration',
+        (tester) async {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
           await multiScreenGolden(tester, 'global_device_file_name_factory');
         },
-        config: GoldenToolkit.configuration
-            .copyWith(deviceFileNameFactory: (name, device) => 'goldens/custom/custom_${name}_${device.name}.png'),
+        config: GoldenToolkit.configuration.copyWith(
+            deviceFileNameFactory: (name, device) =>
+                'goldens/custom/custom_${name}_${device.name}.png'),
       );
     });
 
-    testGoldens('screenMatchesGolden method uses primeAssets from global configuration', (tester) async {
+    testGoldens(
+        'screenMatchesGolden method uses primeAssets from global configuration',
+        (tester) async {
       var globalPrimeCalledCount = 0;
       return GoldenToolkit.runWithConfiguration(
         () async {
-          await tester.pumpWidgetBuilder(Image.asset('packages/sample_dependency/images/image.png'));
-          await screenMatchesGolden(tester, 'screen_matches_golden_defers_primeAssets');
+          await tester.pumpWidgetBuilder(
+              Image.asset('packages/sample_dependency/images/image.png'));
+          await screenMatchesGolden(
+              tester, 'screen_matches_golden_defers_primeAssets');
           expect(globalPrimeCalledCount, 1);
         },
-        config: GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
+        config: GoldenToolkitConfiguration(
+            primeAssets: (WidgetTester tester) async {
           globalPrimeCalledCount += 1;
           await legacyPrimeAssets(tester);
         }),
       );
     });
 
-    testGoldens('multiScreenGolden method uses primeAssets from global configuration', (tester) async {
+    testGoldens(
+        'multiScreenGolden method uses primeAssets from global configuration',
+        (tester) async {
       var globalPrimeCalledCount = 0;
       return GoldenToolkit.runWithConfiguration(
         () async {
-          await tester.pumpWidgetBuilder(Image.asset('packages/sample_dependency/images/image.png'));
+          await tester.pumpWidgetBuilder(
+              Image.asset('packages/sample_dependency/images/image.png'));
           await multiScreenGolden(
             tester,
             'multi_screen_golden_defers_primeAssets',
@@ -103,7 +127,8 @@ void main() {
           );
           expect(globalPrimeCalledCount, 1);
         },
-        config: GoldenToolkitConfiguration(primeAssets: (WidgetTester tester) async {
+        config: GoldenToolkitConfiguration(
+            primeAssets: (WidgetTester tester) async {
           globalPrimeCalledCount += 1;
           await legacyPrimeAssets(tester);
         }),
@@ -151,12 +176,15 @@ void main() {
     test('Default Configuration', () {
       final config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
-      expect(config.fileNameFactory('test_name'), equals('goldens/test_name.png'));
       expect(
-        config.deviceFileNameFactory('test_name', const Device(name: 'my_device', size: Size(500, 500))),
+          config.fileNameFactory('test_name'), equals('goldens/test_name.png'));
+      expect(
+        config.deviceFileNameFactory(
+            'test_name', const Device(name: 'my_device', size: Size(500, 500))),
         equals('goldens/test_name.my_device.png'),
       );
-      expect(config.defaultDevices, equals([Device.phone, Device.tabletLandscape]));
+      expect(config.defaultDevices,
+          equals([Device.phone, Device.tabletLandscape]));
     });
 
     group('Equality/Hashcode/CopyWith', () {
@@ -181,25 +209,50 @@ void main() {
 
       group('should not be equal when params differ', () {
         test('skipGoldenAssertion', () {
-          expect(config, isNot(equals(config.copyWith(skipGoldenAssertion: () => false))));
-          expect(config.hashCode, isNot(equals(config.copyWith(skipGoldenAssertion: () => false).hashCode)));
+          expect(config,
+              isNot(equals(config.copyWith(skipGoldenAssertion: () => false))));
+          expect(
+              config.hashCode,
+              isNot(equals(
+                  config.copyWith(skipGoldenAssertion: () => false).hashCode)));
         });
         test('fileNameFactory', () {
-          expect(config, isNot(equals(config.copyWith(fileNameFactory: (file) => ''))));
-          expect(config.hashCode, isNot(equals(config.copyWith(fileNameFactory: (file) => '').hashCode)));
+          expect(config,
+              isNot(equals(config.copyWith(fileNameFactory: (file) => ''))));
+          expect(
+              config.hashCode,
+              isNot(equals(
+                  config.copyWith(fileNameFactory: (file) => '').hashCode)));
         });
         test('deviceFileNameFactory', () {
-          expect(config, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => ''))));
-          expect(config.hashCode, isNot(equals(config.copyWith(deviceFileNameFactory: (file, dev) => '').hashCode)));
+          expect(
+              config,
+              isNot(equals(
+                  config.copyWith(deviceFileNameFactory: (file, dev) => ''))));
+          expect(
+              config.hashCode,
+              isNot(equals(config
+                  .copyWith(deviceFileNameFactory: (file, dev) => '')
+                  .hashCode)));
         });
         test('primeImages', () {
-          expect(config, isNot(equals(config.copyWith(primeAssets: (_) async {}))));
-          expect(config.hashCode, isNot(equals(config.copyWith(primeAssets: (_) async {}).hashCode)));
+          expect(config,
+              isNot(equals(config.copyWith(primeAssets: (_) async {}))));
+          expect(
+              config.hashCode,
+              isNot(
+                  equals(config.copyWith(primeAssets: (_) async {}).hashCode)));
         });
 
         test('defaultDevices', () {
-          expect(config, isNot(equals(config.copyWith(defaultDevices: [Device.tabletPortrait]))));
-          expect(config.hashCode, isNot(equals(config.copyWith(defaultDevices: [Device.tabletPortrait]).hashCode)));
+          expect(
+              config,
+              isNot(equals(
+                  config.copyWith(defaultDevices: [Device.tabletPortrait]))));
+          expect(
+              config.hashCode,
+              isNot(equals(config.copyWith(
+                  defaultDevices: [Device.tabletPortrait]).hashCode)));
         });
       });
     });

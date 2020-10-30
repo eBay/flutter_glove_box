@@ -15,7 +15,9 @@ Future<void> main() async {
     group('Responsive layout when image changes depending on layout', () {
       testGoldens('Safe Area test', (tester) async {
         await tester.pumpWidgetBuilder(
-          Container(color: Colors.white, child: SafeArea(child: Container(color: Colors.blue))),
+          Container(
+              color: Colors.white,
+              child: SafeArea(child: Container(color: Colors.blue))),
         );
         await multiScreenGolden(
           tester,
@@ -38,7 +40,10 @@ Future<void> main() async {
         await tester.pumpWidgetBuilder(
           Builder(
             builder: (context) => Container(
-              color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.grey : Colors.white,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Colors.grey
+                      : Colors.white,
               child: Text(MediaQuery.of(context).platformBrightness.toString()),
             ),
           ),
@@ -87,13 +92,17 @@ Future<void> main() async {
 
         expect(tester.binding.createViewConfiguration().size, equals(size));
         expect(tester.binding.window.physicalSize, equals(initialSize));
-        expect(tester.binding.window.platformBrightness, equals(initialBrightness));
-        expect(tester.binding.window.devicePixelRatio, equals(initialDevicePixelRatio));
-        expect(tester.binding.window.textScaleFactor, equals(initialTextScaleFactor));
+        expect(tester.binding.window.platformBrightness,
+            equals(initialBrightness));
+        expect(tester.binding.window.devicePixelRatio,
+            equals(initialDevicePixelRatio));
+        expect(tester.binding.window.textScaleFactor,
+            equals(initialTextScaleFactor));
         expect(tester.binding.window.padding, equals(initialViewInsets));
       });
 
-      testGoldens('Should expand scrollable if autoHeight is true', (tester) async {
+      testGoldens('Should expand scrollable if autoHeight is true',
+          (tester) async {
         await tester.pumpWidgetBuilder(ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -118,7 +127,8 @@ Future<void> main() async {
         );
       });
 
-      testGoldens('Should expand scrollable only if not infinite', (tester) async {
+      testGoldens('Should expand scrollable only if not infinite',
+          (tester) async {
         await tester.pumpWidgetBuilder(ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -142,7 +152,8 @@ Future<void> main() async {
         );
       });
 
-      testGoldens('Should shrink to finders height if autoHeight is true', (tester) async {
+      testGoldens('Should shrink to finders height if autoHeight is true',
+          (tester) async {
         await tester.pumpWidget(Center(
           // We center here so the Container is not forced to go full height
           child: Container(color: Colors.red, height: 50),
@@ -163,7 +174,8 @@ Future<void> main() async {
         );
       });
 
-      testGoldens('Should set to exact height if override height is specified', (tester) async {
+      testGoldens('Should set to exact height if override height is specified',
+          (tester) async {
         await tester.pumpWidget(Center(
           // We center here so the Container is not forced to go full height
           child: Container(color: Colors.red, height: 50),

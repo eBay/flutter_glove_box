@@ -14,7 +14,8 @@ void main() {
             await tester.pumpWidgetBuilder(const ImageWidget());
             await tester.waitForAssets();
             await tester.pump();
-            await expectLater(find.byType(ImageWidget).first, matchesGoldenFile('goldens/image_will_show_legacy.png'));
+            await expectLater(find.byType(ImageWidget).first,
+                matchesGoldenFile('goldens/image_will_show_legacy.png'));
           },
           config: legacyConfiguration,
         );

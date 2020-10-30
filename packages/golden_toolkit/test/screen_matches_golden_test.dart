@@ -10,7 +10,8 @@ void main() {
     await tester.pumpWidgetBuilder(
       ValueListenableBuilder<Color>(
         valueListenable: dynamicColor,
-        builder: (ctx, color, _) => AnimatedContainer(color: color, duration: const Duration(seconds: 1)),
+        builder: (ctx, color, _) => AnimatedContainer(
+            color: color, duration: const Duration(seconds: 1)),
       ),
       surfaceSize: const Size(60, 60),
     );

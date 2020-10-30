@@ -58,7 +58,8 @@ class DeviceBuilder {
   /// list of created DeviceScenarios for each device type
   final List<_DeviceScenario> scenarios = [];
 
-  List<Device> _devicesForScenarios = GoldenToolkit.configuration.defaultDevices ?? [Device.phone];
+  List<Device> _devicesForScenarios =
+      GoldenToolkit.configuration.defaultDevices ?? [Device.phone];
   int get _numberOfDevicesPerScenario => _devicesForScenarios?.length ?? 1;
 
   /// Overrides the list of devices that are rendered for each scenario
@@ -102,9 +103,13 @@ class DeviceBuilder {
 
   /// outputs calculated required size to render all Scenarios and their corresponding Devices
   Size get requiredWidgetSize {
-    var width = scenarios.map((scenario) => scenario.widget.scenarioSize.width).reduce((pw, cw) => pw + cw);
+    var width = scenarios
+        .map((scenario) => scenario.widget.scenarioSize.width)
+        .reduce((pw, cw) => pw + cw);
 
-    var height = scenarios.map((scenario) => scenario.widget.scenarioSize.height).reduce(max);
+    var height = scenarios
+        .map((scenario) => scenario.widget.scenarioSize.height)
+        .reduce(max);
 
     if (scenarios.length > _numberOfDevicesPerScenario) {
       final scenariosPerDevice = scenarios.length / _numberOfDevicesPerScenario;
@@ -120,15 +125,18 @@ class DeviceBuilder {
     final requiredSize = requiredWidgetSize;
     final numberOfDevices = _numberOfDevicesPerScenario;
 
-    assert(scenarios.length % numberOfDevices == 0, 'scenarios should always be divisible by number of devices');
+    assert(scenarios.length % numberOfDevices == 0,
+        'scenarios should always be divisible by number of devices');
 
     final numberOfRequiredRows = scenarios.length ~/ numberOfDevices;
     final scenarioRows = <Row>[];
     for (var i = 0; i < numberOfRequiredRows; i++) {
       final startRange = i * numberOfDevices;
       scenarioRows.add(Row(
-        children:
-            scenarios.getRange(startRange, startRange + numberOfDevices).map((scenario) => scenario.widget).toList(),
+        children: scenarios
+            .getRange(startRange, startRange + numberOfDevices)
+            .map((scenario) => scenario.widget)
+            .toList(),
       ));
     }
 
@@ -165,7 +173,8 @@ class _DeviceScenarioWidget extends StatelessWidget {
   static const double _horizontalScenarioPadding = 8.0;
   static const double _borderWidth = 1.0;
 
-  Size get scenarioSize => Size(device.size.width + (_horizontalScenarioPadding * 2) + (_borderWidth * 2),
+  Size get scenarioSize => Size(
+      device.size.width + (_horizontalScenarioPadding * 2) + (_borderWidth * 2),
       device.size.height + 24 + (_borderWidth * 2));
 
   Widget get _sizedWidget => Container(
@@ -179,7 +188,8 @@ class _DeviceScenarioWidget extends StatelessWidget {
     final scenarioWidget = wrap != null ? wrap(_sizedWidget) : _sizedWidget;
     return ClipRect(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: _horizontalScenarioPadding),
+        padding:
+            const EdgeInsets.symmetric(horizontal: _horizontalScenarioPadding),
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(

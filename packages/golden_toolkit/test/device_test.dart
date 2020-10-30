@@ -61,8 +61,10 @@ void main() {
         safeArea: EdgeInsets.all(1),
         textScale: 1.5,
       );
-      expect(device.toString(),
-          equals('Device: foo, 100.0x200.0 @ 1.5, text: 1.5, Brightness.dark, safe: EdgeInsets.all(1.0)'));
+      expect(
+          device.toString(),
+          equals(
+              'Device: foo, 100.0x200.0 @ 1.5, text: 1.5, Brightness.dark, safe: EdgeInsets.all(1.0)'));
     });
   });
 }

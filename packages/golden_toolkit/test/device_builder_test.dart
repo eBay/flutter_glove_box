@@ -87,7 +87,8 @@ void main() {
       final scenario = sut.scenarios.first;
 
       expect(scenario.widget.name, equals('scenarioName - $deviceName'));
-      expect(scenario.widget.key, equals(const Key('scenarioName - $deviceName')));
+      expect(
+          scenario.widget.key, equals(const Key('scenarioName - $deviceName')));
       expect(scenario.key, equals(const Key('scenarioName - $deviceName')));
     });
 
@@ -134,7 +135,9 @@ void main() {
       expect(requiredSize, const Size(28, 36));
     });
 
-    test('requiredWidgetSize - scenarios <= devicesPerScenarios - sized for maxHeight', () {
+    test(
+        'requiredWidgetSize - scenarios <= devicesPerScenarios - sized for maxHeight',
+        () {
       // given
       final sut = DeviceBuilder();
 
@@ -159,7 +162,9 @@ void main() {
       expect(requiredSize, const Size(76, 56));
     });
 
-    test('requiredWidgetSize - scenarios >= devicesPerScenarios - sized for maxHeight', () {
+    test(
+        'requiredWidgetSize - scenarios >= devicesPerScenarios - sized for maxHeight',
+        () {
       // given
       final sut = DeviceBuilder();
 
@@ -212,7 +217,8 @@ void main() {
         ),
       );
 
-      await tester.pumpWidgetBuilder(widget, surfaceSize: sut.requiredWidgetSize);
+      await tester.pumpWidgetBuilder(widget,
+          surfaceSize: sut.requiredWidgetSize);
 
       // then
       expect(find.byType(Align), findsOneWidget);

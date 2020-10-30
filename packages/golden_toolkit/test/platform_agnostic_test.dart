@@ -13,7 +13,8 @@ void main() {
           await tester.pumpWidget(Container());
           await screenMatchesGolden(tester, 'empty_container');
         },
-        config: GoldenToolkit.configuration.copyWith(skipGoldenAssertion: () => false),
+        config: GoldenToolkit.configuration
+            .copyWith(skipGoldenAssertion: () => false),
       );
     });
   });

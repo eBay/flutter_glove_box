@@ -56,7 +56,8 @@ class WeatherForecast extends StatelessWidget {
                       shape: const CircleBorder(),
                     ),
                     textTheme: theme.textTheme.copyWith(
-                      bodyText2: theme.textTheme.bodyText2.copyWith(fontSize: 24),
+                      bodyText2:
+                          theme.textTheme.bodyText2.copyWith(fontSize: 24),
                     ),
                   ),
                   child: WeatherCard.forecast(today),
@@ -70,8 +71,10 @@ class WeatherForecast extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('This Week\'s Forecast', style: Theme.of(context).textTheme.headline6),
-              if (MediaQuery.of(context).size.width > 400 && MediaQuery.of(context).size.height > 600)
+              Text('This Week\'s Forecast',
+                  style: Theme.of(context).textTheme.headline6),
+              if (MediaQuery.of(context).size.width > 400 &&
+                  MediaQuery.of(context).size.height > 600)
                 WeeklyForecastExpanded(forecasts: _list)
               else
                 WeeklyForecastCompact(forecasts: _list),
@@ -107,7 +110,9 @@ class WeeklyForecastExpanded extends StatelessWidget {
                   const SizedBox(width: 8),
                   Flexible(
                     flex: 5,
-                    child: Align(alignment: Alignment.centerLeft, child: Text(f.description)),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(f.description)),
                   ),
                 ],
               ))
@@ -293,7 +298,8 @@ enum Weather {
   cloudy,
 }
 
-final RoundedRectangleBorder _cardShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
+final RoundedRectangleBorder _cardShape =
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
 
 class Forecast {
   const Forecast({this.day, this.temp, this.weather, this.description});
