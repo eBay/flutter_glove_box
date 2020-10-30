@@ -74,7 +74,6 @@ The output of this test will be this golden file: `weather_accessibility.png`:
 
 See tests for usage examples: [golden_builder_test.dart](example/test/golden_builder_test.dart)
 
-
 ### DeviceBuilder
 
 DeviceBuilder class is like the GoldenBuilder except that it constrains scenario widget sizes to Device configurations. This removes the need
@@ -82,9 +81,6 @@ to specify a column or grid based layout.
 
 It will generate a widget that lays out its scenarios vertically and the Device configurations of those scenarios horizontally. All in one single
 golden png file.
-
-In the case of a single scenario the helper method of (#multiDeviceGolden) can simplify DeviceBuilder usage. For multiple scenarios, DeviceBuilder
-can help
 
 ```dart
 testGoldens('DeviceBuilder - multiple scenarios - with onCreate',
@@ -141,7 +137,6 @@ This will generate the following golden:
 `flutter_demo_page_multiple_scenarios.png`
 
 ![example widget captured](example/test/goldens/flutter_demo_page_multiple_scenarios.png)
-
 
 ### multiScreenGolden
 
@@ -227,10 +222,7 @@ If you use VSCode, we highly recommend adding this configuration to your `.vscod
       "request": "launch",
       "type": "dart",
       "codeLens": {
-        "for": [
-          "run-test",
-          "run-test-file"
-        ]
+        "for": ["run-test", "run-test-file"]
       },
       "args": ["--update-goldens"]
     }
@@ -358,7 +350,7 @@ See more usage examples here: [golden_builder_test.dart](test/golden_builder_tes
 
 There are global settings that can be configured by calling the following API:
 
-```GoldenToolkit.runWithConfiguration()```
+`GoldenToolkit.runWithConfiguration()`
 
 Currently, the primary option is to allow consumers to holistically skip golden assertions. For example, perhaps you only want to perform golden assertions on certain platforms.
 
