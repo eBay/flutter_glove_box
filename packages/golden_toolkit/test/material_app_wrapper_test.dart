@@ -4,13 +4,15 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('materialAppWrapper', () {
-    testWidgets('navigatorObserver should be passed into material app', (tester) async {
+    testWidgets('navigatorObserver should be passed into material app',
+        (tester) async {
       final observer = _SampleNavigatorObserver();
       await tester.pumpWidgetBuilder(
         Builder(
           builder: (context) => MaterialButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => Container()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute<void>(builder: (_) => Container()));
             },
           ),
         ),

@@ -21,7 +21,8 @@ class BoxDecorationWithImage extends StatelessWidget {
     return const DecoratedBox(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/earth_image.jpg', package: 'sample_dependency'),
+          image: AssetImage('images/earth_image.jpg',
+              package: 'sample_dependency'),
         ),
       ),
     );
@@ -58,7 +59,9 @@ class ListOfItemsWithOneImage extends StatelessWidget {
                 width: itemSize.width,
                 height: itemSize.height,
                 color: Colors.lightBlue,
-                child: (index == indexThatContainsImage) ? const ImageWidget() : null,
+                child: (index == indexThatContainsImage)
+                    ? const ImageWidget()
+                    : null,
               ),
             ],
           ),

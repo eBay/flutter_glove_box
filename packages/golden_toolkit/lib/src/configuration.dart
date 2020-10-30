@@ -21,7 +21,8 @@ import 'device.dart';
 class GoldenToolkit {
   GoldenToolkit._();
 
-  static GoldenToolkitConfiguration _configuration = GoldenToolkitConfiguration();
+  static GoldenToolkitConfiguration _configuration =
+      GoldenToolkitConfiguration();
 
   /// Applies a GoldenToolkitConfiguration to a block of code to effectively provide a scoped
   /// singleton. The configuration will apply to just the injected body function.
@@ -121,7 +122,8 @@ class GoldenToolkitConfiguration {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
       fileNameFactory: fileNameFactory ?? this.fileNameFactory,
-      deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
+      deviceFileNameFactory:
+          deviceFileNameFactory ?? this.deviceFileNameFactory,
       primeAssets: primeAssets ?? this.primeAssets,
       defaultDevices: defaultDevices ?? this.defaultDevices,
     );

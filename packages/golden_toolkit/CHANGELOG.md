@@ -1,19 +1,27 @@
 # Changelog
 
+## 0.7.0
+
+Thanks to @moonytoes29 for the following enhancements:
+
+A new helper widget `DeviceBuilder` has been added. This works conceptually similar to `GoldenBuilder` but is used for displaying multiple device renderings of a widget in a single golden. This is an alternative to the existing `multiScreenGolden()` API which captures separate golden images for each device variation under test.
+
+To assist with usage of `DeviceBuilder`, there is a new helper API: `tester.pumpDeviceBuilder(builder)` which assists in easily pumping a DeviceBuilder widget in your tests. Check out the documentation for more details.
+
 ## 0.6.0
 
-Added the ability to configure the default set of devices to use for ```multiScreenGolden``` assertions globally.
+Added the ability to configure the default set of devices to use for `multiScreenGolden` assertions globally.
 
 For example:
-```GoldenToolkitConfiguration(defaultDevices: [Device.iphone11, Device.iphone11.dark()])```
+`GoldenToolkitConfiguration(defaultDevices: [Device.iphone11, Device.iphone11.dark()])`
 
-As part of this, the default parameter value has been removed from ```multiScreenGolden```.
+As part of this, the default parameter value has been removed from `multiScreenGolden`.
 
 There was also a minor breaking change in that the const constructor of GoldenToolkitConfiguration is no longer const.
 
 ## 0.5.1
 
-Improved the reliability of the default behavior for ```tester.waitForAssets()``` to handle additional cases.
+Improved the reliability of the default behavior for `tester.waitForAssets()` to handle additional cases.
 
 ## 0.5.0
 
@@ -23,7 +31,7 @@ A new mechanism has been added for ensuring that images have been decoded before
 
 This may be a breaking change for some consumers. If you run into issues, you can revert to the old behavior, by applying the following configuration:
 
-```GoldenToolkitConfiguration(primeAssets: legacyPrimeAssets);```
+`GoldenToolkitConfiguration(primeAssets: legacyPrimeAssets);`
 
 Additionally, you can provide your own implementation that extends the new default behavior:
 
@@ -48,7 +56,7 @@ GoldenToolkit.runWithConfiguration((){/* callback() */}, config: GoldenToolkitCo
 
 ### Added the ability to customize the generated filenames
 
-When using ```screenMatchesGolden``` or ```multiGoldenFile```, you can now supply your own functions for controlling the naming of the files. This can be done using the configuration API mentioned above.
+When using `screenMatchesGolden` or `multiGoldenFile`, you can now supply your own functions for controlling the naming of the files. This can be done using the configuration API mentioned above.
 
 ```dart
 GoldenToolkit.runWithConfiguration((){ /* callback() */}, config: GoldenToolkitConfiguration(fileNameFactory: (filename) => '' /*output filename*/));
@@ -56,8 +64,8 @@ GoldenToolkit.runWithConfiguration((){ /* callback() */}, config: GoldenToolkitC
 
 There are two methods that can be overridden:
 
-* ```fileNameFactory``` is used for screenMatchesGolden
-* ```deviceFileNameFactory``` is used for multiScreenGolden
+- `fileNameFactory` is used for screenMatchesGolden
+- `deviceFileNameFactory` is used for multiScreenGolden
 
 Future releases will likely consolidate these APIs.
 
@@ -65,9 +73,9 @@ Thanks to @christian-muertz for this enhancement.
 
 ### Added additional utility functions for preparing for goldens
 
-Extracted out some public extension methods that were previously private implementation details of ```multiScreenGolden``` & ```screenMatchesGolden```
+Extracted out some public extension methods that were previously private implementation details of `multiScreenGolden` & `screenMatchesGolden`
 
-Added the following extensions. These can be used with any vanilla golden assertions and do not require ```multiScreenGolden```, ```screenMatchesGolden```, or ```GoldenBuilder```.
+Added the following extensions. These can be used with any vanilla golden assertions and do not require `multiScreenGolden`, `screenMatchesGolden`, or `GoldenBuilder`.
 
 ```dart
 // configures the simulated device to mirror the supplied device configuration (dimensions, pixel density, safe area, etc)
@@ -95,7 +103,7 @@ A few API / parameters were marked as deprecated and will be removed in future r
 
 ### Configuration API
 
-Added a configuration API so that you can control the behavior of skipping golden assertions in a single location, rather than at each call to ```screenMatchesGolden``` or ```multiScreenGolden```.
+Added a configuration API so that you can control the behavior of skipping golden assertions in a single location, rather than at each call to `screenMatchesGolden` or `multiScreenGolden`.
 
 You can now call:
 
@@ -109,7 +117,7 @@ GoldenToolkit.configure(GoldenToolkitConfiguration(skipGoldenAssertion: () => /*
 
 ### Auto-Sized Goldens
 
-A new optional parameter ```autoHeight``` has been added to ```screenMatchesGolden``` and ```multiScreenGolden```. If set to true, the height of the golden will adapt to fit the widget under test. Thanks to @christian-muertz!
+A new optional parameter `autoHeight` has been added to `screenMatchesGolden` and `multiScreenGolden`. If set to true, the height of the golden will adapt to fit the widget under test. Thanks to @christian-muertz!
 
 ## 0.3.2
 

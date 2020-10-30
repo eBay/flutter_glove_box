@@ -195,7 +195,8 @@ Future<void> screenMatchesGolden(
     customPump: customPump,
     skip: skip,
     device: null,
-    fileNameFactory: (String name, Device device) => GoldenToolkit.configuration.fileNameFactory(name),
+    fileNameFactory: (String name, Device device) =>
+        GoldenToolkit.configuration.fileNameFactory(name),
   );
 }
 
@@ -218,7 +219,8 @@ Future<void> compareWithGolden(
     fail(
         'Golden tests MUST be run within a testGoldens method, not just a testWidgets method. This is so we can be confident that running "flutter test --name=GOLDEN" will run all golden tests.');
   }
-  final shouldSkipGoldenGeneration = skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
+  final shouldSkipGoldenGeneration =
+      skip ?? GoldenToolkit.configuration.skipGoldenAssertion();
 
   final pumpAfterPrime = customPump ?? _onlyPumpAndSettle;
   /* if no finder is specified, use the first widget. Note, there is no guarantee this evaluates top-down, but in theory if all widgets are in the same
@@ -236,7 +238,10 @@ Future<void> compareWithGolden(
   if (autoHeight == true) {
     // Find the first scrollable element which can be scrolled vertical.
     // ListView, SingleChildScrollView, CustomScrollView? are implemented using a Scrollable widget.
-    final scrollable = find.byType(Scrollable).evaluate().map<ScrollableState>((Element element) {
+    final scrollable = find
+        .byType(Scrollable)
+        .evaluate()
+        .map<ScrollableState>((Element element) {
       if (element is StatefulElement && element.state is ScrollableState) {
         return element.state;
       }
@@ -305,7 +310,8 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
 /// * [GoldenToolkitConfiguration.primeAssets] to configure a global asset prime function.
 Future<void> defaultPrimeAssets(WidgetTester tester) async {
   final imageElements = find.byType(Image, skipOffstage: false).evaluate();
-  final containerElements = find.byType(DecoratedBox, skipOffstage: false).evaluate();
+  final containerElements =
+      find.byType(DecoratedBox, skipOffstage: false).evaluate();
   await tester.runAsync(() async {
     for (final imageElement in imageElements) {
       final widget = imageElement.widget;
@@ -325,4 +331,5 @@ Future<void> defaultPrimeAssets(WidgetTester tester) async {
   });
 }
 
-Future<void> _onlyPumpAndSettle(WidgetTester tester) async => tester.pumpAndSettle();
+Future<void> _onlyPumpAndSettle(WidgetTester tester) async =>
+    tester.pumpAndSettle();

@@ -9,12 +9,14 @@ void main() {
   group(
     'Image Loading Tests',
     () {
-      testWidgets('demonstrate that waitForAssets is required for: Image', (tester) async {
+      testWidgets('demonstrate that waitForAssets is required for: Image',
+          (tester) async {
         await GoldenToolkit.runWithConfiguration(
           () async {
             await tester.pumpWidgetBuilder(const ImageWidget());
             await tester.pump();
-            await expectLater(find.byType(ImageWidget).first, matchesGoldenFile('goldens/image_wont_show.png'));
+            await expectLater(find.byType(ImageWidget).first,
+                matchesGoldenFile('goldens/image_wont_show.png'));
           },
           config: defaultConfiguration,
         );
@@ -26,38 +28,43 @@ void main() {
             await tester.pumpWidgetBuilder(const ImageWidget());
             await tester.waitForAssets();
             await tester.pump();
-            await expectLater(find.byType(ImageWidget).first, matchesGoldenFile('goldens/image_will_show.png'));
+            await expectLater(find.byType(ImageWidget).first,
+                matchesGoldenFile('goldens/image_will_show.png'));
           },
           config: defaultConfiguration,
         );
       });
 
-      testWidgets('demonstrate that waitForAssets is required for: BoxDecoration', (tester) async {
+      testWidgets(
+          'demonstrate that waitForAssets is required for: BoxDecoration',
+          (tester) async {
         await GoldenToolkit.runWithConfiguration(
           () async {
             await tester.pumpWidgetBuilder(const BoxDecorationWithImage());
             await tester.pump();
-            await expectLater(
-                find.byType(BoxDecorationWithImage).first, matchesGoldenFile('goldens/boxdecoration_wont_show.png'));
+            await expectLater(find.byType(BoxDecorationWithImage).first,
+                matchesGoldenFile('goldens/boxdecoration_wont_show.png'));
           },
           config: defaultConfiguration,
         );
       });
 
-      testWidgets('should load assets from BoxDecoration images', (tester) async {
+      testWidgets('should load assets from BoxDecoration images',
+          (tester) async {
         await GoldenToolkit.runWithConfiguration(
           () async {
             await tester.pumpWidgetBuilder(const BoxDecorationWithImage());
             await tester.waitForAssets();
             await tester.pump();
-            await expectLater(
-                find.byType(BoxDecorationWithImage).first, matchesGoldenFile('goldens/boxdecoration_will_show.png'));
+            await expectLater(find.byType(BoxDecorationWithImage).first,
+                matchesGoldenFile('goldens/boxdecoration_will_show.png'));
           },
           config: defaultConfiguration,
         );
       });
 
-      testWidgets('should load assets that have not come into view yet', (tester) async {
+      testWidgets('should load assets that have not come into view yet',
+          (tester) async {
         await GoldenToolkit.runWithConfiguration(
           () async {
             await tester.pumpWidgetBuilder(
@@ -71,8 +78,8 @@ void main() {
             await tester.waitForAssets();
             await tester.drag(find.byType(Scrollable), const Offset(0, -1000));
             await tester.pump();
-            await expectLater(
-                find.byType(ListOfItemsWithOneImage).first, matchesGoldenFile('goldens/list_of_images_will_show.png'));
+            await expectLater(find.byType(ListOfItemsWithOneImage).first,
+                matchesGoldenFile('goldens/list_of_images_will_show.png'));
           },
           config: defaultConfiguration,
         );

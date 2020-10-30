@@ -123,7 +123,8 @@ class GoldenBuilder {
     );
   }
 
-  Column _column() => Column(mainAxisSize: MainAxisSize.min, children: scenarios);
+  Column _column() =>
+      Column(mainAxisSize: MainAxisSize.min, children: scenarios);
 }
 
 class _Scenario extends StatelessWidget {
