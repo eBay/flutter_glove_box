@@ -31,8 +31,8 @@ void main() {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
-          //ignore: deprecated_member_use_from_same_package
           await screenMatchesGolden(tester, 'this_is_expected_to_skip',
+              //ignore: deprecated_member_use_from_same_package
               skip: true);
         },
         config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
@@ -57,8 +57,8 @@ void main() {
       return GoldenToolkit.runWithConfiguration(
         () async {
           await tester.pumpWidgetBuilder(Container());
-          //ignore: deprecated_member_use_from_same_package
           await multiScreenGolden(tester, 'this_is_expected_to_skip',
+              //ignore: deprecated_member_use_from_same_package
               skip: true);
         },
         config: GoldenToolkitConfiguration(skipGoldenAssertion: () => false),
