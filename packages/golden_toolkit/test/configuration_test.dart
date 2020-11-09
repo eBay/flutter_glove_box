@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+import 'sample_widgets.dart';
+
 void main() {
   group('GoldenToolkitConfiguration Tests', () {
     testGoldens(
@@ -173,6 +175,40 @@ void main() {
       );
     });
 
+    group('Shadows', () {
+      GoldenToolkit.runWithConfiguration(
+        () {
+          testGoldens(
+              'screenMatchesGolden method uses enableRealShadows from global configuration when GoldenToolkit.runWithConfiguration is outside testGoldens',
+              (tester) async {
+            await tester.pumpWidgetBuilder(WidgetWithShadows());
+            await screenMatchesGolden(
+                tester, 'enableRealShadows_honored_when_testGoldens_wrapped');
+
+            expect(debugDisableShadows, isFalse,
+                reason: 'debugDisableShadows should be false during this test');
+          });
+        },
+        config: GoldenToolkit.configuration.copyWith(enableRealShadows: true),
+      );
+
+      testGoldens(
+          'screenMatchesGolden method does not use enableRealShadows from global configuration when GoldenToolkit.runWithConfiguration is inside testGoldens',
+          (tester) async {
+        await GoldenToolkit.runWithConfiguration(
+          () async {
+            await tester.pumpWidgetBuilder(WidgetWithShadows());
+            await screenMatchesGolden(tester,
+                'enableRealShadows_ignored_when_testGoldens_not_wrapped');
+
+            expect(debugDisableShadows, isTrue,
+                reason: 'debugDisableShadows should be true during this test');
+          },
+          config: GoldenToolkit.configuration.copyWith(enableRealShadows: true),
+        );
+      });
+    });
+
     test('Default Configuration', () {
       final config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
@@ -185,6 +221,7 @@ void main() {
       );
       expect(config.defaultDevices,
           equals([Device.phone, Device.tabletLandscape]));
+      expect(config.enableRealShadows, isFalse);
     });
 
     group('Equality/Hashcode/CopyWith', () {
@@ -193,6 +230,7 @@ void main() {
       String deviceFileNameFactory(String filename, Device device) => '';
       Future<void> primeAssets(WidgetTester tester) async {}
       final devices = [Device.iphone11, Device.iphone11.dark()];
+      const enableRealShadows = true;
 
       final config = GoldenToolkitConfiguration(
         skipGoldenAssertion: skipGoldenAssertion,
@@ -200,6 +238,7 @@ void main() {
         fileNameFactory: fileNameFactory,
         primeAssets: primeAssets,
         defaultDevices: devices,
+        enableRealShadows: enableRealShadows,
       );
 
       test('config with identical params should be equal', () {
@@ -253,6 +292,18 @@ void main() {
               config.hashCode,
               isNot(equals(config.copyWith(
                   defaultDevices: [Device.tabletPortrait]).hashCode)));
+        });
+
+        test('enableRealShadows', () {
+          expect(
+              config,
+              isNot(equals(
+                  config.copyWith(enableRealShadows: !enableRealShadows))));
+          expect(
+              config.hashCode,
+              isNot(equals(config
+                  .copyWith(enableRealShadows: !enableRealShadows)
+                  .hashCode)));
         });
       });
     });

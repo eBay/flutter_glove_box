@@ -88,12 +88,15 @@ class GoldenToolkitConfiguration {
   /// [deviceFileNameFactory] a func used to decide the final filename for multiScreenGolden() invocations
   ///
   /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
+  ///
+  /// [enableRealShadows] a flag indicating that we want the goldens to have real shadows (instead of opaque shadows)
   GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
     this.deviceFileNameFactory = defaultDeviceFileNameFactory,
     this.primeAssets = defaultPrimeAssets,
     this.defaultDevices = const [Device.phone, Device.tabletLandscape],
+    this.enableRealShadows = false,
   }) : assert(defaultDevices != null && defaultDevices.isNotEmpty);
 
   /// a function indicating whether a golden assertion should be skipped
@@ -111,6 +114,11 @@ class GoldenToolkitConfiguration {
   /// the default set of devices to use for multiScreenGolden assertions
   final List<Device> defaultDevices;
 
+  /// whether shadows should have the real rendering
+  /// by default, Widget tests use opaque shadows to avoid golden test failures
+  /// See [debugDisableShadows] for more context
+  final bool enableRealShadows;
+
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
     SkipGoldenAssertion skipGoldenAssertion,
@@ -118,6 +126,7 @@ class GoldenToolkitConfiguration {
     DeviceFileNameFactory deviceFileNameFactory,
     PrimeAssets primeAssets,
     List<Device> defaultDevices,
+    bool enableRealShadows,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
@@ -126,6 +135,7 @@ class GoldenToolkitConfiguration {
           deviceFileNameFactory ?? this.deviceFileNameFactory,
       primeAssets: primeAssets ?? this.primeAssets,
       defaultDevices: defaultDevices ?? this.defaultDevices,
+      enableRealShadows: enableRealShadows ?? this.enableRealShadows,
     );
   }
 
@@ -138,7 +148,8 @@ class GoldenToolkitConfiguration {
             fileNameFactory == other.fileNameFactory &&
             deviceFileNameFactory == other.deviceFileNameFactory &&
             primeAssets == other.primeAssets &&
-            defaultDevices == other.defaultDevices;
+            defaultDevices == other.defaultDevices &&
+            enableRealShadows == other.enableRealShadows;
   }
 
   @override
@@ -147,7 +158,8 @@ class GoldenToolkitConfiguration {
       fileNameFactory.hashCode ^
       deviceFileNameFactory.hashCode ^
       primeAssets.hashCode ^
-      defaultDevices.hashCode;
+      defaultDevices.hashCode ^
+      enableRealShadows.hashCode;
 }
 
 bool _doNotSkip() => false;

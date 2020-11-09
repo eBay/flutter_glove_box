@@ -151,9 +151,14 @@ void testGoldens(
       return GoldenToolkit.runWithConfiguration(() async {
         _inGoldenTest = true;
         tester.binding.addTime(const Duration(seconds: 10));
+        final initialDebugDisableShadowsValue = debugDisableShadows;
+        final shouldUseRealShadows =
+            GoldenToolkit.configuration.enableRealShadows;
+        debugDisableShadows = !shouldUseRealShadows;
         try {
           await test(tester);
         } finally {
+          debugDisableShadows = initialDebugDisableShadowsValue;
           _inGoldenTest = false;
         }
       }, config: config);
