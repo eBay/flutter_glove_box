@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+Thanks to @tsimbalar for this enhancement.
+
+A new configuration property has been added to `GoldenToolkitConfiguration` which allows you to opt-in to displaying real shadows in your goldens. By default, real shadows are disabled in Flutter tests due to inconsistencies in their implementation across versions. This behavior could always be toggled off in flutter tests via an obscure global variable. Now, you can easily specify a scoped value it in your configuration overrides.
+
 ## 0.7.0
 
 Thanks to @moonytoes29 for the following enhancements:
