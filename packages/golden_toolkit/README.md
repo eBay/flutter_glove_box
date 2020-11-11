@@ -265,7 +265,7 @@ import 'dart:async';
 
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-Future<void> main(FutureOr<void> testMain()) async {
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   await loadAppFonts();
   return testMain();
 }
@@ -282,6 +282,14 @@ At the moment, it is only possible to load a single .ttf file for a font family.
 ![Screenshot of 'Golden' showing font support and limitations](test/goldens/material_fonts.png)
 
 Additionally, in some instances, it is not possible to replace the "Ahem" font. There are specific places in the Flutter codebase, such as rendering the "debug banner" where no explicit font family is specified. In these instances, the engine will use Ahem in a test context, with no way to override the behavior.
+
+Also note that at the moment for having the required files generated for font processing the pubspec.yaml should have an entry in the images section, make sure it has at least this:
+
+```yaml
+flutter:
+  assets:
+    - images/
+```
 
 ### testGoldens()
 
