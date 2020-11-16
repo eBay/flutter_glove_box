@@ -53,8 +53,9 @@ String derivedFontFamily(Map<String, dynamic> fontDefinition) {
   }
 
   if (fontFamily.startsWith('packages/')) {
-    if (_overridableFonts.any(fontFamily.contains)) {
-      return fontFamily.split('/').last;
+    final fontFamilyName = fontFamily.split('/').last;
+    if (_overridableFonts.any((font) => font == fontFamilyName)) {
+      return fontFamilyName;
     }
   } else {
     for (final Map<String, dynamic> fontType in fontDefinition['fonts']) {
