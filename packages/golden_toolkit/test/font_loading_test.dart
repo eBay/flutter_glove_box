@@ -95,6 +95,11 @@ Future<void> main() async {
             _font('packages/foo/bar', ['packages/foo/fonts/bar.ttf'])),
         equals('packages/foo/bar'),
       );
+      expect(
+        derivedFontFamily(_font(
+            'packages/foo/RobotoMono', ['packages/foo/fonts/RobotoMono.ttf'])),
+        equals('packages/foo/RobotoMono'),
+      );
     });
 
     test('leave unpackaged fonts unaltered', () {
