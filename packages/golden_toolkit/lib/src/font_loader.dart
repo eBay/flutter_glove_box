@@ -46,6 +46,10 @@ Future<void> loadAppFonts() async {
 /// a Material or Cupertino font family, let's treat it as the main font family
 @visibleForTesting
 String derivedFontFamily(Map<String, dynamic> fontDefinition) {
+  if (!fontDefinition.containsKey('family')) {
+    return '';
+  }
+
   final String fontFamily = fontDefinition['family'];
 
   if (_overridableFonts.contains(fontFamily)) {
@@ -59,8 +63,8 @@ String derivedFontFamily(Map<String, dynamic> fontDefinition) {
     }
   } else {
     for (final Map<String, dynamic> fontType in fontDefinition['fonts']) {
-      final String asset = fontType['asset'];
-      if (asset?.startsWith('packages') ?? false) {
+      final String? asset = fontType['asset'];
+      if (asset != null && asset.startsWith('packages')) {
         final packageName = asset.split('/')[1];
         return 'packages/$packageName/$fontFamily';
       }

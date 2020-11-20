@@ -30,7 +30,7 @@ class GoldenToolkit {
   /// In most cases, this can be applied in your flutter_test_config.dart to wrap every test in its own zone
   static T runWithConfiguration<T>(
     T Function() body, {
-    @required GoldenToolkitConfiguration config,
+    GoldenToolkitConfiguration? config,
   }) {
     return runZoned<T>(
       body,
@@ -97,7 +97,7 @@ class GoldenToolkitConfiguration {
     this.primeAssets = defaultPrimeAssets,
     this.defaultDevices = const [Device.phone, Device.tabletLandscape],
     this.enableRealShadows = false,
-  }) : assert(defaultDevices != null && defaultDevices.isNotEmpty);
+  }) : assert(defaultDevices.isNotEmpty);
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
@@ -121,12 +121,12 @@ class GoldenToolkitConfiguration {
 
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
-    SkipGoldenAssertion skipGoldenAssertion,
-    FileNameFactory fileNameFactory,
-    DeviceFileNameFactory deviceFileNameFactory,
-    PrimeAssets primeAssets,
-    List<Device> defaultDevices,
-    bool enableRealShadows,
+    SkipGoldenAssertion? skipGoldenAssertion,
+    FileNameFactory? fileNameFactory,
+    DeviceFileNameFactory? deviceFileNameFactory,
+    PrimeAssets? primeAssets,
+    List<Device>? defaultDevices,
+    bool? enableRealShadows,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,

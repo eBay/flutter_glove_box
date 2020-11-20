@@ -25,10 +25,10 @@ class GoldenBuilder {
   ///
   /// [bgColor] will change the background color of output .png file
   factory GoldenBuilder.grid({
-    @required int columns,
-    @required double widthToHeightRatio,
-    WidgetWrapper wrap,
-    Color bgColor,
+    required int columns,
+    required double widthToHeightRatio,
+    WidgetWrapper? wrap,
+    Color? bgColor,
   }) {
     return GoldenBuilder._(
       columns: columns,
@@ -45,8 +45,8 @@ class GoldenBuilder {
   /// [bgColor] will change the background color of output .png file
   ///
   factory GoldenBuilder.column({
-    Color bgColor,
-    WidgetWrapper wrap,
+    Color? bgColor,
+    WidgetWrapper? wrap,
   }) {
     return GoldenBuilder._(
       wrap: wrap,
@@ -63,13 +63,13 @@ class GoldenBuilder {
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
   /// provide consistent UI treatment to all of them or need to inject dependencies.
-  final WidgetWrapper wrap;
+  final WidgetWrapper? wrap;
 
   /// number of columns [columns] in a grid
   final int columns;
 
   ///  background [bgColor] color of output .png file
-  final Color bgColor;
+  final Color? bgColor;
 
   ///  [widthToHeightRatio]  grid layout
   final double widthToHeightRatio;
@@ -129,13 +129,13 @@ class GoldenBuilder {
 
 class _Scenario extends StatelessWidget {
   const _Scenario({
-    Key key,
-    @required this.name,
-    @required this.widget,
+    Key? key,
+    required this.name,
+    required this.widget,
     this.wrap,
   }) : super(key: key);
 
-  final WidgetWrapper wrap;
+  final WidgetWrapper? wrap;
   final String name;
   final Widget widget;
 
@@ -149,7 +149,7 @@ class _Scenario extends StatelessWidget {
         children: [
           Text(name, style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 4),
-          if (wrap != null) wrap(widget) else widget
+          wrap?.call(widget) ?? widget,
         ],
       ),
     );
@@ -158,8 +158,8 @@ class _Scenario extends StatelessWidget {
 
 class _TextScaleFactor extends StatelessWidget {
   const _TextScaleFactor({
-    @required this.textScaleFactor,
-    @required this.child,
+    required this.textScaleFactor,
+    required this.child,
   });
   final Widget child;
   final double textScaleFactor;

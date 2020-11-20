@@ -6,7 +6,7 @@ repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/golde
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0-29.10.beta <3.0.0'
 
 dependencies:
   flutter:
@@ -16,9 +16,9 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  pedantic: ^1.10.0-nullsafety
   sample_dependency:
     path: test/sample_dependency
-  pedantic: ^1.9.0
 
 flutter:
   uses-material-design: true

@@ -15,9 +15,9 @@ import 'package:meta/meta.dart';
 class Device {
   /// This [Device] is a configuration for golden test. Can be provided for [multiScreenGolden]
   const Device({
-    @required this.size,
+    required this.size,
     this.devicePixelRatio = 1.0,
-    @required this.name,
+    required this.name,
     this.textScale = 1.0,
     this.brightness = Brightness.light,
     this.safeArea = const EdgeInsets.all(0),
@@ -63,12 +63,12 @@ class Device {
 
   /// [copyWith] convenience function for [Device] modification
   Device copyWith({
-    Size size,
-    double devicePixelRatio,
-    String name,
-    double textScale,
-    Brightness brightness,
-    EdgeInsets safeArea,
+    Size? size,
+    double? devicePixelRatio,
+    String? name,
+    double? textScale,
+    Brightness? brightness,
+    EdgeInsets? safeArea,
   }) {
     return Device(
       size: size ?? this.size,

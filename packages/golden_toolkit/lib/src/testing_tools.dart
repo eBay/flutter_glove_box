@@ -43,7 +43,7 @@ extension TestingToolsExtension on WidgetTester {
   /// [textScaleSize] set's the text scale size (usually in a range from 1 to 3)
   Future<void> pumpWidgetBuilder(
     Widget widget, {
-    WidgetWrapper wrapper,
+    WidgetWrapper? wrapper,
     Size surfaceSize = _defaultSize,
     double textScaleSize = 1.0,
   }) async {
@@ -64,7 +64,7 @@ extension TestingToolsExtension on WidgetTester {
   /// [textScaleSize] set's the text scale size (usually in a range from 1 to 3)
   Future<void> pumpDeviceBuilder(
     DeviceBuilder deviceBuilder, {
-    WidgetWrapper wrapper,
+    WidgetWrapper? wrapper,
   }) async {
     await pumpWidgetBuilder(
       deviceBuilder.build(),
@@ -92,10 +92,10 @@ extension TestingToolsExtension on WidgetTester {
 /// [theme] Your app theme
 WidgetWrapper materialAppWrapper({
   TargetPlatform platform = TargetPlatform.android,
-  Iterable<LocalizationsDelegate<dynamic>> localizations,
-  NavigatorObserver navigatorObserver,
-  Iterable<Locale> localeOverrides,
-  ThemeData theme,
+  Iterable<LocalizationsDelegate<dynamic>>? localizations,
+  NavigatorObserver? navigatorObserver,
+  Iterable<Locale>? localeOverrides,
+  ThemeData? theme,
 }) {
   return (child) => MaterialApp(
         localizationsDelegates: localizations,
@@ -115,8 +115,8 @@ WidgetWrapper noWrap() => (child) => child;
 Future<void> _pumpAppWidget(
   WidgetTester tester,
   Widget app, {
-  Size surfaceSize,
-  double textScaleSize,
+  required Size surfaceSize,
+  required double textScaleSize,
 }) async {
   await tester.binding.setSurfaceSize(surfaceSize);
   tester.binding.window.physicalSizeTestValue = surfaceSize;
@@ -186,11 +186,11 @@ void testGoldens(
 Future<void> screenMatchesGolden(
   WidgetTester tester,
   String name, {
-  bool autoHeight,
-  Finder finder,
-  CustomPump customPump,
+  bool? autoHeight,
+  Finder? finder,
+  CustomPump? customPump,
   @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
-      bool skip,
+      bool? skip,
 }) {
   return compareWithGolden(
     tester,
@@ -199,7 +199,7 @@ Future<void> screenMatchesGolden(
     finder: finder,
     customPump: customPump,
     skip: skip,
-    device: null,
+    device: Device.phone,
     fileNameFactory: (String name, Device device) =>
         GoldenToolkit.configuration.fileNameFactory(name),
   );
@@ -209,12 +209,12 @@ Future<void> screenMatchesGolden(
 Future<void> compareWithGolden(
   WidgetTester tester,
   String name, {
-  DeviceFileNameFactory fileNameFactory,
-  Device device,
-  bool autoHeight,
-  Finder finder,
-  CustomPump customPump,
-  bool skip,
+  required DeviceFileNameFactory fileNameFactory,
+  required Device device,
+  bool? autoHeight,
+  Finder? finder,
+  CustomPump? customPump,
+  bool? skip,
 }) async {
   assert(
     !name.endsWith('.png'),
@@ -246,14 +246,17 @@ Future<void> compareWithGolden(
     final scrollable = find
         .byType(Scrollable)
         .evaluate()
-        .map<ScrollableState>((Element element) {
-      if (element is StatefulElement && element.state is ScrollableState) {
-        return element.state;
+        .map<ScrollableState?>((Element element) {
+      if (element is StatefulElement) {
+        final state = element.state;
+        if (state is ScrollableState) {
+          return state;
+        }
       }
       return null;
-    }).firstWhere((ScrollableState state) {
-      final position = state.position;
-      return position.axisDirection == AxisDirection.down;
+    }).firstWhere((state) {
+      final position = state?.position;
+      return position?.axisDirection == AxisDirection.down;
     }, orElse: () => null);
 
     final renderObject = tester.renderObject(actualFinder);
@@ -295,7 +298,10 @@ Future<void> legacyPrimeAssets(WidgetTester tester) async {
   final renderObject = tester.binding.renderView;
   assert(!renderObject.debugNeedsPaint);
 
-  final OffsetLayer layer = renderObject.debugLayer;
+  /* this should work but doesn't:
+  final OffsetLayer layer = renderObject.debugLayer!;
+  */
+  final layer = renderObject.debugLayer as OffsetLayer;
 
   // This is a very flaky hack which should be avoided if possible.
   // We are just trying to waste some time that matches the time needed to call matchesGoldenFile.
@@ -325,11 +331,11 @@ Future<void> defaultPrimeAssets(WidgetTester tester) async {
       }
     }
     for (final container in containerElements) {
-      final DecoratedBox widget = container.widget;
+      final widget = container.widget as DecoratedBox;
       final decoration = widget.decoration;
       if (decoration is BoxDecoration) {
         if (decoration.image != null) {
-          await precacheImage(decoration.image.image, container);
+          await precacheImage(decoration.image!.image, container);
         }
       }
     }

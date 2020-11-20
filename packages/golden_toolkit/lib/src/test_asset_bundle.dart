@@ -9,7 +9,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// TestAssetBundle is required in order to avoid issues with large assets
@@ -21,9 +20,6 @@ class TestAssetBundle extends CachingAssetBundle {
   Future<String> loadString(String key, {bool cache = true}) async {
     //overriding this method to avoid limit of 10KB per asset
     final data = await load(key);
-    if (data == null) {
-      throw FlutterError('Unable to load asset, data is null: $key');
-    }
     return utf8.decode(data.buffer.asUint8List());
   }
 
