@@ -148,7 +148,7 @@ void testGoldens(
   final dynamic config = Zone.current[#goldentoolkit.config];
   group(description, () {
     testWidgets('Golden', (tester) async {
-      return GoldenToolkit.runWithConfiguration(() async {
+      Future<void> body() async {
         _inGoldenTest = true;
         tester.binding.addTime(const Duration(seconds: 10));
         final initialDebugDisableShadowsValue = debugDisableShadows;
@@ -161,7 +161,13 @@ void testGoldens(
           debugDisableShadows = initialDebugDisableShadowsValue;
           _inGoldenTest = false;
         }
-      }, config: config);
+      }
+
+      if (config is GoldenToolkitConfiguration) {
+        await GoldenToolkit.runWithConfiguration(body, config: config);
+      } else {
+        await body();
+      }
     }, skip: skip);
   });
 }

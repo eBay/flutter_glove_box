@@ -30,7 +30,7 @@ class GoldenToolkit {
   /// In most cases, this can be applied in your flutter_test_config.dart to wrap every test in its own zone
   static T runWithConfiguration<T>(
     T Function() body, {
-    GoldenToolkitConfiguration? config,
+    required GoldenToolkitConfiguration config,
   }) {
     return runZoned<T>(
       body,
