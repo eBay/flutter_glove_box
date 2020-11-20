@@ -10,7 +10,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import '../golden_toolkit.dart';
 import 'testing_tools.dart';

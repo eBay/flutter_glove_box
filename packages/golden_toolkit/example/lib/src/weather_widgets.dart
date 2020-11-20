@@ -263,15 +263,11 @@ String _assetForWeather(Weather weather) {
       return 'sample_sunny.png';
     case Weather.rain:
       return 'sample_rain.png';
-      break;
     case Weather.cold:
       return 'sample_cold.png';
-      break;
     case Weather.cloudy:
       return 'sample_cloudy.png';
-      break;
   }
-  return '';
 }
 
 String _textForWeather(Weather weather) {
@@ -280,15 +276,11 @@ String _textForWeather(Weather weather) {
       return 'Sunny';
     case Weather.rain:
       return 'Raining';
-      break;
     case Weather.cold:
       return 'Frosty';
-      break;
     case Weather.cloudy:
       return 'Partly Cloudy';
-      break;
   }
-  return '';
 }
 
 enum Weather {

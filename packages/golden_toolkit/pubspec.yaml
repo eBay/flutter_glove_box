@@ -11,9 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  meta: ^1.1.8
   flutter_test:
     sdk: flutter
+  meta: ^1.1.8
 
 dev_dependencies:
   pedantic: ^1.10.0-nullsafety

@@ -9,7 +9,6 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 /// This [Device] is a configuration for golden test. Can be provided for [multiScreenGolden]
 class Device {

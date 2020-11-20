@@ -6,7 +6,6 @@
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import 'testing_tools.dart';
 

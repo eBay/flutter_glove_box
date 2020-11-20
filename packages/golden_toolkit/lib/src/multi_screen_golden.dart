@@ -76,7 +76,6 @@ Future<void> multiScreenGolden(
           customPump: customPump,
           autoHeight: autoHeight,
           finder: finder,
-          //ignore: deprecated_member_use_from_same_package
           skip: skip,
           device: device,
           fileNameFactory: GoldenToolkit.configuration.deviceFileNameFactory,
