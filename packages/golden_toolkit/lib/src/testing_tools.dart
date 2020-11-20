@@ -205,7 +205,7 @@ Future<void> screenMatchesGolden(
     finder: finder,
     customPump: customPump,
     skip: skip,
-    // This value is actually ignored. We are forced to pass it because the 
+    // This value is actually ignored. We are forced to pass it because the
     // downstream API is structured poorly. This should be refactored.
     device: Device.phone,
     fileNameFactory: (String name, Device device) =>
