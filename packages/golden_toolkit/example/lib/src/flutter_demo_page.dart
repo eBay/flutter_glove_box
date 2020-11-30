@@ -16,7 +16,7 @@ class FlutterDemoPage extends StatelessWidget {
 }
 
 class _MyHomePage extends StatefulWidget {
-  const _MyHomePage({Key key, this.title}) : super(key: key);
+  const _MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 

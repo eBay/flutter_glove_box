@@ -14,7 +14,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 // All tests in this folder and its subfolders will have the configuration defined here
 
-Future<void> main(FutureOr<void> Function() testMain) async {
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   return GoldenToolkit.runWithConfiguration(
     () async {
       await loadAppFonts();

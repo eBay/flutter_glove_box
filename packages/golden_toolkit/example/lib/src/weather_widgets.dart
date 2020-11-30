@@ -18,7 +18,7 @@ import 'package:flutter/widgets.dart';
 /// refactor and clean it up!
 
 class WeatherForecast extends StatelessWidget {
-  const WeatherForecast({Key key, List<Forecast> list = thisWeek})
+  const WeatherForecast({Key? key, List<Forecast> list = thisWeek})
       : _list = list,
         super(key: key);
 
@@ -57,7 +57,7 @@ class WeatherForecast extends StatelessWidget {
                     ),
                     textTheme: theme.textTheme.copyWith(
                       bodyText2:
-                          theme.textTheme.bodyText2.copyWith(fontSize: 24),
+                          theme.textTheme.bodyText2!.copyWith(fontSize: 24),
                     ),
                   ),
                   child: WeatherCard.forecast(today),
@@ -89,8 +89,8 @@ class WeatherForecast extends StatelessWidget {
 
 class WeeklyForecastExpanded extends StatelessWidget {
   const WeeklyForecastExpanded({
-    Key key,
-    @required this.forecasts,
+    Key? key,
+    required this.forecasts,
   }) : super(key: key);
 
   final List<Forecast> forecasts;
@@ -123,8 +123,8 @@ class WeeklyForecastExpanded extends StatelessWidget {
 
 class WeeklyForecastCompact extends StatelessWidget {
   const WeeklyForecastCompact({
-    Key key,
-    @required this.forecasts,
+    Key? key,
+    required this.forecasts,
   }) : super(key: key);
 
   final List<Forecast> forecasts;
@@ -151,9 +151,9 @@ class WeeklyForecastCompact extends StatelessWidget {
 
 class WeatherCard extends StatelessWidget {
   const WeatherCard({
-    Key key,
-    this.temp,
-    this.weather,
+    Key? key,
+    required this.temp,
+    required this.weather,
     this.day = 'Friday',
   }) : super(key: key);
 
@@ -263,15 +263,11 @@ String _assetForWeather(Weather weather) {
       return 'sample_sunny.png';
     case Weather.rain:
       return 'sample_rain.png';
-      break;
     case Weather.cold:
       return 'sample_cold.png';
-      break;
     case Weather.cloudy:
       return 'sample_cloudy.png';
-      break;
   }
-  return '';
 }
 
 String _textForWeather(Weather weather) {
@@ -280,15 +276,11 @@ String _textForWeather(Weather weather) {
       return 'Sunny';
     case Weather.rain:
       return 'Raining';
-      break;
     case Weather.cold:
       return 'Frosty';
-      break;
     case Weather.cloudy:
       return 'Partly Cloudy';
-      break;
   }
-  return '';
 }
 
 enum Weather {
@@ -302,7 +294,12 @@ final RoundedRectangleBorder _cardShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0));
 
 class Forecast {
-  const Forecast({this.day, this.temp, this.weather, this.description});
+  const Forecast({
+    required this.day,
+    required this.temp,
+    required this.weather,
+    required this.description,
+  });
 
   final String day;
   final int temp;

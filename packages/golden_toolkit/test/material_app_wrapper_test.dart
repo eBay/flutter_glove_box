@@ -12,7 +12,7 @@ void main() {
           builder: (context) => MaterialButton(
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute<void>(builder: (_) => Container()));
+                  ?.push(MaterialPageRoute<void>(builder: (_) => Container()));
             },
           ),
         ),
@@ -53,7 +53,7 @@ class _SampleNavigatorObserver extends NavigatorObserver {
   bool wasPushed = false;
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     wasPushed = true;
   }
 }
