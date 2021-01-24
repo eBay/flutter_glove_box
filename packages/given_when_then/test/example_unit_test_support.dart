@@ -1,29 +1,29 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:given_when_then/given_when_then.dart';
 
-Future<void> Function() harness(UnitTestHarnessCallback<_Harness> callback) {
-  return () => givenWhenThenUnitTest(_Harness(), callback);
+Future<void> Function() harness(UnitTestHarnessCallback<_ExampleUnitTestHarness> callback) {
+  return () => givenWhenThenUnitTest(_ExampleUnitTestHarness(), callback);
 }
 
-class _Harness extends UnitTestHarness {
-  _Harness() : super();
+class _ExampleUnitTestHarness {
+  _ExampleUnitTestHarness() : super();
 
   int counter = 0;
 }
 
-extension ExampleGiven on UnitTestGiven<_Harness> {
+extension ExampleGiven on UnitTestGiven<_ExampleUnitTestHarness> {
   void preCondition() {
     this.harness.counter = 1;
   }
 }
 
-extension ExampleWhen on UnitTestWhen<_Harness> {
+extension ExampleWhen on UnitTestWhen<_ExampleUnitTestHarness> {
   Future<void> userPerformsSomeAction() async {
     this.harness.counter++;
   }
 }
 
-extension ExampleThen on UnitTestThen<_Harness> {
+extension ExampleThen on UnitTestThen<_ExampleUnitTestHarness> {
   void makeSomeAssertion() {
     expect(this.harness.counter, equals(2));
   }
