@@ -1,0 +1,22 @@
+name: page_object
+description: A Flutter package to help with implementing the Page Object pattern.
+version: 0.0.1
+homepage: https://github.com/eBay/flutter_glove_box/
+repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/page_object
+issue_tracker: https://github.com/eBay/flutter_glove_box/issues
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
