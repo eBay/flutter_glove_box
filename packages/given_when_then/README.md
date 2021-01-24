@@ -3,10 +3,8 @@
 A Flutter package for creating more readable tests. If you are not familiar with 
 [Flutter's Widget tests](https://flutter.dev/docs/cookbook/testing/widget/introduction) please take a moment to review them.
 
-**Given** we feel that our tests are the best documentation of the behaviors in our code.
-
-**When** we read our tests.
-
+**Given** we feel that our tests are the best documentation of the behaviors in our code.  
+**When** we read our tests.  
 **Then** we want them to be easy to understand.
 
 Flutter widget tests are great but they can be a little verbose. The intention of this small package is to provide a simple tool that can help you 
