@@ -21,12 +21,12 @@ extension ExampleGiven on WidgetTestGiven<_ExampleWidgetTestHarness> {
 extension ExampleWhen on WidgetTestWhen<_ExampleWidgetTestHarness> {
   Future<void> userPerformsSomeAction() async {
     await tester.tap(find.text('0'));
-    await tester.pump();
   }
 }
 
 extension ExampleThen on WidgetTestThen<_ExampleWidgetTestHarness> {
   void makeSomeAssertion() {
+    tester.pump();
     expect(find.text('1'), findsOneWidget);
   }
 }
