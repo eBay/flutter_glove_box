@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:given_when_then/given_when_then.dart';
 
-Future<void> Function() harness(UnitTestHarnessCallback<_ExampleUnitTestHarness> callback) {
+Future<void> Function() harness(
+    UnitTestHarnessCallback<_ExampleUnitTestHarness> callback) {
   return () => givenWhenThenUnitTest(_ExampleUnitTestHarness(), callback);
 }
 
