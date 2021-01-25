@@ -3,15 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:page_object/page_object.dart';
 
 void main() {
-  testWidgets('MyWidget has a title and message, not using PageObject', (WidgetTester tester) async {
+  testWidgets('MyWidget has a title and message, not using PageObject', (
+      WidgetTester tester) async {
     await tester.pumpWidget(const MyWidget(title: 'T', message: 'M'));
-    final titleFinder = find.descendant(of: find.byType(MyWidget), matching: find.byKey(MyWidget.titleKey));
-    final messageFinder = find.descendant(of: find.byType(MyWidget), matching: find.byKey(MyWidget.messageKey));
+    final titleFinder = find.descendant(
+        of: find.byType(MyWidget), matching: find.byKey(MyWidget.titleKey));
+    final messageFinder = find.descendant(
+        of: find.byType(MyWidget), matching: find.byKey(MyWidget.messageKey));
     expect(titleFinder, allOf(findsOneWidget, _HasText('T')));
     expect(messageFinder, allOf(findsOneWidget, _HasText('M')));
   });
 
-  testWidgets('MyWidget has a title and message, using PageObject', (WidgetTester tester) async {
+  testWidgets('MyWidget has a title and message, using PageObject', (
+      WidgetTester tester) async {
     await tester.pumpWidget(const MyWidget(title: 'T', message: 'M'));
     final myWidget = MyWidgetPageObject();
     expect(myWidget.title, allOf(findsOneWidget, _HasText('T')));
@@ -59,8 +63,11 @@ class MyWidget extends StatelessWidget {
 class MyWidgetPageObject extends PageObject {
   MyWidgetPageObject() : super(find.byType(MyWidget));
 
-  Finder get title => find.descendant(of: this, matching: find.byKey(MyWidget.titleKey));
-  Finder get message => find.descendant(of: this, matching: find.byKey(MyWidget.messageKey));
+  Finder get title =>
+      find.descendant(of: this, matching: find.byKey(MyWidget.titleKey));
+
+  Finder get message =>
+      find.descendant(of: this, matching: find.byKey(MyWidget.messageKey));
 }
 
 ///This example was include to make the test feel more like a real scenario.
@@ -70,7 +77,9 @@ class _HasText extends CustomMatcher {
   @override
   Object featureValueOf(dynamic actual) {
     if (actual is Finder) {
-      final element = actual.evaluate().single;
+      final element = actual
+          .evaluate()
+          .single;
       final widget = element.widget;
       if (widget is Text) {
         return widget.data;
@@ -78,7 +87,8 @@ class _HasText extends CustomMatcher {
         throw Exception('_HasText matcher can\'t be applied to $element');
       }
     } else {
-      throw Exception('_HasText matcher can only be applied to a Finder object');
+      throw Exception(
+          '_HasText matcher can only be applied to a Finder object');
     }
   }
 }
