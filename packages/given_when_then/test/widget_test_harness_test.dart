@@ -7,6 +7,6 @@ void main() {
       harness((given, when, then) async {
     await given.preCondition();
     await when.userPerformsSomeAction();
-    then.makeSomeAssertion();
+    await then.makeSomeAssertion();
   }));
 }
