@@ -25,7 +25,7 @@ extension ExampleWhen on WidgetTestWhen<_ExampleWidgetTestHarness> {
 }
 
 extension ExampleThen on WidgetTestThen<_ExampleWidgetTestHarness> {
-  void makeSomeAssertion() async {
+  Future<void> makeSomeAssertion() async {
     await tester.pump();
     expect(find.text('1'), findsOneWidget);
   }
