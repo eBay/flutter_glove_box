@@ -1,6 +1,6 @@
 name: page_object
-description: A Flutter package to help with implementing the Page Object pattern.
-version: 0.0.1
+description: A Flutter package to help with implementing the Page Object pattern in a Flutter app..
+version: 0.1.0
 homepage: https://github.com/eBay/flutter_glove_box/
 repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/page_object
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
