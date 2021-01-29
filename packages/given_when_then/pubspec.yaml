@@ -1,6 +1,6 @@
 name: given_when_then
-description: A Flutter package for creating more readable tests.
-version: 0.0.1
+description: A Flutter package to enable code reuse while making tests more readable.
+version: 0.1.0
 homepage: https://github.com/eBay/flutter_glove_box/
 repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/given_when_then
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
