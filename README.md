@@ -1,7 +1,8 @@
 # Flutter Glove Box
 
-* [golden_toolkit](packages/golden_toolkit/)
 * [given_when_then](packages/given_when_then/)
+* [golden_toolkit](packages/golden_toolkit/)
+* [page_object](packages/page_object/)
 
 Contains various testing tools that eBay Motors App team is using in their development on daily basis.
 

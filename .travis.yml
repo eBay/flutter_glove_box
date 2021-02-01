@@ -16,6 +16,10 @@ script:
   - ../../flutter/bin/flutter analyze
   - ../../flutter/bin/cache/dart-sdk/bin/dartfmt -n ./lib --set-exit-if-changed
   - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
+  - cd ../page_object
+  - ../../flutter/bin/flutter analyze
+  - ../../flutter/bin/cache/dart-sdk/bin/dartfmt -n ./lib --set-exit-if-changed
+  - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 cache:
