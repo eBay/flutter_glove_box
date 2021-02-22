@@ -143,7 +143,7 @@ bool _inGoldenTest = false;
 void testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
-  bool skip = false,
+  bool? skip,
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
   group(description, () {
