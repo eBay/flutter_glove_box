@@ -10,7 +10,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import '../golden_toolkit.dart';
 import 'testing_tools.dart';
@@ -19,16 +18,16 @@ import 'testing_tools.dart';
 class _DeviceScenario {
   /// constructs a DeviceScenario
   _DeviceScenario({
-    this.key,
+    required this.key,
     this.onCreate,
-    this.widget,
+    required this.widget,
   });
 
   /// key that references created scenario and specific device
   final Key key;
 
   /// function that is executed after initial pump of widget
-  final OnScenarioCreate onCreate;
+  final OnScenarioCreate? onCreate;
 
   /// widget that represents this device/scenario
   final _DeviceScenarioWidget widget;
@@ -50,22 +49,22 @@ class DeviceBuilder {
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
   /// provide consistent UI treatment to all of them or need to inject dependencies.
-  final WidgetWrapper wrap;
+  final WidgetWrapper? wrap;
 
   ///  background [bgColor] color of output .png file
-  final Color bgColor;
+  final Color? bgColor;
 
   /// list of created DeviceScenarios for each device type
   final List<_DeviceScenario> scenarios = [];
 
   List<Device> _devicesForScenarios =
-      GoldenToolkit.configuration.defaultDevices ?? [Device.phone];
-  int get _numberOfDevicesPerScenario => _devicesForScenarios?.length ?? 1;
+      GoldenToolkit.configuration.defaultDevices;
+  int get _numberOfDevicesPerScenario => _devicesForScenarios.length;
 
   /// Overrides the list of devices that are rendered for each scenario
   /// Otherwise will default to using `GoldenToolkit.configuration.defaultDevices`
-  void overrideDevicesForAllScenarios({@required List<Device> devices}) {
-    assert(devices?.isNotEmpty ?? false);
+  void overrideDevicesForAllScenarios({required List<Device> devices}) {
+    assert(devices.isNotEmpty);
     _devicesForScenarios = devices;
   }
 
@@ -76,9 +75,9 @@ class DeviceBuilder {
   ///
   /// [name] name of scenario 'e.g 'error_state'
   void addScenario({
-    @required Widget widget,
-    String name,
-    OnScenarioCreate onCreate,
+    required Widget widget,
+    String? name,
+    OnScenarioCreate? onCreate,
   }) {
     for (final dev in _devicesForScenarios) {
       final scenarioName = '${name ?? ''} - ${dev.name}';
@@ -158,17 +157,17 @@ class DeviceBuilder {
 
 class _DeviceScenarioWidget extends StatelessWidget {
   const _DeviceScenarioWidget({
-    Key key,
-    @required this.device,
-    @required this.widget,
+    required Key key,
+    required this.device,
+    required this.widget,
     this.wrap,
     this.name,
   }) : super(key: key);
 
-  final WidgetWrapper wrap;
+  final WidgetWrapper? wrap;
   final Device device;
   final Widget widget;
-  final String name;
+  final String? name;
 
   static const double _horizontalScenarioPadding = 8.0;
   static const double _borderWidth = 1.0;
@@ -185,7 +184,7 @@ class _DeviceScenarioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scenarioWidget = wrap != null ? wrap(_sizedWidget) : _sizedWidget;
+    final scenarioWidget = wrap?.call(_sizedWidget) ?? _sizedWidget;
     return ClipRect(
       child: Padding(
         padding:
@@ -204,7 +203,7 @@ class _DeviceScenarioWidget extends StatelessWidget {
                 height: 20,
                 width: device.size.width,
                 child: Text(
-                  name ?? device.name ?? 'Custom',
+                  name ?? device.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

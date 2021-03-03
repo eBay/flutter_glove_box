@@ -1,3 +1,7 @@
+/// This function is intended to wrap your Unit tests so that you can access the
+/// [UnitTestGiven], [UnitTestWhen], and [UnitTestWhen] to compose the test
+/// case. You will want to create some of your own test support code that is
+/// specific to your code under test. It should look something like this
 typedef UnitTestHarnessCallback<T> = Future<void> Function(
     UnitTestGiven<T>, UnitTestWhen<T>, UnitTestThen<T>);
 

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:given_when_then/given_when_then.dart';
 
-Future<void> Function(WidgetTester) harness(
-    WidgetTestHarnessCallback<_ExampleWidgetTestHarness> callback) {
-  return (tester) =>
-      givenWhenThenWidgetTest(_ExampleWidgetTestHarness(tester), callback);
+Future<void> Function(WidgetTester) harness(WidgetTestHarnessCallback<_ExampleWidgetTestHarness> callback) {
+  return (tester) => givenWhenThenWidgetTest(_ExampleWidgetTestHarness(tester), callback);
 }
 
 class _ExampleWidgetTestHarness extends WidgetTestHarness {

@@ -200,9 +200,12 @@ Widget _forecastWithDifferentImagesForLargeAndSmallScreen() {
 }
 
 class FutureWidgetTester extends StatefulWidget {
-  const FutureWidgetTester(
-      {Key key, this.child, this.duration = const Duration(milliseconds: 100)})
-      : super(key: key);
+  const FutureWidgetTester({
+    Key? key,
+    required this.child,
+    this.duration = const Duration(milliseconds: 100),
+  }) : super(key: key);
+
   final Widget child;
   final Duration duration;
   @override
@@ -210,7 +213,8 @@ class FutureWidgetTester extends StatefulWidget {
 }
 
 class _FutureWidgetTesterState extends State<FutureWidgetTester> {
-  Future<bool> _myFuture;
+  late final Future<bool> _myFuture;
+
   @override
   void initState() {
     super.initState();
@@ -231,7 +235,7 @@ class _FutureWidgetTesterState extends State<FutureWidgetTester> {
 }
 
 class InvalidateWidgetTreeWhenSizeChanges extends StatelessWidget {
-  const InvalidateWidgetTreeWhenSizeChanges({Key key, this.child})
+  const InvalidateWidgetTreeWhenSizeChanges({Key? key, required this.child})
       : super(key: key);
   final Widget child;
 

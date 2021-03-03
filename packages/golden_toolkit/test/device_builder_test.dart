@@ -12,7 +12,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('DeviceBuilder', () {
-    test('overrideDevicesForAllScenarios - empty or null', () {
+    test('overrideDevicesForAllScenarios - empty', () {
       // given
       final sut = DeviceBuilder();
 
@@ -20,13 +20,6 @@ void main() {
       expect(
         () {
           sut.overrideDevicesForAllScenarios(devices: []);
-        },
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () {
-          sut.overrideDevicesForAllScenarios(devices: null);
         },
         throwsA(isA<AssertionError>()),
       );

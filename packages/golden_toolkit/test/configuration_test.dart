@@ -157,15 +157,7 @@ void main() {
       expect(actualDevices, equals([device1, device2]));
     });
 
-    test('defaultDevices should not be null or empty', () async {
-      await expectLater(
-        () => GoldenToolkit.runWithConfiguration(
-          () {},
-          config: GoldenToolkitConfiguration(defaultDevices: null),
-        ),
-        throwsAssertionError,
-      );
-
+    test('defaultDevices should not be empty', () async {
       await expectLater(
         () => GoldenToolkit.runWithConfiguration(
           () {},

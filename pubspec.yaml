@@ -5,3 +5,6 @@ name: flutter_glove_box
 dev_dependencies:
   pedantic: ^1.9.0
 publish_to: none
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"

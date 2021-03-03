@@ -21,6 +21,7 @@ Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();
 }
 
+/// Function definition for allowing for device or test setup to occur for each device configuration under test
 typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list
@@ -50,14 +51,14 @@ typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 Future<void> multiScreenGolden(
   WidgetTester tester,
   String name, {
-  Finder finder,
-  bool autoHeight,
-  double overrideGoldenHeight,
-  CustomPump customPump,
-  DeviceSetup deviceSetup,
-  List<Device> devices,
+  Finder? finder,
+  bool? autoHeight,
+  double? overrideGoldenHeight,
+  CustomPump? customPump,
+  DeviceSetup? deviceSetup,
+  List<Device>? devices,
   @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
-      bool skip,
+      bool? skip,
 }) async {
   assert(devices == null || devices.isNotEmpty);
   final deviceSetupPump = deviceSetup ?? _twoPumps;
@@ -76,7 +77,6 @@ Future<void> multiScreenGolden(
           customPump: customPump,
           autoHeight: autoHeight,
           finder: finder,
-          //ignore: deprecated_member_use_from_same_package
           skip: skip,
           device: device,
           fileNameFactory: GoldenToolkit.configuration.deviceFileNameFactory,

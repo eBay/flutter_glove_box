@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0
+
+This release adds null safety support for Flutter 2.0 / Dart 2.12.
+
+Thanks to @daohoangson for the work on this!
+
 ## 0.8.0
 
 Thanks to @tsimbalar for this enhancement.

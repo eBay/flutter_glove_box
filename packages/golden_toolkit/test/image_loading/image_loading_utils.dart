@@ -3,7 +3,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 class ImageWidget extends StatelessWidget {
   const ImageWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -38,9 +38,9 @@ GoldenToolkitConfiguration get defaultConfiguration =>
 @immutable
 class ListOfItemsWithOneImage extends StatelessWidget {
   const ListOfItemsWithOneImage({
-    @required this.itemSize,
-    @required this.indexThatContainsImage,
-    @required this.cacheExtent,
+    required this.itemSize,
+    required this.indexThatContainsImage,
+    required this.cacheExtent,
   });
 
   final Size itemSize;

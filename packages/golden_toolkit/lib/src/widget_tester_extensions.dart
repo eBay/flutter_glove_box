@@ -25,7 +25,7 @@ extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
   ///
   Future<void> runWithDeviceOverrides(
     Device device, {
-    Future<void> Function() body,
+    required Future<void> Function() body,
   }) async {
     await applyDeviceOverrides(device);
     try {
