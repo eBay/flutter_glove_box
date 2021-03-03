@@ -10,7 +10,8 @@ class PageObject extends Finder {
   final Finder _finder;
 
   @override
-  Iterable<Element> apply(Iterable<Element> candidates) => _finder.apply(candidates);
+  Iterable<Element> apply(Iterable<Element> candidates) =>
+      _finder.apply(candidates);
 
   @override
   String get description => _finder.description;
