@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.9.0 Null Safety Alpha
+## 0.9.0
 
-This pre-release adds null safety support. Once null safety hits flutter stable, this will be turned rolled into the mainline releases.
+This release adds null safety support for Flutter 2.0 / Dart 2.12.
 
 Thanks to @daohoangson for the work on this!
 
