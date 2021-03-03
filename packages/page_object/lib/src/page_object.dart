@@ -6,12 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 /// in this package for an example.
 class PageObject extends Finder {
   /// Creates a [PageObject] for this [Finder]
-  PageObject(this._finder) : assert(_finder != null);
+  PageObject(this._finder);
   final Finder _finder;
 
   @override
-  Iterable<Element> apply(Iterable<Element> candidates) =>
-      _finder.apply(candidates);
+  Iterable<Element> apply(Iterable<Element> candidates) => _finder.apply(candidates);
 
   @override
   String get description => _finder.description;

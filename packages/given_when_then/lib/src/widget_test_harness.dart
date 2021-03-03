@@ -2,8 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'unit_test_harness.dart';
 
-typedef WidgetTestHarnessCallback<T extends WidgetTestHarness> = Future<void>
-    Function(WidgetTestGiven<T>, WidgetTestWhen<T>, WidgetTestThen<T>);
+/// This function is intended to wrap your Widget tests so that you can access the [WidgetTestGiven], [WidgetTestWhen],
+/// and [WidgetTestWhen] to compose the test case. You will want to create some of your own test support code that is
+/// specific to your code under test. It should look something like this:
+typedef WidgetTestHarnessCallback<T extends WidgetTestHarness> = Future<void> Function(
+    WidgetTestGiven<T>, WidgetTestWhen<T>, WidgetTestThen<T>);
 
 /// This function is intended to wrap your Widget tests so that you can access the [WidgetTestGiven], [WidgetTestWhen],
 /// and [WidgetTestWhen] to compose the test case. You will want to create some of your own test support code that is
@@ -14,10 +17,8 @@ typedef WidgetTestHarnessCallback<T extends WidgetTestHarness> = Future<void>
 /// }
 /// ```
 /// See [example_widget_test_support.dart] for a complete example
-Future<void> givenWhenThenWidgetTest<T extends WidgetTestHarness>(
-        T harness, WidgetTestHarnessCallback<T> callback) =>
-    callback(WidgetTestGiven(harness), WidgetTestWhen(harness),
-        WidgetTestThen(harness));
+Future<void> givenWhenThenWidgetTest<T extends WidgetTestHarness>(T harness, WidgetTestHarnessCallback<T> callback) =>
+    callback(WidgetTestGiven(harness), WidgetTestWhen(harness), WidgetTestThen(harness));
 
 /// You can use this class directly and then author your own extensions to it for your specific behaviors or you can
 /// extend this class and provide any dependencies you require. See [example_widget_test_support.dart] for a complete example
