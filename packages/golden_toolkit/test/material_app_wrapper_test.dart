@@ -12,7 +12,7 @@ void main() {
           builder: (context) => MaterialButton(
             onPressed: () {
               Navigator.of(context)
-                  ?.push(MaterialPageRoute<void>(builder: (_) => Container()));
+                  .push(MaterialPageRoute<void>(builder: (_) => Container()));
             },
           ),
         ),

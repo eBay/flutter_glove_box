@@ -21,6 +21,7 @@ Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();
 }
 
+/// Function definition for allowing for device or test setup to occur for each device configuration under test
 typedef DeviceSetup = Future<void> Function(Device device, WidgetTester tester);
 
 /// This [multiScreenGolden] will run [scenarios] for given [devices] list

@@ -28,8 +28,10 @@ const Size _defaultSize = Size(800, 600);
 ///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
 
+/// Typedef for wrapping a widget with one or more other widgets
 typedef WidgetWrapper = Widget Function(Widget);
 
+/// Hook for running arbitrary behavior for a particular scenario
 typedef OnScenarioCreate = Future<void> Function(Key scenarioWidgetKey);
 
 /// Extensions for a [WidgetTester]
