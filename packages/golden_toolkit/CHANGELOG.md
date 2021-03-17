@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+Adds a themedScenario to GoldenBuilder to more easily output dark-mode versions of widgets
+
 ## 0.9.0
 
 This release adds null safety support for Flutter 2.0 / Dart 2.12.
