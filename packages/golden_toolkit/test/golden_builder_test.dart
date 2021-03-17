@@ -5,7 +5,6 @@
 /// license that can be found in the LICENSE file or at
 /// https://opensource.org/licenses/BSD-3-Clause
 /// ***************************************************
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -62,6 +61,46 @@ void main() {
       );
       await screenMatchesGolden(tester, 'golden_builder_textscale',
           autoHeight: true);
+    });
+
+    testGoldens('Card should look good in light or dark mode', (tester) async {
+      //Normally your theme will be defined at the app level
+      Widget themedWidget(Brightness brightness) {
+        return Builder(
+          builder: (context) => Theme(
+            data: ThemeData(
+              cardTheme: CardTheme(
+                color: brightness == Brightness.dark
+                    ? Colors.grey.shade400
+                    : const Color.fromARGB(255, 36, 51, 66),
+              ),
+            ),
+            child: Container(
+              width: 24,
+              height: 24,
+              color: Theme.of(context).cardColor,
+            ),
+          ),
+        );
+      }
+
+      final gb = GoldenBuilder.column(bgColor: Colors.grey.shade400)
+        ..addThemedScenario(
+          'Theme1',
+          themedWidget(Brightness.dark),
+          brightness: Brightness.dark,
+        )
+        ..addThemedScenario(
+          'Theme2',
+          themedWidget(Brightness.light),
+          brightness: Brightness.light,
+        );
+
+      await tester.pumpWidgetBuilder(
+        gb.build(),
+        surfaceSize: const Size(200, 200),
+      );
+      await screenMatchesGolden(tester, 'golden_builder_themed');
     });
   });
 }

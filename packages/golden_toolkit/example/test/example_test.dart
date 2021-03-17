@@ -142,12 +142,12 @@ void main() {
         final gb =
             GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
               ..addThemedScenario(
-                'Weather',
+                'Weather1',
                 themedWidget(Brightness.dark),
                 brightness: Brightness.dark,
               )
               ..addThemedScenario(
-                'Weather',
+                'Weather2',
                 themedWidget(Brightness.light),
                 brightness: Brightness.light,
               );
