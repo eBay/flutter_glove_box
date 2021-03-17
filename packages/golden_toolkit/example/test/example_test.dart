@@ -121,6 +121,44 @@ void main() {
         await screenMatchesGolden(tester, 'weather_accessibility');
       });
     });
+
+    group('GoldenBuilder examples of themed testing', () {
+      testGoldens('Card should look good in light or dark mode',
+          (tester) async {
+        //Normally your theme will be defined at the app level
+        Widget themedWidget(Brightness brightness) {
+          return Theme(
+            data: ThemeData(
+              cardTheme: CardTheme(
+                color: brightness == Brightness.dark
+                    ? Colors.grey.shade400
+                    : const Color.fromARGB(255, 36, 51, 66),
+              ),
+            ),
+            child: const WeatherCard(temp: 56, weather: Weather.cloudy),
+          );
+        }
+
+        final gb =
+            GoldenBuilder.column(bgColor: Colors.white, wrap: _simpleFrame)
+              ..addThemedScenario(
+                'Weather',
+                themedWidget(Brightness.dark),
+                brightness: Brightness.dark,
+              )
+              ..addThemedScenario(
+                'Weather',
+                themedWidget(Brightness.light),
+                brightness: Brightness.light,
+              );
+
+        await tester.pumpWidgetBuilder(
+          gb.build(),
+          surfaceSize: const Size(200, 500),
+        );
+        await screenMatchesGolden(tester, 'weather_themed');
+      });
+    });
   });
 
   group('Multi-Screen Golden', () {

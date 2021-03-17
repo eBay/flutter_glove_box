@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// ***************************************************
 /// Copyright 2019-2020 eBay Inc.
 ///
@@ -90,6 +92,24 @@ class GoldenBuilder {
         ));
   }
 
+  ///  [addThemedScenario] will add a test GoldenBuilder where you can display
+  ///  a widget in light or dark theme, as a child of a container with the a
+  ///  background color set to the corresponding theme's scaffoldBackgroundColor.
+  ///  A dark theme must first be defined in your app (https://flutter.dev/docs/cookbook/design/themes).
+  void addThemedScenario(
+    String name,
+    Widget widget, {
+    Brightness brightness = Brightness.light,
+  }) {
+    addScenario(
+      '$name: ${brightness.toString()}',
+      _ThemedGoldenContainer(
+        brightness: brightness,
+        child: widget,
+      ),
+    );
+  }
+
   ///  [addScenario] will add a test GoldenBuilder
   void addScenario(String name, Widget widget) {
     scenarios.add(_Scenario(
@@ -168,6 +188,30 @@ class _TextScaleFactor extends StatelessWidget {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
       child: child,
+    );
+  }
+}
+
+class _ThemedGoldenContainer extends StatelessWidget {
+  const _ThemedGoldenContainer({
+    this.brightness = Brightness.light,
+    required this.child,
+  });
+
+  final Brightness brightness;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data:
+          brightness == Brightness.light ? ThemeData.light() : ThemeData.dark(),
+      child: Container(
+        color: brightness == Brightness.light
+            ? ThemeData.light().scaffoldBackgroundColor
+            : ThemeData.dark().scaffoldBackgroundColor,
+        child: child,
+      ),
     );
   }
 }
