@@ -54,7 +54,6 @@ linter:
     - always_put_control_body_on_new_line
     - always_require_non_null_named_parameters
     - annotate_overrides
-    - avoid_as
     - avoid_field_initializers_in_const_classes
     - avoid_renaming_method_parameters
     - avoid_returning_null_for_void
