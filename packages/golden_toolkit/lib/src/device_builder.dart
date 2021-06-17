@@ -177,7 +177,13 @@ class _DeviceScenarioWidget extends StatelessWidget {
       device.size.height + 24 + (_borderWidth * 2));
 
   Widget get _sizedWidget => MediaQuery(
-        data: MediaQueryData(size: device.size),
+        data: MediaQueryData(
+          size: device.size,
+          padding: device.safeArea,
+          platformBrightness: device.brightness,
+          devicePixelRatio: device.devicePixelRatio,
+          textScaleFactor: device.textScale,
+        ),
         child: Container(
           width: device.size.width,
           height: device.size.height,
