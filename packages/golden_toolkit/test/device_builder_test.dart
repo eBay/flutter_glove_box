@@ -250,5 +250,29 @@ void main() {
 
       await screenMatchesGolden(tester, 'device_builder_test');
     });
+
+    testGoldens('MediaQuery.of(context).size in Scenario equals Device size',
+        (tester) async {
+      // given
+      const device = Device(
+        name: 'deviceName',
+        size: Size.square(200),
+      );
+
+      final widget = Builder(builder: (context) {
+        assert(MediaQuery.of(context).size == device.size);
+        return Container();
+      });
+
+      final sut = DeviceBuilder();
+      sut.overrideDevicesForAllScenarios(devices: [device]);
+
+      sut.addScenario(
+        name: 'scenario',
+        widget: widget,
+      );
+
+      await tester.pumpDeviceBuilder(sut);
+    });
   });
 }
