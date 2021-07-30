@@ -250,5 +250,37 @@ void main() {
 
       await screenMatchesGolden(tester, 'device_builder_test');
     });
+
+    testGoldens(
+        'Merged MediaQuery has correct Device size and correct override',
+        (tester) async {
+      // given
+      const device = Device(
+        name: 'deviceName',
+        size: Size.square(200),
+      );
+
+      final widget = Builder(builder: (context) {
+        final mediaQuery = MediaQuery.of(context);
+        assert(mediaQuery.size == device.size);
+        assert(mediaQuery.alwaysUse24HourFormat);
+        return Container();
+      });
+
+      final sut = DeviceBuilder(
+        wrap: (child) => MediaQuery(
+          data: const MediaQueryData(alwaysUse24HourFormat: true),
+          child: child,
+        ),
+      );
+      sut.overrideDevicesForAllScenarios(devices: [device]);
+
+      sut.addScenario(
+        name: 'scenario',
+        widget: widget,
+      );
+
+      await tester.pumpDeviceBuilder(sut);
+    });
   });
 }
