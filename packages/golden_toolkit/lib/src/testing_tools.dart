@@ -143,7 +143,7 @@ bool _inGoldenTest = false;
 ///
 @isTestGroup
 void testGoldens(
-  String description,
+  Object description,
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
 }) {
