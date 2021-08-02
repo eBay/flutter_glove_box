@@ -143,13 +143,15 @@ bool _inGoldenTest = false;
 ///
 @isTestGroup
 void testGoldens(
-  Object description,
+  String description,
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
+  Object? tags,
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
-  group(description, () {
-    testWidgets('Golden', (tester) async {
+  testWidgets(
+    description,
+    (tester) async {
       Future<void> body() async {
         _inGoldenTest = true;
         tester.binding.addTime(const Duration(seconds: 10));
@@ -170,8 +172,10 @@ void testGoldens(
       } else {
         await body();
       }
-    }, skip: skip);
-  });
+    },
+    skip: skip,
+    tags: tags ?? GoldenToolkit.configuration.tags,
+  );
 }
 
 /// A function that wraps [matchesGoldenFile] with some extra functionality. The function finds the first widget

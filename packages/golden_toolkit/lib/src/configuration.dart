@@ -90,6 +90,8 @@ class GoldenToolkitConfiguration {
   /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
   ///
   /// [enableRealShadows] a flag indicating that we want the goldens to have real shadows (instead of opaque shadows)
+  ///
+  /// [tags] a string or iterable of strings used to tag golden tests with
   GoldenToolkitConfiguration({
     this.skipGoldenAssertion = _doNotSkip,
     this.fileNameFactory = defaultFileNameFactory,
@@ -97,6 +99,7 @@ class GoldenToolkitConfiguration {
     this.primeAssets = defaultPrimeAssets,
     this.defaultDevices = const [Device.phone, Device.tabletLandscape],
     this.enableRealShadows = false,
+    this.tags = const ['golden'],
   }) : assert(defaultDevices.isNotEmpty);
 
   /// a function indicating whether a golden assertion should be skipped
@@ -119,6 +122,10 @@ class GoldenToolkitConfiguration {
   /// See [debugDisableShadows] for more context
   final bool enableRealShadows;
 
+  /// the tags golden test are tagged with, defaults to ['golden'],
+  /// must be null, String or Iterable<String>
+  final Object? tags;
+
   /// Copies the configuration with the given values overridden.
   GoldenToolkitConfiguration copyWith({
     SkipGoldenAssertion? skipGoldenAssertion,
@@ -127,6 +134,7 @@ class GoldenToolkitConfiguration {
     PrimeAssets? primeAssets,
     List<Device>? defaultDevices,
     bool? enableRealShadows,
+    Object? tags,
   }) {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
@@ -136,6 +144,7 @@ class GoldenToolkitConfiguration {
       primeAssets: primeAssets ?? this.primeAssets,
       defaultDevices: defaultDevices ?? this.defaultDevices,
       enableRealShadows: enableRealShadows ?? this.enableRealShadows,
+      tags: tags ?? this.tags,
     );
   }
 
@@ -149,7 +158,8 @@ class GoldenToolkitConfiguration {
             deviceFileNameFactory == other.deviceFileNameFactory &&
             primeAssets == other.primeAssets &&
             defaultDevices == other.defaultDevices &&
-            enableRealShadows == other.enableRealShadows;
+            enableRealShadows == other.enableRealShadows &&
+            tags == other.tags;
   }
 
   @override
@@ -159,7 +169,8 @@ class GoldenToolkitConfiguration {
       deviceFileNameFactory.hashCode ^
       primeAssets.hashCode ^
       defaultDevices.hashCode ^
-      enableRealShadows.hashCode;
+      enableRealShadows.hashCode ^
+      tags.hashCode;
 }
 
 bool _doNotSkip() => false;
