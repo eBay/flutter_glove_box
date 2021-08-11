@@ -10,6 +10,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:test_api/src/backend/invoker.dart';
 
 import 'sample_widgets.dart';
 
@@ -201,6 +202,24 @@ void main() {
       });
     });
 
+    group('Tags', () {
+      testGoldens(
+          'multiScreenGolden method uses tags from global configuration',
+          (tester) async {
+        expect(Invoker.current!.liveTest.test.metadata.tags, const ['golden']);
+      });
+
+      testGoldens('multiScreenGolden method uses overridden tags',
+          (tester) async {
+        expect(Invoker.current!.liveTest.test.metadata.tags, ['golden', 'foo']);
+      }, tags: ['golden', 'foo']);
+
+      testGoldens('multiScreenGolden can disable tags', (tester) async {
+        // internally the test package always uses and empty array
+        expect(Invoker.current!.liveTest.test.metadata.tags, <String>[]);
+      }, tags: null);
+    });
+
     test('Default Configuration', () {
       final config = GoldenToolkitConfiguration();
       expect(config.skipGoldenAssertion(), isFalse);
@@ -214,6 +233,7 @@ void main() {
       expect(config.defaultDevices,
           equals([Device.phone, Device.tabletLandscape]));
       expect(config.enableRealShadows, isFalse);
+      expect(config.tags, ['golden']);
     });
 
     group('Equality/Hashcode/CopyWith', () {
@@ -296,6 +316,12 @@ void main() {
               isNot(equals(config
                   .copyWith(enableRealShadows: !enableRealShadows)
                   .hashCode)));
+        });
+
+        test('tags', () {
+          expect(config, isNot(equals(config.copyWith(tags: 'foo'))));
+          expect(config.hashCode,
+              isNot(equals(config.copyWith(tags: 'foo').hashCode)));
         });
       });
     });
