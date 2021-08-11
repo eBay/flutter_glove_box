@@ -133,6 +133,10 @@ Future<void> _pumpAppWidget(
 
 bool _inGoldenTest = false;
 
+/// The default tag parameter. The parameter
+/// is allowed to be null so we need something to compare against.
+const Object _defaultTagObject = Object();
+
 /// This [testGoldens] method exists as a way to enforce the proper naming of tests that contain golden diffs so that we can reliably run all goldens
 ///
 /// [description] is a test description
@@ -143,13 +147,15 @@ bool _inGoldenTest = false;
 ///
 @isTestGroup
 void testGoldens(
-  Object description,
+  String description,
   Future<void> Function(WidgetTester) test, {
   bool skip = false,
+  Object? tags = _defaultTagObject,
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
-  group(description, () {
-    testWidgets('Golden', (tester) async {
+  testWidgets(
+    description,
+    (tester) async {
       Future<void> body() async {
         _inGoldenTest = true;
         tester.binding.addTime(const Duration(seconds: 10));
@@ -170,8 +176,10 @@ void testGoldens(
       } else {
         await body();
       }
-    }, skip: skip);
-  });
+    },
+    skip: skip,
+    tags: tags != _defaultTagObject ? tags : GoldenToolkit.configuration.tags,
+  );
 }
 
 /// A function that wraps [matchesGoldenFile] with some extra functionality. The function finds the first widget
