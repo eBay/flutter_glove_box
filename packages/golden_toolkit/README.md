@@ -206,6 +206,18 @@ When golden tests fail, artifacts are generated in a `failures` folder adjacent 
 **/failures/*.png
 ```
 
+#### Add a "golden" tag to your project
+
+Add a `dart_test.yaml` file to the root of your project with the following content:
+
+```yaml
+tags:
+  golden:
+```
+
+This will indicate that goldens are an expected test tag. All tests that use `testGoldens()` will automatically be given this tag.
+This allows you to easily target golden tests from the commandline.
+
 #### Configure VS Code
 
 If you use VSCode, we highly recommend adding this configuration to your `.vscode/launch.json` file in the root of your workspace.
@@ -302,7 +314,7 @@ flutter test --update-goldens
 By default, this will execute all tests in the package. In a package with a large number of non-golden widget tests, we found this to be sub-optimal. We would much rather run ONLY the golden tests when regenerating. Initially, we arrived at a convention of ensuring that the test descriptions included the word 'Golden'
 
 ```sh
-flutter test --update-goldens --name=Golden
+flutter test --update-goldens --tags=golden
 ```
 
 However, there wasn't a way to enforce that developers named their tests appropriately, and this was error-prone.
