@@ -1,12 +1,12 @@
 name: golden_toolkit
 description: Common patterns for screenshot-based widget testing using Goldens.
-version: 0.9.0
+version: 0.10.0
 homepage: https://github.com/eBay/flutter_glove_box/
 repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/golden_toolkit
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,9 +16,10 @@ dependencies:
   meta: ^1.1.8
 
 dev_dependencies:
-  pedantic: ^1.10.0-nullsafety
+  pedantic: ^1.11.1
   sample_dependency:
     path: test/sample_dependency
+  test_api: ^0.3.0
 
 flutter:
   uses-material-design: true

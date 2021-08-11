@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.10.0
+
+This release has a few updates & changes.
+
+- DeviceBuilder now wraps the widget under test with default MediaQuery behavior if not already wrapped. Thanks @lunaticcoding
+- The signature of testGoldens() was made more flexible to allow for non String descriptions to better match the underlying support of testWidgets. Thanks @kuhnroyal
+- testGoldens() no longer applies a default value for skipping tests, which allows for testGoldens tests to be skipped if their parent group has been marked as skipped.
+- **BREAKING** The way that testGoldens() marks tests as "Goldens" is now achieved with Dart test tags, rather than by creating a test group with a nested test named Golden. This makes for a more intuitive experience in your IDE. Thanks @kuhnroyal
+
+Note, this potentially can be a breaking change. If you previously ran tests by as such:
+
+```sh
+flutter test --update-goldens --name=Golden
+```
+
+you should now run
+
+```sh
+flutter test --update-goldens --tags=golden
+```
+
 ## 0.9.0
 
 This release adds null safety support for Flutter 2.0 / Dart 2.12.
