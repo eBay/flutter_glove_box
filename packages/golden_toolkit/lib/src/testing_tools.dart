@@ -149,7 +149,7 @@ const Object _defaultTagObject = Object();
 void testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
-  bool skip = false,
+  bool? skip,
   Object? tags = _defaultTagObject,
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
