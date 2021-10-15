@@ -15,7 +15,7 @@ void main() {
   group('testGoldens validation', () {
     testWidgets('screenMatchesGolden should require testGoldens',
         (tester) async {
-      await tester.pumpWidgetBuilder(Container(height: 100, width: 100));
+      await tester.pumpWidgetBuilder(const SizedBox(height: 100, width: 100));
 
       await expectLater(() => screenMatchesGolden(tester, 'anything'),
           throwsA(isInstanceOf<TestFailure>()));
@@ -23,7 +23,7 @@ void main() {
 
     testGoldens('screenMatchesGolden filename should not include extension',
         (tester) async {
-      await tester.pumpWidget(Container(height: 100, width: 100));
+      await tester.pumpWidget(const SizedBox(height: 100, width: 100));
 
       await expectLater(() => screenMatchesGolden(tester, 'anything.png'),
           throwsAssertionError);

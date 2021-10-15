@@ -1,14 +1,18 @@
 name: sample_dependency
 description: A sample dependency that includes fonts to validate golden_toolkit's loadAppFonts() helper
 version: 0.0.1
-author:
+publish_to: none
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^1.0.4
+  
 flutter:
   assets:
     - images/

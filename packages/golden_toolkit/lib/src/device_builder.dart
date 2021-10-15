@@ -190,7 +190,7 @@ class _DeviceScenarioWidget extends StatelessWidget {
 
           return MediaQuery(
             data: mergedMediaQuery,
-            child: Container(
+            child: SizedBox(
               width: device.size.width,
               height: device.size.height,
               child: widget,
@@ -216,7 +216,7 @@ class _DeviceScenarioWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
+              SizedBox(
                 height: 20,
                 width: device.size.width,
                 child: Text(

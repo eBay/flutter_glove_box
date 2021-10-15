@@ -131,14 +131,14 @@ class WeeklyForecastCompact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 175,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: forecasts
-              .map((f) => Container(
+              .map((f) => SizedBox(
                     width: MediaQuery.of(context).size.width * .3,
                     child: WeatherCard.forecast(f),
                   ))
@@ -211,7 +211,7 @@ class WeatherCard extends StatelessWidget {
   //if screen is small, we want this card to be vertical as Column
   Widget _verticalCard(BuildContext context) {
     final cardTheme = CardTheme.of(context);
-    return Container(
+    return SizedBox(
       width: 180,
       child: Card(
         shape: cardTheme.shape ?? _cardShape,

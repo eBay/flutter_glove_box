@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 /// Counter page from flutters default generated app
 class FlutterDemoPage extends StatelessWidget {
+  const FlutterDemoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
