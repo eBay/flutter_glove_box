@@ -22,7 +22,6 @@ dev_dependencies:
   test_api: ^0.4.2
 
 flutter:
-  uses-material-design: true
   fonts:
     - family: Roboto
       fonts:
