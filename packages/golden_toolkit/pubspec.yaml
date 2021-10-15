@@ -19,7 +19,7 @@ dev_dependencies:
   pedantic: ^1.11.1
   sample_dependency:
     path: test/sample_dependency
-  test_api: ^0.3.0
+  test_api: ^0.4.2
 
 flutter:
   uses-material-design: true
