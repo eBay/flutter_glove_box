@@ -295,14 +295,6 @@ At the moment, it is only possible to load a single .ttf file for a font family.
 
 Additionally, in some instances, it is not possible to replace the "Ahem" font. There are specific places in the Flutter codebase, such as rendering the "debug banner" where no explicit font family is specified. In these instances, the engine will use Ahem in a test context, with no way to override the behavior.
 
-Also note that at the moment for having the required files generated for font processing the pubspec.yaml should have an entry in the images section, make sure it has at least this:
-
-```yaml
-flutter:
-  assets:
-    - images/
-```
-
 ### testGoldens()
 
 It is possible to use golden assertions in any testWidgets() test. As the UI for a widget evolves, it is common to need to regenerate goldens to capture your new reference images. The easiest way to do this is via the command-line:

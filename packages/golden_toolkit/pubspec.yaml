@@ -1,6 +1,6 @@
 name: golden_toolkit
 description: Common patterns for screenshot-based widget testing using Goldens.
-version: 0.10.0
+version: 0.11.0
 homepage: https://github.com/eBay/flutter_glove_box/
 repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/golden_toolkit
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
@@ -22,10 +22,6 @@ dev_dependencies:
   test_api: ^0.4.2
 
 flutter:
-  uses-material-design: true
-  assets:
-    # needed to trigger the FontManifest.json to be included
-    - images/
   fonts:
     - family: Roboto
       fonts:

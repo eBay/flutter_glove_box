@@ -19,8 +19,6 @@ Future<void> main() async {
         ..addScenario('Material Fonts should work',
             const Text('This is material text in "Roboto"'))
         ..addScenario(
-            'Material Icons should work', const Icon(Icons.phone_in_talk))
-        ..addScenario(
             'Fonts from packages should work',
             const Text('This is a custom font',
                 style: TextStyle(

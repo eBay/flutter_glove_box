@@ -22,28 +22,40 @@ void main() {
     });
 
     group('allow specification of TargetPlatform', () {
-      testGoldens('Android asset should display correctly', (tester) async {
+      testWidgets('Android asset should display correctly', (tester) async {
         await tester.pumpWidgetBuilder(
-          Row(children: const [BackButtonIcon(), Text('Android')]),
+          Builder(
+            builder: (context) => Text(
+              Theme.of(context).platform == TargetPlatform.iOS
+                  ? 'iOS'
+                  : 'Android',
+            ),
+          ),
           wrapper: materialAppWrapper(
             platform: TargetPlatform.android,
             theme: ThemeData.light(),
           ),
           surfaceSize: const Size(80, 40),
         );
-        await screenMatchesGolden(tester, 'back_button_android');
+        expect(find.text('Android'), findsOneWidget);
       });
 
-      testGoldens('iOS should display correctly', (tester) async {
+      testWidgets('iOS should display correctly', (tester) async {
         await tester.pumpWidgetBuilder(
-          Row(children: const [BackButtonIcon(), Text('iOS')]),
+          Builder(
+            builder: (context) => Text(
+              Theme.of(context).platform == TargetPlatform.iOS
+                  ? 'iOS'
+                  : 'Android',
+            ),
+          ),
           surfaceSize: const Size(80, 40),
           wrapper: materialAppWrapper(
             platform: TargetPlatform.iOS,
             theme: ThemeData.light(),
           ),
         );
-        await screenMatchesGolden(tester, 'back_button_ios');
+        expect(find.text('iOS'), findsOneWidget);
       });
     });
   });

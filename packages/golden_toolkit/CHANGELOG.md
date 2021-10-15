@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0
+
+- migrate from pedantic -> flutter_lints
+- resolved warning that could appear for consumers ```package:golden_toolkit has `uses-material-design: true` set but the primary pubspec contains `uses-material-design: false`. If the application needs material icons, then `uses-material-design`  must be set to true```
+- updated documentation to indicate that you no longer need to include an empty images folder to get fonts to render in goldens for packages that do not contain any images.
+
 ## 0.10.0
 
 This release has a few updates & changes.
