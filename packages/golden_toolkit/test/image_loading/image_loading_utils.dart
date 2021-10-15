@@ -14,7 +14,7 @@ class ImageWidget extends StatelessWidget {
 
 @immutable
 class BoxDecorationWithImage extends StatelessWidget {
-  const BoxDecorationWithImage();
+  const BoxDecorationWithImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,11 @@ GoldenToolkitConfiguration get defaultConfiguration =>
 @immutable
 class ListOfItemsWithOneImage extends StatelessWidget {
   const ListOfItemsWithOneImage({
+    Key? key,
     required this.itemSize,
     required this.indexThatContainsImage,
     required this.cacheExtent,
-  });
+  }) : super(key: key);
 
   final Size itemSize;
   final int indexThatContainsImage;

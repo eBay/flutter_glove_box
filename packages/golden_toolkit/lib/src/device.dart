@@ -87,6 +87,7 @@ class Device {
       textScale: textScale,
       brightness: Brightness.dark,
       safeArea: safeArea,
+      // ignore: unnecessary_string_escapes
       name: '$name\_dark',
     );
   }

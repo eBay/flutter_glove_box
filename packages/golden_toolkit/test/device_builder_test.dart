@@ -201,7 +201,7 @@ void main() {
 
       // when
       final requiredSize = sut.requiredWidgetSize;
-      final widget = Container(
+      final widget = SizedBox(
         width: requiredSize.width + 100,
         height: requiredSize.height + 100,
         child: Directionality(

@@ -150,6 +150,7 @@ void main() {
         config: GoldenToolkitConfiguration(
           deviceFileNameFactory: (filename, device) {
             actualDevices.add(device);
+            // ignore: unnecessary_string_escapes
             return '$filename\_${device.name}.png';
           },
           defaultDevices: [device1, device2],
@@ -174,7 +175,7 @@ void main() {
           testGoldens(
               'screenMatchesGolden method uses enableRealShadows from global configuration when GoldenToolkit.runWithConfiguration is outside testGoldens',
               (tester) async {
-            await tester.pumpWidgetBuilder(WidgetWithShadows());
+            await tester.pumpWidgetBuilder(const WidgetWithShadows());
             await screenMatchesGolden(
                 tester, 'enableRealShadows_honored_when_testGoldens_wrapped');
 
@@ -190,7 +191,7 @@ void main() {
           (tester) async {
         await GoldenToolkit.runWithConfiguration(
           () async {
-            await tester.pumpWidgetBuilder(WidgetWithShadows());
+            await tester.pumpWidgetBuilder(const WidgetWithShadows());
             await screenMatchesGolden(tester,
                 'enableRealShadows_ignored_when_testGoldens_not_wrapped');
 

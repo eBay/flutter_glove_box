@@ -28,7 +28,7 @@ void main() {
     testGoldens(
         'screenMatchesGolden method uses enableRealShadows from global configuration (flutter_test_config.dart)',
         (tester) async {
-      await tester.pumpWidgetBuilder(WidgetWithShadows());
+      await tester.pumpWidgetBuilder(const WidgetWithShadows());
       await screenMatchesGolden(tester, 'realShadows_enabled_globally');
 
       expect(debugDisableShadows, isFalse,
@@ -41,7 +41,7 @@ void main() {
         testGoldens(
             'screenMatchesGolden method can disable enableRealShadows temporarily',
             (tester) async {
-          await tester.pumpWidgetBuilder(WidgetWithShadows());
+          await tester.pumpWidgetBuilder(const WidgetWithShadows());
           await screenMatchesGolden(tester, 'realShadows_disabled_locally');
 
           expect(debugDisableShadows, isTrue,

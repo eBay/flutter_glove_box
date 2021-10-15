@@ -16,7 +16,7 @@ dependencies:
   meta: ^1.1.8
 
 dev_dependencies:
-  pedantic: ^1.11.1
+  flutter_lints: ^1.0.4
   sample_dependency:
     path: test/sample_dependency
   test_api: ^0.4.2

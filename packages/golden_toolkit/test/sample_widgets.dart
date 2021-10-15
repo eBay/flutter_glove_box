@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WidgetWithShadows extends StatelessWidget {
+  const WidgetWithShadows({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(10));

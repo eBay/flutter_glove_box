@@ -9,7 +9,7 @@ void main() {
   testGoldens('DeviceBuilder - one scenario - default devices', (tester) async {
     final builder = DeviceBuilder()
       ..addScenario(
-        widget: FlutterDemoPage(),
+        widget: const FlutterDemoPage(),
         name: 'default page',
       );
 
@@ -28,7 +28,7 @@ void main() {
         Device.tabletLandscape,
       ])
       ..addScenario(
-        widget: FlutterDemoPage(),
+        widget: const FlutterDemoPage(),
         name: 'default page',
       );
 
@@ -48,11 +48,11 @@ void main() {
         Device.tabletLandscape,
       ])
       ..addScenario(
-        widget: FlutterDemoPage(),
+        widget: const FlutterDemoPage(),
         name: 'default page',
       )
       ..addScenario(
-        widget: FlutterDemoPage(),
+        widget: const FlutterDemoPage(),
         name: 'tap once',
         onCreate: (scenarioWidgetKey) async {
           final finder = find.descendant(
@@ -64,7 +64,7 @@ void main() {
         },
       )
       ..addScenario(
-        widget: FlutterDemoPage(),
+        widget: const FlutterDemoPage(),
         name: 'tap five times',
         onCreate: (scenarioWidgetKey) async {
           final finder = find.descendant(

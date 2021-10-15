@@ -16,6 +16,8 @@ import 'package:flutter/widgets.dart';
 /// refactor and clean it up!
 
 class ShadowWidget extends StatelessWidget {
+  const ShadowWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -5,7 +5,7 @@ import '../lib/src/shadow_widget.dart';
 
 void main() {
   testGoldens('Shadows are disabled by default', (tester) async {
-    await tester.pumpWidgetBuilder(ShadowWidget());
+    await tester.pumpWidgetBuilder(const ShadowWidget());
 
     await screenMatchesGolden(tester, 'shadow_widget_disabled_shadows');
   });
@@ -15,7 +15,7 @@ void main() {
       testGoldens(
           'Shadows can be enabled locally by wrapping in GoldenToolkit.runWithConfiguration',
           (tester) async {
-        await tester.pumpWidgetBuilder(ShadowWidget());
+        await tester.pumpWidgetBuilder(const ShadowWidget());
 
         await screenMatchesGolden(
             tester, 'shadow_widget_locally_enabled_shadows');
