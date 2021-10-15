@@ -45,6 +45,7 @@ class _MyHomePageState extends State<_MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Icon(Icons.flutter_dash),
             const Text(
               'You have pushed the button this many times:',
             ),
