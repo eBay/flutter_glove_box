@@ -38,6 +38,11 @@ Future<void> main() async {
             const Text('This should be italic',
                 style: TextStyle(
                     fontFamily: 'Roboto', fontStyle: FontStyle.italic)))
+        ..addScenarioContextWithContext('Italics are supported', (c) {
+          return const Text('This should be italic',
+              style:
+                  TextStyle(fontFamily: 'Roboto', fontStyle: FontStyle.italic));
+        })
         ..addScenario('Unknown fonts render in Ahem (Foo.ttf)',
             const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
       await tester.pumpWidgetBuilder(golden.build());
