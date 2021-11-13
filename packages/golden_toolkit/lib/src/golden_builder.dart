@@ -107,13 +107,12 @@ class GoldenBuilder {
   ///     return Container();
   ///   },
   /// )
-  void addScenarioContextWithContext(
-      String name, Widget Function(BuildContext context) fn)  {
-    scenarios.add(_Scenario(
-      name: name,
-      widget: Builder(builder: fn),
-      wrap: wrap,
-    ));
+  void addScenarioBuilder(
+      String name, Widget Function(BuildContext context) fn) {
+    addScenario(
+      name,
+      Builder(builder: fn),
+    );
   }
 
   ///  [build] will build a list of [scenarios]  with a given layout
