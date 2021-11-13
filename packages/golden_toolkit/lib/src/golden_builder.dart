@@ -101,10 +101,11 @@ class GoldenBuilder {
 
   ///  [addScenarioContextWithContext] will add a test with BuildContext GoldenBuilder
   /// use as:
-  /// ..addScenarioContextWithContext(
+  /// ..addScenarioBuilder(
   ///   'Test with context',
   ///   (context) {
-  ///     return Container();
+  ///     var color = Theme.of(context).colorScheme.primary;
+  ///     return Container(color: color);
   ///   },
   /// )
   void addScenarioBuilder(
