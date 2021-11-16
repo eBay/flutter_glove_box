@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0
+
+- Add new convenience method to GoldenBuilder: ```.addScenarioBuilder('scenario name', (context) => widgetUnderTest)```. Thanks to @toshiossada for the contribution.
+
 ## 0.11.0
 
 - migrate from pedantic -> flutter_lints
