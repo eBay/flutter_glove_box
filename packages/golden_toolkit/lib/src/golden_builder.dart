@@ -99,7 +99,7 @@ class GoldenBuilder {
     ));
   }
 
-  ///  [addScenarioContextWithContext] will add a test with BuildContext GoldenBuilder
+  ///  [addScenarioBuilder] will add a test with BuildContext GoldenBuilder
   /// use as:
   /// ..addScenarioBuilder(
   ///   'Test with context',
