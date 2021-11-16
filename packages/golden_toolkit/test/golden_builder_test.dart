@@ -13,7 +13,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('GoldenBuilder', () {
-    testGoldens('Testing Theme', (tester) async {
+    testGoldens('Scenario Builder example', (tester) async {
       final builder = GoldenBuilder.grid(
         columns: 2,
         widthToHeightRatio: 1,
