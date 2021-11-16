@@ -14,8 +14,6 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 void main() {
   group('GoldenBuilder', () {
     testGoldens('Testing Theme', (tester) async {
-      await loadAppFonts();
-
       final builder = GoldenBuilder.grid(
         columns: 2,
         widthToHeightRatio: 1,
