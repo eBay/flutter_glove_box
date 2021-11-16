@@ -99,6 +99,23 @@ class GoldenBuilder {
     ));
   }
 
+  ///  [addScenarioContextWithContext] will add a test with BuildContext GoldenBuilder
+  /// use as:
+  /// ..addScenarioBuilder(
+  ///   'Test with context',
+  ///   (context) {
+  ///     var color = Theme.of(context).colorScheme.primary;
+  ///     return Container(color: color);
+  ///   },
+  /// )
+  void addScenarioBuilder(
+      String name, Widget Function(BuildContext context) fn) {
+    addScenario(
+      name,
+      Builder(builder: fn),
+    );
+  }
+
   ///  [build] will build a list of [scenarios]  with a given layout
   Widget build() {
     return Align(

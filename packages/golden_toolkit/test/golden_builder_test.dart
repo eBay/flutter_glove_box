@@ -13,6 +13,27 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 void main() {
   group('GoldenBuilder', () {
+    testGoldens('Scenario Builder example', (tester) async {
+      final builder = GoldenBuilder.grid(
+        columns: 2,
+        widthToHeightRatio: 1,
+      )
+        ..addScenarioBuilder("Primary Color", (context) {
+          var color = Theme.of(context).colorScheme.primary;
+          return Container(
+            color: color,
+          );
+        })
+        ..addScenarioBuilder("Secondary Color", (context) {
+          var color = Theme.of(context).colorScheme.primary;
+          return Container(
+            color: color,
+          );
+        });
+      await tester.pumpWidgetBuilder(builder.build());
+      await screenMatchesGolden(tester, 'golden_builder_theme');
+    });
+
     testGoldens('Column layout example', (tester) async {
       await tester.pumpWidgetBuilder(
         Center(
