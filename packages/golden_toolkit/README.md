@@ -216,7 +216,7 @@ tags:
 ```
 
 This will indicate that goldens are an expected test tag. All tests that use `testGoldens()` will automatically be given this tag.
-This allows you to easily target golden tests from the commandline.
+This allows you to easily target golden tests from the command-line.
 
 #### Configure VS Code
 
