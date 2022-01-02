@@ -72,7 +72,7 @@ The output of this test will be this golden file: `weather_accessibility.png`:
 
 ![example GoldenBuilder output showing different text scales](example/test/goldens/weather_accessibility.png)
 
-See tests for usage examples: [golden_builder_test.dart](example/test/golden_builder_test.dart)
+See tests for usage examples: [golden_builder_test.dart](test/golden_builder_test.dart)
 
 ### DeviceBuilder
 
