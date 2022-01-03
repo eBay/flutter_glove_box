@@ -39,8 +39,8 @@ Consider the following WeatherCard widget:
 You might want to validate that the widget looks correct for different weather types:
 
 ```dart
-testGoldens('Weather types should look correct', (tester) {
-  final builder = GoldenBuilder.grid(columns:2)
+testGoldens('Weather types should look correct', (tester) async {
+  final builder = GoldenBuilder.grid(columns:2, widthToHeightRatio: 1)
           ..addScenario('Sunny', WeatherCard(Weather.sunny))
           ..addScenario('Cloudy', WeatherCard(Weather.cloudy))
           ..addScenario('Raining', WeatherCard(Weather.rain))
@@ -57,7 +57,7 @@ The output of this test will generate a golden: `weather_types_grid.png` that re
 A different use case may be validating how the widget looks with a variety of text sizes based on the user's device settings.
 
 ```dart
-testGoldens('Weather Card - Accessibility', (tester) {
+testGoldens('Weather Card - Accessibility', (tester) async {
   final widget = WeatherCard(Weather.cloudy);
   final builder = GoldenBuilder.column()
           ..addScenario('Default font size', widget)
