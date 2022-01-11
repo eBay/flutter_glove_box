@@ -6,18 +6,18 @@ before_script:
 script:
   - cd packages/golden_toolkit
   - ../../flutter/bin/flutter analyze
-  - ../../flutter/bin/cache/dart-sdk/bin/dart format -n ./lib --set-exit-if-changed
+  - ../../flutter/bin/cache/dart-sdk/bin/dart format lib --set-exit-if-changed
   - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
   - cd example
   - ../../../flutter/bin/flutter analyze
   - ../../../flutter/bin/flutter test
   - cd ../../given_when_then
   - ../../flutter/bin/flutter analyze
-  - ../../flutter/bin/cache/dart-sdk/bin/dart format -n ./lib --set-exit-if-changed
+  - ../../flutter/bin/cache/dart-sdk/bin/dart format lib --set-exit-if-changed
   - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
   - cd ../page_object
   - ../../flutter/bin/flutter analyze
-  - ../../flutter/bin/cache/dart-sdk/bin/dart format -n ./lib --set-exit-if-changed
+  - ../../flutter/bin/cache/dart-sdk/bin/dart format lib --set-exit-if-changed
   - ../../flutter/bin/flutter test --coverage --coverage-path=lcov.info
 after_success:
   - bash <(curl -s https://codecov.io/bash)
