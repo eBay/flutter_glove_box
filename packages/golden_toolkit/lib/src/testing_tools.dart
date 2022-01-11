@@ -145,7 +145,7 @@ const Object _defaultTagObject = Object();
 ///
 /// [test] test body
 ///
-@isTestGroup
+@isTest
 void testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
