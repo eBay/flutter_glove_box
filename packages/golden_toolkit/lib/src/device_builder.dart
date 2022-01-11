@@ -9,10 +9,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../golden_toolkit.dart';
-import 'testing_tools.dart';
 
 /// Class containing whats required to create a Scenario
 class _DeviceScenario {
