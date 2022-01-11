@@ -158,7 +158,6 @@ void testGoldens(
     (tester) async {
       Future<void> body() async {
         _inGoldenTest = true;
-        tester.binding.addTime(const Duration(seconds: 10));
         final initialDebugDisableShadowsValue = debugDisableShadows;
         final shouldUseRealShadows =
             GoldenToolkit.configuration.enableRealShadows;

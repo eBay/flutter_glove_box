@@ -12,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../golden_toolkit.dart';
-import 'device.dart';
 import 'testing_tools.dart';
-import 'widget_tester_extensions.dart';
 
 Future<void> _twoPumps(Device device, WidgetTester tester) async {
   await tester.pump();

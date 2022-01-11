@@ -9,7 +9,6 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Don't look at this code as an example of good Flutter code. This code is a mess.
 /// Thankfully, we have pixel perfect golden tests to protect us if we ever

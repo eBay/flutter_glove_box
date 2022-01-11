@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:golden_toolkit/src/configuration.dart';
 
 void main() {
   group('Platform agnostic golden', () {
