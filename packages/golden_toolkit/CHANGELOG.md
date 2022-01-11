@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+
+- Updated to Flutter 2.8 / Dart 2.15
+- Resolved an issue where testGoldens() tests were mis-labeled as test groups, which caused issues in VSCode's text explorer. Thanks @DanTup for the fix!
+- Updated documentation. Thanks @HugoHeneault, @nilsreichardt
+
 ## 0.12.0
 
 - Add new convenience method to GoldenBuilder: ```.addScenarioBuilder('scenario name', (context) => widgetUnderTest)```. Thanks to @toshiossada for the contribution.
