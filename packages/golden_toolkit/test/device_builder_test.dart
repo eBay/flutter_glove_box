@@ -285,7 +285,7 @@ void main() {
 
     testGoldens('DeviceBuilder golden test with textScaleSize', (tester) async {
       const widget = MaterialApp(
-        home: Scaffold(body: Center(child: Text('aaaaa'))),
+        home: Scaffold(body: Center(child: Text('text'))),
       );
 
       final sut = DeviceBuilder()
