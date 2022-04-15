@@ -282,5 +282,28 @@ void main() {
 
       await tester.pumpDeviceBuilder(sut);
     });
+
+    testGoldens('DeviceBuilder golden test with textScaleSize', (tester) async {
+      const widget = MaterialApp(
+        home: Scaffold(body: Center(child: Text('aaaaa'))),
+      );
+
+      final sut = DeviceBuilder()
+        ..overrideDevicesForAllScenarios(
+            devices: [Device.phone, Device.tabletPortrait])
+        ..addScenario(name: 'scenario', widget: widget);
+
+      await tester.pumpDeviceBuilder(sut, textScaleSize: 1.0);
+
+      await screenMatchesGolden(tester, 'device_builder_text_scale_1');
+
+      await tester.pumpDeviceBuilder(sut, textScaleSize: 2.0);
+
+      await screenMatchesGolden(tester, 'device_builder_text_scale_2');
+
+      await tester.pumpDeviceBuilder(sut, textScaleSize: 3.0);
+
+      await screenMatchesGolden(tester, 'device_builder_text_scale_3');
+    });
   });
 }
