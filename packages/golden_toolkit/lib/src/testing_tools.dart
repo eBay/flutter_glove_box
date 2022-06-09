@@ -24,8 +24,9 @@ import 'widget_tester_extensions.dart';
 
 const Size _defaultSize = Size(800, 600);
 
-///CustomPump is a function that lets you do custom pumping before golden evaluation.
-///Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
+/// CustomPump is a function that lets you do custom pumping before golden evaluation.
+///
+/// Sometimes, you want to do a golden test for different stages of animations, so its crucial to have a precise control over pumps and durations
 typedef CustomPump = Future<void> Function(WidgetTester);
 
 /// Typedef for wrapping a widget with one or more other widgets
