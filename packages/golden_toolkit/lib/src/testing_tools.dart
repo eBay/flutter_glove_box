@@ -9,6 +9,7 @@
 //ignore_for_file: deprecated_member_use_from_same_package
 
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -204,6 +205,7 @@ Future<void> screenMatchesGolden(
   bool? autoHeight,
   Finder? finder,
   CustomPump? customPump,
+  Map<Finder, int>? autoHeightExtraPumps,
   @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
       bool? skip,
 }) {
@@ -211,6 +213,7 @@ Future<void> screenMatchesGolden(
     tester,
     name,
     autoHeight: autoHeight,
+    autoHeightExtraPumps: autoHeightExtraPumps,
     finder: finder,
     customPump: customPump,
     skip: skip,
@@ -229,6 +232,7 @@ Future<void> compareWithGolden(
   required DeviceFileNameFactory fileNameFactory,
   required Device device,
   bool? autoHeight,
+  Map<Finder, int>? autoHeightExtraPumps,
   Finder? finder,
   CustomPump? customPump,
   bool? skip,
@@ -290,6 +294,26 @@ Future<void> compareWithGolden(
     tester.binding.window.physicalSizeTestValue = adjustedSize;
 
     await tester.pump();
+
+    final Map<Finder, int> autoHeightExtraPumpsLocal = {
+      find.byType(SemanticsDebugger): 5
+    };
+
+    if (autoHeightExtraPumps != null) {
+      autoHeightExtraPumpsLocal.addAll(autoHeightExtraPumps);
+    }
+
+    var extraPumps = autoHeightExtraPumpsLocal.entries
+        .where((e) => e.key.evaluate().isNotEmpty)
+        .map((e) => e.value)
+        .fold(0, math.max);
+
+    await TestAsyncUtils.guard<void>(() async {
+      while (tester.binding.hasScheduledFrame && extraPumps > 0) {
+        extraPumps--;
+        await tester.binding.pump(const Duration(milliseconds: 100));
+      }
+    });
   }
 
   await expectLater(

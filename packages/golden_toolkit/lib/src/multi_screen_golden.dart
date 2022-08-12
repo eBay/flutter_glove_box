@@ -53,6 +53,7 @@ Future<void> multiScreenGolden(
   bool? autoHeight,
   double? overrideGoldenHeight,
   CustomPump? customPump,
+  Map<Finder, int>? autoHeightExtraPumps,
   DeviceSetup? deviceSetup,
   List<Device>? devices,
   @Deprecated('This method level parameter will be removed in an upcoming release. This can be configured globally. If you have concerns, please file an issue with your use case.')
@@ -73,6 +74,7 @@ Future<void> multiScreenGolden(
           tester,
           name,
           customPump: customPump,
+          autoHeightExtraPumps: autoHeightExtraPumps,
           autoHeight: autoHeight,
           finder: finder,
           skip: skip,

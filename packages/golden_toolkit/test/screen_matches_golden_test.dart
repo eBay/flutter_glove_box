@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/src/testing_tools.dart';
 
+import 'semantics/sample_widgets.dart';
+
 void main() {
   testGoldens('Custom Pump should be evaluated if supplied', (tester) async {
     /// Example of a test that used [CustomPump] in order to test animation of CircularProgressIndicator
@@ -101,5 +103,22 @@ void main() {
 
       await screenMatchesGolden(tester, 'golden_with_image');
     });
+  });
+
+  testGoldens('Should see the entire Semantic with autoheight', (tester) async {
+    await tester.pumpWidgetBuilder(
+      const SemanticsDebugger(child: SampleListWidget()),
+      wrapper: materialAppWrapper(
+        theme: ThemeData.light(),
+        platform: TargetPlatform.android,
+      ),
+      surfaceSize: const Size(200, 200),
+    );
+
+    await screenMatchesGolden(
+      tester,
+      'golden_with_entire_semantic_autoheight',
+      autoHeight: true,
+    );
   });
 }
