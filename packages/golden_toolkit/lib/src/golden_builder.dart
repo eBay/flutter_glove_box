@@ -74,29 +74,44 @@ class GoldenBuilder {
   final double widthToHeightRatio;
 
   ///  List of tests [scenarios]  being run within GoldenBuilder
-  final List<Widget> scenarios = [];
+  final List<_Scenario> scenarios = [];
 
   ///  [addTextScaleScenario]  will add a test to GoldenBuilder where u can provide custom font size
   void addTextScaleScenario(
     String name,
+    OnScenarioCreate? onCreate,
     Widget widget, {
     double textScaleFactor = textScaleFactorMaxSupported,
   }) {
     addScenario(
-        '$name ${textScaleFactor}x',
-        _TextScaleFactor(
-          textScaleFactor: textScaleFactor,
-          child: widget,
-        ));
+      name: '$name ${textScaleFactor}x',
+      onCreate: onCreate,
+      widget: _TextScaleFactor(
+        textScaleFactor: textScaleFactor,
+        child: widget,
+      ),
+    );
   }
 
   ///  [addScenario] will add a test GoldenBuilder
-  void addScenario(String name, Widget widget) {
-    scenarios.add(_Scenario(
-      name: name,
-      widget: widget,
-      wrap: wrap,
-    ));
+  void addScenario({
+    required String name,
+    OnScenarioCreate? onCreate,
+    required Widget widget,
+  }) {
+    final key = Key(name);
+
+    scenarios.add(
+      _Scenario(
+        key: key,
+        onCreate: onCreate,
+        widget: _ScenarioWidget(
+          name: name,
+          widget: widget,
+          wrap: wrap,
+        ),
+      ),
+    );
   }
 
   ///  [addScenarioBuilder] will add a test with BuildContext GoldenBuilder
@@ -109,10 +124,14 @@ class GoldenBuilder {
   ///   },
   /// )
   void addScenarioBuilder(
-      String name, Widget Function(BuildContext context) fn) {
+    String name,
+    OnScenarioCreate? onCreate,
+    Widget Function(BuildContext context) fn,
+  ) {
     addScenario(
-      name,
-      Builder(builder: fn),
+      name: name,
+      onCreate: onCreate,
+      widget: Builder(builder: fn),
     );
   }
 
@@ -135,16 +154,37 @@ class GoldenBuilder {
       mainAxisSpacing: 16,
       shrinkWrap: true,
       crossAxisCount: columns,
-      children: scenarios,
+      children: scenarios.map((e) => e.widget).toList(),
     );
   }
 
-  Column _column() =>
-      Column(mainAxisSize: MainAxisSize.min, children: scenarios);
+  Column _column() => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: scenarios.map((e) => e.widget).toList(),
+      );
 }
 
-class _Scenario extends StatelessWidget {
-  const _Scenario({
+/// Class containing whats required to create a Scenario
+class _Scenario {
+  /// constructs a Scenario
+  _Scenario({
+    required this.key,
+    this.onCreate,
+    required this.widget,
+  });
+
+  /// key that references created scenario and specific device
+  final Key key;
+
+  /// function that is executed after initial pump of widget
+  final OnScenarioCreate? onCreate;
+
+  /// widget that represents this scenario
+  final _ScenarioWidget widget;
+}
+
+class _ScenarioWidget extends StatelessWidget {
+  const _ScenarioWidget({
     Key? key,
     required this.name,
     required this.widget,
