@@ -106,6 +106,7 @@ class GoldenBuilder {
         key: key,
         onCreate: onCreate,
         widget: _ScenarioWidget(
+          key: key,
           name: name,
           widget: widget,
           wrap: wrap,
