@@ -16,30 +16,46 @@ Future<void> main() async {
   group('Font loading integration test', () {
     testGoldens('Roboto fonts should work', (tester) async {
       final golden = GoldenBuilder.column()
-        ..addScenario('Material Fonts should work',
-            const Text('This is material text in "Roboto"'))
         ..addScenario(
-            'Fonts from packages should work',
-            const Text('This is a custom font',
-                style: TextStyle(
-                    fontFamily: 'OpenSans', package: 'sample_dependency')))
+          name: 'Material Fonts should work',
+          widget: const Text('This is material text in "Roboto"'),
+        )
         ..addScenario(
-            'Different Font weights are not well supported (w900)',
-            const Text('This should be weight 900',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontWeight: FontWeight.w900)))
+          name: 'Fonts from packages should work',
+          widget: const Text(
+            'This is a custom font',
+            style:
+                TextStyle(fontFamily: 'OpenSans', package: 'sample_dependency'),
+          ),
+        )
         ..addScenario(
-            'Different Font weights are not well supported (w100)',
-            const Text('This should be weight 100)',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontWeight: FontWeight.w100)))
+          name: 'Different Font weights are not well supported (w900)',
+          widget: const Text(
+            'This should be weight 900',
+            style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w900),
+          ),
+        )
         ..addScenario(
-            'Italics are supported',
-            const Text('This should be italic',
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontStyle: FontStyle.italic)))
-        ..addScenario('Unknown fonts render in Ahem (Foo.ttf)',
-            const Text('unknown font', style: TextStyle(fontFamily: 'foo')));
+          name: 'Different Font weights are not well supported (w100)',
+          widget: const Text(
+            'This should be weight 100)',
+            style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w100),
+          ),
+        )
+        ..addScenario(
+          name: 'Italics are supported',
+          widget: const Text(
+            'This should be italic',
+            style: TextStyle(fontFamily: 'Roboto', fontStyle: FontStyle.italic),
+          ),
+        )
+        ..addScenario(
+          name: 'Unknown fonts render in Ahem (Foo.ttf)',
+          widget: const Text(
+            'unknown font',
+            style: TextStyle(fontFamily: 'foo'),
+          ),
+        );
       await tester.pumpWidgetBuilder(golden.build());
       await screenMatchesGolden(tester, 'material_fonts');
     });

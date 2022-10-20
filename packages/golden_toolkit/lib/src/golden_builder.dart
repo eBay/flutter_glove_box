@@ -77,10 +77,10 @@ class GoldenBuilder {
   final List<_Scenario> scenarios = [];
 
   ///  [addTextScaleScenario]  will add a test to GoldenBuilder where u can provide custom font size
-  void addTextScaleScenario(
-    String name,
+  void addTextScaleScenario({
+    required String name,
     OnScenarioCreate? onCreate,
-    Widget widget, {
+    required Widget widget,
     double textScaleFactor = textScaleFactorMaxSupported,
   }) {
     addScenario(
@@ -124,15 +124,15 @@ class GoldenBuilder {
   ///     return Container(color: color);
   ///   },
   /// )
-  void addScenarioBuilder(
-    String name,
+  void addScenarioBuilder({
+    required String name,
     OnScenarioCreate? onCreate,
-    Widget Function(BuildContext context) fn,
-  ) {
+    required Widget Function(BuildContext context) builder,
+  }) {
     addScenario(
       name: name,
       onCreate: onCreate,
-      widget: Builder(builder: fn),
+      widget: Builder(builder: builder),
     );
   }
 
