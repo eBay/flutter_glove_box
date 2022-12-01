@@ -292,11 +292,20 @@ Future<void> compareWithGolden(
     await tester.pump();
   }
 
-  await expectLater(
-    actualFinder,
-    matchesGoldenFile(fileName),
-    skip: shouldSkipGoldenGeneration,
-  );
+  if (GoldenToolkit.configuration.renderModification != null) {
+    final ciImage = GoldenToolkit.configuration.renderModification!(finder: actualFinder, tester: tester);
+    await expectLater(
+      ciImage,
+      matchesGoldenFile(fileName),
+      skip: shouldSkipGoldenGeneration,
+    );
+  } else {
+    await expectLater(
+      actualFinder,
+      matchesGoldenFile(fileName),
+      skip: shouldSkipGoldenGeneration,
+    );
+  }
 
   if (autoHeight == true) {
     // Here we reset the window size to its original value to be clean
