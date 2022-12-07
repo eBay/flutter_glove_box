@@ -28,12 +28,16 @@ class GoldenBuilder {
     required double widthToHeightRatio,
     WidgetWrapper? wrap,
     Color? bgColor,
+    TextStyle? titleStyle,
+    Color? titleColor,
   }) {
     return GoldenBuilder._(
       columns: columns,
       widthToHeightRatio: widthToHeightRatio,
       wrap: wrap,
       bgColor: bgColor,
+      titleStyle: titleStyle,
+      titleColor: titleColor,
     );
   }
 
@@ -46,10 +50,14 @@ class GoldenBuilder {
   factory GoldenBuilder.column({
     Color? bgColor,
     WidgetWrapper? wrap,
+    TextStyle? titleStyle,
+    Color? titleColor,
   }) {
     return GoldenBuilder._(
       wrap: wrap,
       bgColor: bgColor,
+      titleStyle: titleStyle,
+      titleColor: titleColor,
     );
   }
 
@@ -58,6 +66,8 @@ class GoldenBuilder {
     this.widthToHeightRatio = 1.0,
     this.wrap,
     this.bgColor,
+    this.titleStyle,
+    this.titleColor,
   });
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
@@ -69,6 +79,12 @@ class GoldenBuilder {
 
   ///  background [bgColor] color of output .png file
   final Color? bgColor;
+
+  ///  Style of each title scenario
+  final TextStyle? titleStyle;
+
+  /// Color for the title, [titleStyle] will override this value
+  final Color? titleColor;
 
   ///  [widthToHeightRatio]  grid layout
   final double widthToHeightRatio;
@@ -83,19 +99,28 @@ class GoldenBuilder {
     double textScaleFactor = textScaleFactorMaxSupported,
   }) {
     addScenario(
-        '$name ${textScaleFactor}x',
-        _TextScaleFactor(
-          textScaleFactor: textScaleFactor,
-          child: widget,
-        ));
+      '$name ${textScaleFactor}x',
+      _TextScaleFactor(
+        textScaleFactor: textScaleFactor,
+        child: widget,
+      ),
+      titleStyle: titleStyle,
+    );
   }
 
   ///  [addScenario] will add a test GoldenBuilder
-  void addScenario(String name, Widget widget) {
+  void addScenario(
+    String name,
+    Widget widget, {
+    TextStyle? titleStyle,
+    Color? titleColor,
+  }) {
     scenarios.add(_Scenario(
       name: name,
       widget: widget,
       wrap: wrap,
+      titleStyle: titleStyle ?? this.titleStyle,
+      titleColor: titleColor ?? this.titleColor,
     ));
   }
 
@@ -109,10 +134,14 @@ class GoldenBuilder {
   ///   },
   /// )
   void addScenarioBuilder(
-      String name, Widget Function(BuildContext context) fn) {
+    String name,
+    Widget Function(BuildContext context) fn,
+  ) {
     addScenario(
       name,
       Builder(builder: fn),
+      titleStyle: titleStyle,
+      titleColor: titleColor,
     );
   }
 
@@ -148,12 +177,16 @@ class _Scenario extends StatelessWidget {
     Key? key,
     required this.name,
     required this.widget,
+    this.titleStyle,
+    this.titleColor,
     this.wrap,
   }) : super(key: key);
 
   final WidgetWrapper? wrap;
   final String name;
   final Widget widget;
+  final TextStyle? titleStyle;
+  final Color? titleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +196,8 @@ class _Scenario extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(name, style: const TextStyle(fontSize: 18)),
+          Text(name,
+              style: titleStyle ?? TextStyle(fontSize: 18, color: titleColor)),
           const SizedBox(height: 4),
           wrap?.call(widget) ?? widget,
         ],
