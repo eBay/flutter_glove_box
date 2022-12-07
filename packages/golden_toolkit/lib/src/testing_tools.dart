@@ -151,6 +151,7 @@ void testGoldens(
   Future<void> Function(WidgetTester) test, {
   bool? skip,
   Object? tags = _defaultTagObject,
+  TestVariant<Object?> variant = const DefaultTestVariant(),
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
   testWidgets(
@@ -178,6 +179,7 @@ void testGoldens(
     },
     skip: skip,
     tags: tags != _defaultTagObject ? tags : GoldenToolkit.configuration.tags,
+    variant: variant,
   );
 }
 
