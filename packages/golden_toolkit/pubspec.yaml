@@ -6,20 +6,20 @@ repository: https://github.com/eBay/flutter_glove_box/tree/master/packages/golde
 issue_tracker: https://github.com/eBay/flutter_glove_box/issues
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.18.4 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  meta: ^1.1.8
+  meta: ^1.8.0
 
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   sample_dependency:
     path: test/sample_dependency
-  test_api: ^0.4.2
+  test_api: ^0.4.12
 
 flutter:
   fonts:
