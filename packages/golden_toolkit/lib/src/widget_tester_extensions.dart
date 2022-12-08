@@ -46,9 +46,9 @@ extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
     await setSurfaceSize(Size(device.size.width, device.size.height));
     this.window.physicalSizeTestValue = device.size;
     this.window.devicePixelRatioTestValue = device.devicePixelRatio;
-    this.window.textScaleFactorTestValue = device.textScale;
+    this.window.platformDispatcher.textScaleFactorTestValue = device.textScale;
+    this.window.platformDispatcher.platformBrightnessTestValue = device.brightness;
     this.window.safeAreaTestValue = device.safeArea;
-    this.window.platformBrightnessTestValue = device.brightness;
   }
 
   /// Resets any configuration that may be been specified by applyDeviceOverrides
@@ -58,9 +58,9 @@ extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
     // there is an untested assumption that clearing these specific values is cheaper than
     // calling binding.window.clearAllTestValues().
     this.window.clearDevicePixelRatioTestValue();
-    this.window.clearPlatformBrightnessTestValue();
+    this.window.platformDispatcher.clearPlatformBrightnessTestValue();
     this.window.clearPaddingTestValue();
-    this.window.clearTextScaleFactorTestValue();
+    this.window.platformDispatcher.clearTextScaleFactorTestValue();
     this.window.clearPhysicalSizeTestValue();
     await setSurfaceSize(null);
   }
