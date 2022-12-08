@@ -209,7 +209,7 @@ class FutureWidgetTester extends StatefulWidget {
   final Widget child;
   final Duration duration;
   @override
-  _FutureWidgetTesterState createState() => _FutureWidgetTesterState();
+  State<FutureWidgetTester> createState() => _FutureWidgetTesterState();
 }
 
 class _FutureWidgetTesterState extends State<FutureWidgetTester> {
