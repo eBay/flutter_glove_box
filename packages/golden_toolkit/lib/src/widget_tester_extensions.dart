@@ -47,7 +47,8 @@ extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
     this.window.physicalSizeTestValue = device.size;
     this.window.devicePixelRatioTestValue = device.devicePixelRatio;
     this.window.platformDispatcher.textScaleFactorTestValue = device.textScale;
-    this.window.platformDispatcher.platformBrightnessTestValue = device.brightness;
+    this.window.platformDispatcher.platformBrightnessTestValue =
+        device.brightness;
     this.window.safeAreaTestValue = device.safeArea;
   }
 

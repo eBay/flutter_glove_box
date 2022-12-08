@@ -123,7 +123,8 @@ Future<void> _pumpAppWidget(
   await tester.binding.setSurfaceSize(surfaceSize);
   tester.binding.window.physicalSizeTestValue = surfaceSize;
   tester.binding.window.devicePixelRatioTestValue = 1.0;
-  tester.binding.window.platformDispatcher.textScaleFactorTestValue = textScaleSize;
+  tester.binding.window.platformDispatcher.textScaleFactorTestValue =
+      textScaleSize;
 
   await tester.pumpWidget(
     DefaultAssetBundle(bundle: TestAssetBundle(), child: app),
