@@ -49,11 +49,11 @@ extension TestingToolsExtension on WidgetTester {
     Size surfaceSize = _defaultSize,
     double textScaleSize = 1.0,
   }) async {
-    final _wrapper = wrapper ?? materialAppWrapper();
+    final wrap = wrapper ?? materialAppWrapper();
 
     await _pumpAppWidget(
       this,
-      _wrapper(widget),
+      wrap(widget),
       surfaceSize: surfaceSize,
       textScaleSize: textScaleSize,
     );
@@ -123,7 +123,8 @@ Future<void> _pumpAppWidget(
   await tester.binding.setSurfaceSize(surfaceSize);
   tester.binding.window.physicalSizeTestValue = surfaceSize;
   tester.binding.window.devicePixelRatioTestValue = 1.0;
-  tester.binding.window.textScaleFactorTestValue = textScaleSize;
+  tester.binding.window.platformDispatcher.textScaleFactorTestValue =
+      textScaleSize;
 
   await tester.pumpWidget(
     DefaultAssetBundle(bundle: TestAssetBundle(), child: app),

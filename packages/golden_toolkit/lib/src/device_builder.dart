@@ -13,12 +13,12 @@ import 'package:flutter/material.dart';
 import '../golden_toolkit.dart';
 
 /// Class containing whats required to create a Scenario
-class _DeviceScenario {
+class DeviceScenario {
   /// constructs a DeviceScenario
-  _DeviceScenario({
+  DeviceScenario({
     required this.key,
-    this.onCreate,
     required this.widget,
+    this.onCreate,
   });
 
   /// key that references created scenario and specific device
@@ -28,7 +28,7 @@ class _DeviceScenario {
   final OnScenarioCreate? onCreate;
 
   /// widget that represents this device/scenario
-  final _DeviceScenarioWidget widget;
+  final DeviceScenarioWidget widget;
 }
 
 /// DeviceBuilder builds [Device] size driven layout for its children
@@ -53,7 +53,7 @@ class DeviceBuilder {
   final Color? bgColor;
 
   /// list of created DeviceScenarios for each device type
-  final List<_DeviceScenario> scenarios = [];
+  final List<DeviceScenario> scenarios = [];
 
   List<Device> _devicesForScenarios =
       GoldenToolkit.configuration.defaultDevices;
@@ -66,7 +66,7 @@ class DeviceBuilder {
     _devicesForScenarios = devices;
   }
 
-  /// [addScenario] will add a [_DeviceScenario] for each device listed
+  /// [addScenario] will add a [DeviceScenario] for each device listed
   /// under [_devicesForScenarios]
   ///
   /// [widget] widget you'd like rendered ad Device sizes
@@ -83,10 +83,10 @@ class DeviceBuilder {
       final key = Key(scenarioName);
 
       scenarios.add(
-        _DeviceScenario(
+        DeviceScenario(
           key: key,
           onCreate: onCreate,
-          widget: _DeviceScenarioWidget(
+          widget: DeviceScenarioWidget(
             key: key,
             device: dev,
             widget: widget,
@@ -153,8 +153,8 @@ class DeviceBuilder {
   }
 }
 
-class _DeviceScenarioWidget extends StatelessWidget {
-  const _DeviceScenarioWidget({
+class DeviceScenarioWidget extends StatelessWidget {
+  const DeviceScenarioWidget({
     required Key key,
     required this.device,
     required this.widget,
