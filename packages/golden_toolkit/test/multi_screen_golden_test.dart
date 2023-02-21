@@ -101,6 +101,37 @@ Future<void> main() async {
         expect(tester.binding.window.padding, equals(initialViewInsets));
       });
 
+      testGoldens('Maintain physical size in pumped widget', (tester) async {
+        bool firstPump = true;
+        const defaultSize = Size(800, 600);
+        const desiredSize = Size(50, 75);
+        await tester.pumpWidgetBuilder(StreamBuilder(builder: (context, _) {
+          if (firstPump) {
+            expect(MediaQuery
+                .of(context)
+                .size, equals(defaultSize));
+            firstPump = false;
+          } else {
+            expect(MediaQuery.of(context).size, equals(desiredSize));
+          }
+          return const Text('Done');
+        }));
+        await multiScreenGolden(
+          tester,
+          'desiredSize',
+          devices: [
+            const Device(
+              name: 'anything',
+              size: desiredSize,
+              brightness: Brightness.light,
+              safeArea: EdgeInsets.all(4),
+              devicePixelRatio: 2.0,
+              textScale: 1.0,
+            )
+          ],
+        );
+      });
+
       testGoldens('Should expand scrollable if autoHeight is true',
           (tester) async {
         await tester.pumpWidgetBuilder(ListView.builder(

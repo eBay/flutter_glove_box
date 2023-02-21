@@ -44,7 +44,7 @@ extension WidgetFlutterBindingExtensions on TestWidgetsFlutterBinding {
   ///
   Future<void> applyDeviceOverrides(Device device) async {
     await setSurfaceSize(Size(device.size.width, device.size.height));
-    this.window.physicalSizeTestValue = device.size;
+    this.window.physicalSizeTestValue = device.size * device.devicePixelRatio;
     this.window.devicePixelRatioTestValue = device.devicePixelRatio;
     this.window.platformDispatcher.textScaleFactorTestValue = device.textScale;
     this.window.platformDispatcher.platformBrightnessTestValue =
