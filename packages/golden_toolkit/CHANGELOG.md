@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.0
+
+- BugFix: device pixel ratio will be properly taken into consideration when generating golden images. Thanks to @BenVercammen
+
 ## 0.14.0
 
 - Updated to Dart 2.18 and newer dependencies
