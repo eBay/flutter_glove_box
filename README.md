@@ -8,7 +8,7 @@ Contains various testing tools that eBay Motors App team is using in their devel
 
 ## License Information
 
-Copyright 2019-2020 eBay Inc.
+Copyright 2019-2023 eBay Inc.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
