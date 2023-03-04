@@ -19,6 +19,7 @@ import 'package:meta/meta.dart';
 import 'configuration.dart';
 import 'device.dart';
 import 'device_builder.dart';
+import 'golden_builder.dart';
 import 'test_asset_bundle.dart';
 import 'widget_tester_extensions.dart';
 
@@ -57,6 +58,27 @@ extension TestingToolsExtension on WidgetTester {
       surfaceSize: surfaceSize,
       textScaleSize: textScaleSize,
     );
+  }
+
+  /// Extension for a [WidgetTester] that pumps a [GoldenBuilder] class
+  ///
+  /// [WidgetWrapper] defaults to [materialAppWrapper]
+  ///
+  /// [textScaleSize] set's the text scale size (usually in a range from 1 to 3)
+  Future<void> pumpGoldenBuilder(
+    GoldenBuilder goldenBuilder, {
+    WidgetWrapper? wrapper,
+    Size surfaceSize = _defaultSize,
+  }) async {
+    await pumpWidgetBuilder(
+      goldenBuilder.build(),
+      wrapper: wrapper,
+      surfaceSize: surfaceSize,
+    );
+
+    for (final scenario in goldenBuilder.scenarios) {
+      await scenario.onCreate?.call(scenario.key);
+    }
   }
 
   /// Extension for a [WidgetTester] that pumps a [DeviceBuilder] class
