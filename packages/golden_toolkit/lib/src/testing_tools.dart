@@ -67,11 +67,13 @@ extension TestingToolsExtension on WidgetTester {
   Future<void> pumpDeviceBuilder(
     DeviceBuilder deviceBuilder, {
     WidgetWrapper? wrapper,
+    double textScaleSize = 1.0,
   }) async {
     await pumpWidgetBuilder(
       deviceBuilder.build(),
       wrapper: wrapper,
       surfaceSize: deviceBuilder.requiredWidgetSize,
+      textScaleSize: textScaleSize,
     );
 
     for (final scenario in deviceBuilder.scenarios) {
