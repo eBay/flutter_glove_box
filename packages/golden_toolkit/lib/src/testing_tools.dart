@@ -98,11 +98,13 @@ WidgetWrapper materialAppWrapper({
   NavigatorObserver? navigatorObserver,
   Iterable<Locale>? localeOverrides,
   ThemeData? theme,
+  ThemeData? darkTheme,
 }) {
   return (child) => MaterialApp(
         localizationsDelegates: localizations,
         supportedLocales: localeOverrides ?? const [Locale('en')],
         theme: theme?.copyWith(platform: platform),
+        darkTheme: darkTheme?.copyWith(platform: platform),
         debugShowCheckedModeBanner: false,
         home: Material(child: child),
         navigatorObservers: [
