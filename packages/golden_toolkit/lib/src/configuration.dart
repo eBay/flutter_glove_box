@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 
@@ -20,8 +21,7 @@ import '../golden_toolkit.dart';
 class GoldenToolkit {
   GoldenToolkit._();
 
-  static GoldenToolkitConfiguration _configuration =
-      GoldenToolkitConfiguration();
+  static GoldenToolkitConfiguration _configuration = GoldenToolkitConfiguration();
 
   /// Applies a GoldenToolkitConfiguration to a block of code to effectively provide a scoped
   /// singleton. The configuration will apply to just the injected body function.
@@ -52,6 +52,10 @@ class GoldenToolkit {
 
 /// A func that will be evaluated at runtime to determine if the golden assertion should be skipped
 typedef SkipGoldenAssertion = bool Function();
+
+/// a function that returns a Future<ui.Image> given a Finder & Tester.
+/// A typical example is to draw boxes instead of paragraphs when rendering the UI to get consistent results across platforms
+typedef RenderModification = Future<Image> Function({required Finder finder, required WidgetTester tester});
 
 /// A factory to determine an actual file name/path from a given name.
 ///
@@ -88,6 +92,9 @@ class GoldenToolkitConfiguration {
   ///
   /// [primeAssets] a func that is used to ensure that all images have been decoded before trying to render
   ///
+  /// [renderModification] a func that returns a Future<ui.Image> given a Finder & Tester.
+  /// A typical example is to draw boxes instead of paragraphs when rendering the UI to get consistent results across platforms
+  ///
   /// [enableRealShadows] a flag indicating that we want the goldens to have real shadows (instead of opaque shadows)
   ///
   /// [tags] a string or iterable of strings used to tag golden tests with
@@ -99,10 +106,15 @@ class GoldenToolkitConfiguration {
     this.defaultDevices = const [Device.phone, Device.tabletLandscape],
     this.enableRealShadows = false,
     this.tags = const ['golden'],
+    this.renderModification,
   }) : assert(defaultDevices.isNotEmpty);
 
   /// a function indicating whether a golden assertion should be skipped
   final SkipGoldenAssertion skipGoldenAssertion;
+
+  /// a function that returns a Future<ui.Image> given a Finder & Tester.
+  /// A typical example is to draw boxes instead of paragraphs when rendering the UI to get consistent results across platforms
+  final RenderModification? renderModification;
 
   /// A function to determine the file name/path [screenMatchesGolden] uses to call [matchesGoldenFile].
   final FileNameFactory fileNameFactory;
@@ -138,8 +150,7 @@ class GoldenToolkitConfiguration {
     return GoldenToolkitConfiguration(
       skipGoldenAssertion: skipGoldenAssertion ?? this.skipGoldenAssertion,
       fileNameFactory: fileNameFactory ?? this.fileNameFactory,
-      deviceFileNameFactory:
-          deviceFileNameFactory ?? this.deviceFileNameFactory,
+      deviceFileNameFactory: deviceFileNameFactory ?? this.deviceFileNameFactory,
       primeAssets: primeAssets ?? this.primeAssets,
       defaultDevices: defaultDevices ?? this.defaultDevices,
       enableRealShadows: enableRealShadows ?? this.enableRealShadows,
