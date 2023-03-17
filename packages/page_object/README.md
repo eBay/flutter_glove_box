@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-///This is just a simple widget used to show the concept of a [PageObject].
+/// This is just a simple widget used to show the concept of a [PageObject].
 class MyWidget extends StatelessWidget {
   const MyWidget({
     Key key,

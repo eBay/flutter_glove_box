@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-///By default, flutter test only uses a single "test" font called Ahem.
+/// By default, flutter test only uses a single "test" font called Ahem.
 ///
-///This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
+/// This font is designed to show black spaces for every character and icon. This obviously makes goldens much less valuable.
 ///
-///To make the goldens more useful, we will automatically load any fonts included in your pubspec.yaml as well as from
-///packages you depend on.
+/// To make the goldens more useful, we will automatically load any fonts included in your pubspec.yaml as well as from
+/// packages you depend on.
 Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   final fontManifest = await rootBundle.loadStructuredData<Iterable<dynamic>>(
