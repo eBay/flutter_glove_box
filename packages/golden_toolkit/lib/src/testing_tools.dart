@@ -146,12 +146,16 @@ const Object _defaultTagObject = Object();
 ///
 /// [test] test body
 ///
+/// When the [variant] argument is set, [testGoldens] will run the test once for
+/// each value of the [TestVariant.values]. If [variant] is not set, the test
+/// will be run once using the base test environment.
 @isTest
 void testGoldens(
   String description,
   Future<void> Function(WidgetTester) test, {
   bool? skip,
   Object? tags = _defaultTagObject,
+  TestVariant<Object?> variant = const DefaultTestVariant(),
 }) {
   final dynamic config = Zone.current[#goldentoolkit.config];
   testWidgets(
@@ -179,6 +183,7 @@ void testGoldens(
     },
     skip: skip,
     tags: tags != _defaultTagObject ? tags : GoldenToolkit.configuration.tags,
+    variant: variant,
   );
 }
 
