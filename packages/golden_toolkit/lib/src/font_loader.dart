@@ -27,7 +27,10 @@ Future<void> loadAppFonts() async {
   for (final Map<String, dynamic> font in fontManifest) {
     final fontLoader = FontLoader(derivedFontFamily(font));
     for (final Map<String, dynamic> fontType in font['fonts']) {
-      fontLoader.addFont(rootBundle.load(fontType['asset']));
+      // Some characters such as % and [ in the asset path included in fontType
+      // are encoded.
+      final decodedAsset = Uri.decodeComponent(fontType['asset']);
+      fontLoader.addFont(rootBundle.load(decodedAsset));
     }
     await fontLoader.load();
   }
