@@ -79,4 +79,6 @@ const List<String> _overridableFonts = [
   '.SF UI Text',
   '.SF Pro Text',
   '.SF Pro Display',
+  'CupertinoSystemText',
+  'CupertinoSystemDisplay',
 ];
