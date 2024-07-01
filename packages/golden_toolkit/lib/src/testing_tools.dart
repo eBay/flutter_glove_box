@@ -48,6 +48,7 @@ extension TestingToolsExtension on WidgetTester {
     WidgetWrapper? wrapper,
     Size surfaceSize = _defaultSize,
     double textScaleSize = 1.0,
+    double devicePixelRatio = 1.0,
   }) async {
     final wrap = wrapper ?? materialAppWrapper();
 
@@ -56,6 +57,7 @@ extension TestingToolsExtension on WidgetTester {
       wrap(widget),
       surfaceSize: surfaceSize,
       textScaleSize: textScaleSize,
+      devicePixelRatio: devicePixelRatio,
     );
   }
 
@@ -119,12 +121,20 @@ Future<void> _pumpAppWidget(
   Widget app, {
   required Size surfaceSize,
   required double textScaleSize,
+  required double devicePixelRatio,
 }) async {
   await tester.binding.setSurfaceSize(surfaceSize);
   tester.binding.window.physicalSizeTestValue = surfaceSize;
-  tester.binding.window.devicePixelRatioTestValue = 1.0;
+  tester.binding.window.devicePixelRatioTestValue = devicePixelRatio;
   tester.binding.window.platformDispatcher.textScaleFactorTestValue =
       textScaleSize;
+
+  addTearDown(() async {
+    await tester.binding.setSurfaceSize(null);
+    tester.binding.window.clearPhysicalSizeTestValue();
+    tester.binding.window.clearDevicePixelRatioTestValue();
+    tester.binding.window.platformDispatcher.clearTextScaleFactorTestValue();
+  });
 
   await tester.pumpWidget(
     DefaultAssetBundle(bundle: TestAssetBundle(), child: app),
