@@ -43,6 +43,8 @@ class DeviceBuilder {
   DeviceBuilder({
     this.wrap,
     this.bgColor,
+    this.nameTextColor,
+    this.lineColor,
   });
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
@@ -51,6 +53,12 @@ class DeviceBuilder {
 
   ///  background [bgColor] color of output .png file
   final Color? bgColor;
+
+  ///  [textNameColor] color of device name
+  final Color? nameTextColor;
+
+  ///  [lineColor] color line around device
+  final Color? lineColor;
 
   /// list of created DeviceScenarios for each device type
   final List<DeviceScenario> scenarios = [];
@@ -92,6 +100,8 @@ class DeviceBuilder {
             widget: widget,
             wrap: wrap,
             name: scenarioName,
+            nameTextColor: nameTextColor,
+            lineColor: lineColor,
           ),
         ),
       );
@@ -160,12 +170,16 @@ class DeviceScenarioWidget extends StatelessWidget {
     required this.widget,
     this.wrap,
     this.name,
+    this.nameTextColor,
+    this.lineColor,
   }) : super(key: key);
 
   final WidgetWrapper? wrap;
   final Device device;
   final Widget widget;
   final String? name;
+  final Color? nameTextColor;
+  final Color? lineColor;
 
   static const double _horizontalScenarioPadding = 8.0;
   static const double _borderWidth = 1.0;
@@ -208,7 +222,7 @@ class DeviceScenarioWidget extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(
             width: 1,
-            color: Colors.lightBlue,
+            color: lineColor ?? Colors.lightBlue,
           )),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,8 +235,9 @@ class DeviceScenarioWidget extends StatelessWidget {
                   name ?? device.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: nameTextColor,
                   ),
                 ),
               ),
