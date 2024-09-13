@@ -1,5 +1,23 @@
 # Flutter Glove Box
 
+## This repo is no longer maintained
+
+09/12/2024 Update:
+
+Unfortunately we have made the tough decision to no longer actively maintain this repository. While the package has served us and the community well, we don't have the capacity to give it the attention it deserves. 
+
+We realize that this decision means that open pull requests will not be merged. Our hope is that the community will rally and focus their efforts around more actively maintained packages for aiding in golden-based tests.
+
+Once again, we want to thank each and every one of you for your contributions over the years. 
+
+Thank you for your understanding.
+
+Best regards, 
+
+The eBay Motors App team
+
+---------------------------------------------
+
 * [given_when_then](packages/given_when_then/)
 * [golden_toolkit](packages/golden_toolkit/)
 * [page_object](packages/page_object/)
