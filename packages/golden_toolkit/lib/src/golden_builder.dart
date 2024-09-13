@@ -28,12 +28,14 @@ class GoldenBuilder {
     required double widthToHeightRatio,
     WidgetWrapper? wrap,
     Color? bgColor,
+    Color? nameTextColor,
   }) {
     return GoldenBuilder._(
       columns: columns,
       widthToHeightRatio: widthToHeightRatio,
       wrap: wrap,
       bgColor: bgColor,
+      nameTextColor: nameTextColor,
     );
   }
 
@@ -45,11 +47,13 @@ class GoldenBuilder {
   ///
   factory GoldenBuilder.column({
     Color? bgColor,
+    Color? nameTextColor,
     WidgetWrapper? wrap,
   }) {
     return GoldenBuilder._(
       wrap: wrap,
       bgColor: bgColor,
+      nameTextColor: nameTextColor,
     );
   }
 
@@ -58,6 +62,7 @@ class GoldenBuilder {
     this.widthToHeightRatio = 1.0,
     this.wrap,
     this.bgColor,
+    this.nameTextColor,
   });
 
   /// Can be used to wrap all scenario widgets. Useful if you wish to
@@ -69,6 +74,9 @@ class GoldenBuilder {
 
   ///  background [bgColor] color of output .png file
   final Color? bgColor;
+
+  ///  [textNameColor] color of device name
+  final Color? nameTextColor;
 
   ///  [widthToHeightRatio]  grid layout
   final double widthToHeightRatio;
@@ -96,6 +104,7 @@ class GoldenBuilder {
       name: name,
       widget: widget,
       wrap: wrap,
+      nameTextColor: nameTextColor,
     ));
   }
 
@@ -149,11 +158,15 @@ class _Scenario extends StatelessWidget {
     required this.name,
     required this.widget,
     this.wrap,
+    this.nameTextColor,
   }) : super(key: key);
 
   final WidgetWrapper? wrap;
   final String name;
   final Widget widget;
+
+  ///  [textNameColor] color of device name
+  final Color? nameTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +176,7 @@ class _Scenario extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(name, style: const TextStyle(fontSize: 18)),
+          Text(name, style: TextStyle(fontSize: 18, color: nameTextColor)),
           const SizedBox(height: 4),
           wrap?.call(widget) ?? widget,
         ],
