@@ -12,3 +12,5 @@ ios/Runner/GeneratedPluginRegistrant.*
 
 # don't check in golden failure output
 **/failures/*.png
+
+pubspec.lock
